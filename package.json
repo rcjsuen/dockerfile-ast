@@ -1,0 +1,47 @@
+{
+  "name": "dockerfile-ast",
+  "description": "Parse a Dockerfile into an array of instructions and comments.",
+  "keywords": [
+    "ast",
+    "abstract",
+    "docker",
+    "dockerfile",
+    "moby",
+    "parse",
+    "parser",
+    "syntax",
+    "tree"
+  ],
+  "version": "0.0.1",
+  "author": "Remy Suen",
+  "license": "MIT",
+  "bugs": "https://github.com/rcjsuen/dockerfile-ast/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rcjsuen/dockerfile-ast.git"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "main": "lib/main.js",
+  "typings": "./lib/main",
+  "dependencies": {
+    "vscode-languageserver-types": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.33",
+    "@types/node": "^6.0.52",
+    "mocha": "^3.2.0",
+    "typescript": "~2.6.1",
+    "nyc": "^11.0.2"
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "prepublish": "tsc -p ./src",
+    "watch": "tsc --watch -p .",
+    "test": "mocha out/test",
+    "nyc": "nyc mocha out/test",
+    "nyc-ci": "nyc --cache false mocha out/test",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
+  }
+}
