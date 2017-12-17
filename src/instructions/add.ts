@@ -8,11 +8,11 @@ import { JSONInstruction } from '../jsonInstruction';
 
 export class Add extends JSONInstruction {
 
-	constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
-		super(document, range, dockerfile, escapeChar, instruction, instructionRange);
-	}
+    constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
+        super(document, range, dockerfile, escapeChar, instruction, instructionRange);
+    }
 
-	public stopSearchingForFlags(argument: string): boolean {
-		return argument.indexOf("--") === -1;
-	}
+    public stopSearchingForFlags(argument: string): boolean {
+        return argument.indexOf("--") === -1;
+    }
 }

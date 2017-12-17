@@ -9,17 +9,17 @@ import { ModifiableInstruction } from '../modifiableInstruction';
 
 export class Healthcheck extends ModifiableInstruction {
 
-	constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
-		super(document, range, dockerfile, escapeChar, instruction, instructionRange);
-	}
+    constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
+        super(document, range, dockerfile, escapeChar, instruction, instructionRange);
+    }
 
-	protected stopSearchingForFlags(argument: string): boolean {
-		argument = argument.toUpperCase();
-		return argument === "CMD" || argument === "NONE";
-	}
+    protected stopSearchingForFlags(argument: string): boolean {
+        argument = argument.toUpperCase();
+        return argument === "CMD" || argument === "NONE";
+    }
 
-	public getSubcommand(): Argument | null {
-		let args = this.getArguments();
-		return args.length !== 0 ? args[0] : null;
-	}
+    public getSubcommand(): Argument | null {
+        let args = this.getArguments();
+        return args.length !== 0 ? args[0] : null;
+    }
 }

@@ -9,16 +9,16 @@ import { JSONInstruction } from '../jsonInstruction';
 
 export class Copy extends JSONInstruction {
 
-	constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
-		super(document, range, dockerfile, escapeChar, instruction, instructionRange);
-	}
+    constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
+        super(document, range, dockerfile, escapeChar, instruction, instructionRange);
+    }
 
-	public stopSearchingForFlags(argument: string): boolean {
-		return argument.indexOf("--") === -1;
-	}
+    public stopSearchingForFlags(argument: string): boolean {
+        return argument.indexOf("--") === -1;
+    }
 
-	public getFromFlag(): Flag | null {
-		let flags = super.getFlags();
-		return flags.length === 1 && flags[0].getName() === "from" ? flags[0] : null;
-	}
+    public getFromFlag(): Flag | null {
+        let flags = super.getFlags();
+        return flags.length === 1 && flags[0].getName() === "from" ? flags[0] : null;
+    }
 }

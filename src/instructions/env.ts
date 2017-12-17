@@ -9,11 +9,11 @@ import { PropertyInstruction } from '../propertyInstruction';
 
 export class Env extends PropertyInstruction {
 
-	constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
-		super(document, range, dockerfile, escapeChar, instruction, instructionRange);
-	}
+    constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
+        super(document, range, dockerfile, escapeChar, instruction, instructionRange);
+    }
 
-	public getProperties(): Property[] {
-		return super.getProperties();
-	}
+    public getProperties(): Property[] {
+        return super.getProperties();
+    }
 }

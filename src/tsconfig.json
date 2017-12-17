@@ -1,11 +1,13 @@
 {
-	"compilerOptions": {
-		"target": "es6",
-		"module": "commonjs",
-		"moduleResolution": "node",
-		"sourceMap": false,
-		"declaration": true,
-		"lib" : [ "es2016" ],
-		"outDir": "../lib"
-	}
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": false,
+        "declaration": true,
+        "lib": [
+            "es2016"
+        ],
+        "outDir": "../lib"
+    }
 }

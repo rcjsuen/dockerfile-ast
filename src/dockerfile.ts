@@ -14,61 +14,61 @@ import { Directive, Keyword } from './main';
 
 export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
 
-	private readonly initialInstructions = new ImageTemplate();
-	private readonly buildStages: ImageTemplate[] = [];
-	private currentBuildStage: ImageTemplate;
-	private directive: ParserDirective | null = null;
+    private readonly initialInstructions = new ImageTemplate();
+    private readonly buildStages: ImageTemplate[] = [];
+    private currentBuildStage: ImageTemplate;
+    private directive: ParserDirective | null = null;
 
-	/**
-	 * Whether a FROM instruction has been added to this Dockerfile or not.
-	 */
-	private foundFrom = false;
+    /**
+     * Whether a FROM instruction has been added to this Dockerfile or not.
+     */
+    private foundFrom = false;
 
-	public getEscapeCharacter(): string {
-		if (this.directive !== null && this.directive.getDirective() === Directive.escape) {
-			let value = this.directive.getValue();
-			if (value === '\\' || value === '`') {
-				return value;
-			}
-		}
-		return '\\';
-	}
+    public getEscapeCharacter(): string {
+        if (this.directive !== null && this.directive.getDirective() === Directive.escape) {
+            let value = this.directive.getValue();
+            if (value === '\\' || value === '`') {
+                return value;
+            }
+        }
+        return '\\';
+    }
 
-	public getInitialARGs(): Arg[] {
-		return this.initialInstructions.getARGs();
-	}
+    public getInitialARGs(): Arg[] {
+        return this.initialInstructions.getARGs();
+    }
 
-	public getContainingImage(position: Position): ImageTemplate {
-		for (let buildStage of this.buildStages) {
-			if (buildStage.contains(position)) {
-				return buildStage;
-			}
-		}
-		
-		return this.initialInstructions.contains(position) ? this.initialInstructions : null;
-	}
+    public getContainingImage(position: Position): ImageTemplate {
+        for (let buildStage of this.buildStages) {
+            if (buildStage.contains(position)) {
+                return buildStage;
+            }
+        }
 
-	public addInstruction(instruction: Instruction): void {
-		if (instruction.getKeyword() === Keyword.FROM) {
-			this.currentBuildStage = new ImageTemplate();
-			this.buildStages.push(this.currentBuildStage);
-			this.foundFrom = true;
-		} else if (!this.foundFrom) {
-			this.initialInstructions.addInstruction(instruction);
-		}
+        return this.initialInstructions.contains(position) ? this.initialInstructions : null;
+    }
 
-		if (this.foundFrom) {
-			this.currentBuildStage.addInstruction(instruction);
-		}
-		super.addInstruction(instruction);
-	}
+    public addInstruction(instruction: Instruction): void {
+        if (instruction.getKeyword() === Keyword.FROM) {
+            this.currentBuildStage = new ImageTemplate();
+            this.buildStages.push(this.currentBuildStage);
+            this.foundFrom = true;
+        } else if (!this.foundFrom) {
+            this.initialInstructions.addInstruction(instruction);
+        }
 
-	public setDirective(directive: ParserDirective): void {
-		this.directive = directive;
-	}
+        if (this.foundFrom) {
+            this.currentBuildStage.addInstruction(instruction);
+        }
+        super.addInstruction(instruction);
+    }
 
-	public getDirective(): ParserDirective | null {
-		return this.directive;
-	}
+    public setDirective(directive: ParserDirective): void {
+        this.directive = directive;
+    }
+
+    public getDirective(): ParserDirective | null {
+        return this.directive;
+    }
 
 }
