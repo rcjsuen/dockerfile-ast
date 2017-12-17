@@ -257,7 +257,7 @@ export class Parser {
                             case ' ':
                             case '\t':
                                 if (instructionEnd === -1) {
-                                    instructionEnd = j - 1;
+                                    instructionEnd = j === i + 1 ? j : j - 1;
                                 }
 
                                 let escaped = false;

@@ -103,6 +103,14 @@ describe("Instruction", () => {
         instruction = dockerfile.getInstructions()[0];
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
 
+        dockerfile = DockerfileParser.parse("F ");
+        instruction = dockerfile.getInstructions()[0];
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
+
+        dockerfile = DockerfileParser.parse("F alpine");
+        instruction = dockerfile.getInstructions()[0];
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
+
         dockerfile = DockerfileParser.parse("F\n");
         instruction = dockerfile.getInstructions()[0];
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
