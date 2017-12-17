@@ -67,13 +67,13 @@ import { ImageTemplate } from './imageTemplate';
 import { Instruction } from './instruction';
 export { Instruction };
 export { Line } from './line';
+import { ParserDirective } from './parserDirective';
 export { ParserDirective } from './ParserDirective';
 export { Property } from './property';
 export { Variable } from './variable';
 
 export { Add } from './instructions/add';
 import { Arg } from './instructions/arg';
-import { ParserDirective } from './parserDirective';
 export { Arg };
 import { Cmd } from './instructions/cmd';
 export { Cmd };
