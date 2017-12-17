@@ -68,7 +68,7 @@ import { Instruction } from './instruction';
 export { Instruction };
 export { Line } from './line';
 import { ParserDirective } from './parserDirective';
-export { ParserDirective } from './ParserDirective';
+export { ParserDirective };
 export { Property } from './property';
 export { Variable } from './variable';
 
