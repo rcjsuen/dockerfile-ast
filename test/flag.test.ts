@@ -36,6 +36,7 @@ describe("Flag", () => {
         let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
         let flag = instruction.getFlags()[0];
         assert.equal(flag.getName(), "-interval");
+        assertRange(flag.getNameRange(), 0, 14, 0, 23);
         assert.equal(flag.getValue(), null);
         assertRange(flag.getRange(), 0, 12, 0, 23);
         assert.equal(flag.getValueRange(), null);

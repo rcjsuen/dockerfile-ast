@@ -43,7 +43,10 @@ export abstract class ModifiableInstruction extends Instruction {
                             case '\n':
                                 break;
                             case '-':
-                                if (firstMatch) {
+                                if (secondMatch) {
+                                    startIndex = i;
+                                    break nameSearchLoop;
+                                } else if (firstMatch) {
                                     secondMatch = true;
                                 } else {
                                     firstMatch = true;
