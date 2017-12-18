@@ -244,7 +244,7 @@ export class Parser {
                                                 j = k;
                                                 break escapeCheck;
                                             default:
-                                                instructionEnd = j;
+                                                instructionEnd = j + 1;
                                                 instruction = instruction + this.escapeChar;
                                                 j = k - 2;
                                                 break escapeCheck;

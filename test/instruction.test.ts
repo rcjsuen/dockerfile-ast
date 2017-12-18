@@ -97,7 +97,7 @@ describe("Instruction", () => {
 
         dockerfile = DockerfileParser.parse("FROM\\ alpine");
         instruction = dockerfile.getInstructions()[0];
-        assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 5);
 
         dockerfile = DockerfileParser.parse("F");
         instruction = dockerfile.getInstructions()[0];
