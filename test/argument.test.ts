@@ -126,6 +126,18 @@ describe("Argument", () => {
             assertRange(args[1].getRange(), 2, 1, 2, 3);
             assertRange(args[2].getRange(), 2, 4, 2, 9);
         });
+
+        it("ARG a=a\\\\n b", () => {
+            let dockerfile = DockerfileParser.parse("ARG a=a\\\n b");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "a=a");
+            assert.equal(args[1].getValue(), "b");
+            assert.equal(args[0].getRawValue(), "a=a");
+            assert.equal(args[1].getRawValue(), "b");
+            assertRange(args[0].getRange(), 0, 4, 0, 7);
+            assertRange(args[1].getRange(), 1, 1, 1, 2);
+        });
     });
 
     describe("expanded", () => {

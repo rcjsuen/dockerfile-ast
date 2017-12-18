@@ -118,6 +118,7 @@ export abstract class PropertyInstruction extends Instruction {
         let end = this.findTrailingNonWhitespace(fullArgs);
         content = fullArgs.substring(start, end + 1);
         let argStart = 0;
+        let spaced = false;
         argumentLoop: for (let i = 0; i < content.length; i++) {
             let char = content.charAt(i);
             switch (char) {
@@ -211,7 +212,9 @@ export abstract class PropertyInstruction extends Instruction {
                     break argumentLoop;
                 case ' ':
                 case '\t':
-                    if (!escaped) {
+                    if (escaped) {
+                        spaced = true;
+                    } else {
                         args.push(new Argument(
                             content.substring(argStart, i),
                             content.substring(argStart, i),
@@ -225,6 +228,7 @@ export abstract class PropertyInstruction extends Instruction {
                     // offset one more for \r\n
                     i++;
                 case '\n':
+                    spaced = false;
                     break;
                 case '#':
                     if (escaped) {
@@ -235,6 +239,7 @@ export abstract class PropertyInstruction extends Instruction {
                                     j++;
                                 case '\n':
                                     i = j;
+                                    spaced = false;
                                     continue argumentLoop;
                             }
                         }
@@ -255,6 +260,18 @@ export abstract class PropertyInstruction extends Instruction {
                     }
                     break;
                 default:
+                    if (spaced) {
+                        if (argStart !== -1) {
+                            args.push(new Argument(
+                                content.substring(argStart, mark),
+                                content.substring(argStart, mark),
+                                Range.create(this.document.positionAt(instructionNameEndOffset + start + argStart),
+                                    this.document.positionAt(instructionNameEndOffset + start + mark))
+                            ));
+                            argStart = -1;
+                        }
+                        spaced = false;
+                    }
                     escaped = false;
                     if (argStart === -1) {
                         argStart = i;
