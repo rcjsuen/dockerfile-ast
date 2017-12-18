@@ -9,247 +9,185 @@ import { assertRange } from './util';
 import { DockerfileParser } from '../src/main';
 
 describe("Argument", () => {
-    it("getValue", () => {
-        let dockerfile = DockerfileParser.parse("RUN npm install");
-        let args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getValue(), "npm");
-        assert.equal(args[1].getValue(), "install");
+    describe("regular", () => {
+        it("RUN npm install", () => {
+            let dockerfile = DockerfileParser.parse("RUN npm install");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "npm");
+            assert.equal(args[1].getValue(), "install");
+            assert.equal(args[0].getRawValue(), "npm");
+            assert.equal(args[1].getRawValue(), "install");
+            assertRange(args[0].getRange(), 0, 4, 0, 7);
+            assertRange(args[1].getRange(), 0, 8, 0, 15);
+        });
 
-        dockerfile = DockerfileParser.parse("EXPOSE 80\\\n00 8001");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getValue(), "8000");
-        assert.equal(args[1].getValue(), "8001");
+        it("EXPOSE 80\\\\n00 8001", () => {
+            let dockerfile = DockerfileParser.parse("EXPOSE 80\\\n00 8001");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "8000");
+            assert.equal(args[1].getValue(), "8001");
+            assert.equal(args[0].getRawValue(), "80\\\n00");
+            assert.equal(args[1].getRawValue(), "8001");
+            assertRange(args[0].getRange(), 0, 7, 1, 2);
+            assertRange(args[1].getRange(), 1, 3, 1, 7);
+        });
 
-        dockerfile = DockerfileParser.parse("EXPOSE 8000\\\n 8001");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getValue(), "8000");
-        assert.equal(args[1].getValue(), "8001");
+        it("EXPOSE 8000\\\\n 8001", () => {
+            let dockerfile = DockerfileParser.parse("EXPOSE 8000\\\n 8001");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "8000");
+            assert.equal(args[1].getValue(), "8001");
+            assert.equal(args[0].getRawValue(), "8000");
+            assert.equal(args[1].getRawValue(), "8001");
+            assertRange(args[0].getRange(), 0, 7, 0, 11);
+            assertRange(args[1].getRange(), 1, 1, 1, 5);
+        });
 
-        dockerfile = DockerfileParser.parse("EXPOSE 80\\ 81");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getValue(), "80");
-        assert.equal(args[1].getValue(), "81");
+        it("EXPOSE 80\\ 81", () => {
+            let dockerfile = DockerfileParser.parse("EXPOSE 80\\ 81");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "80");
+            assert.equal(args[1].getValue(), "81");
+            assert.equal(args[0].getRawValue(), "80");
+            assert.equal(args[1].getRawValue(), "81");
+            assertRange(args[0].getRange(), 0, 7, 0, 9);
+            assertRange(args[1].getRange(), 0, 11, 0, 13);
+        });
 
-        dockerfile = DockerfileParser.parse("EXPOSE \\ 8000");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 1);
-        assert.equal(args[0].getValue(), "8000");
+        it("EXPOSE \\ 8000", () => {
+            let dockerfile = DockerfileParser.parse("EXPOSE \\ 8000");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "8000");
+            assert.equal(args[0].getRawValue(), "8000");
+            assertRange(args[0].getRange(), 0, 9, 0, 13);
+        });
 
-        dockerfile = DockerfileParser.parse("SHELL [ \"a\\ b\" ]");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 4);
-        assert.equal(args[0].getValue(), "[");
-        assert.equal(args[1].getValue(), "\"a");
-        assert.equal(args[2].getValue(), "b\"");
-        assert.equal(args[3].getValue(), "]");
+        it("SHELL [ \"a\\ b\" ]", () => {
+            let dockerfile = DockerfileParser.parse("SHELL [ \"a\\ b\" ]");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 4);
+            assert.equal(args[0].getValue(), "[");
+            assert.equal(args[1].getValue(), "\"a");
+            assert.equal(args[2].getValue(), "b\"");
+            assert.equal(args[3].getValue(), "]");
+            assert.equal(args[0].getRawValue(), "[");
+            assert.equal(args[1].getRawValue(), "\"a");
+            assert.equal(args[2].getRawValue(), "b\"");
+            assert.equal(args[3].getRawValue(), "]");
+            assertRange(args[0].getRange(), 0, 6, 0, 7);
+            assertRange(args[1].getRange(), 0, 8, 0, 10);
+            assertRange(args[2].getRange(), 0, 12, 0, 14);
+            assertRange(args[3].getRange(), 0, 15, 0, 16);
+        });
 
-        dockerfile = DockerfileParser.parse("EXPOSE \\a");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 1);
-        assert.equal(args[0].getValue(), "a");
+        it("EXPOSE \\a", () => {
+            let dockerfile = DockerfileParser.parse("EXPOSE \\a");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "a");
+            assert.equal(args[0].getRawValue(), "\\a");
+            assertRange(args[0].getRange(), 0, 7, 0, 9);
+        });
 
-        dockerfile = DockerfileParser.parse("EXPOSE 80\\81");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 1);
-        assert.equal(args[0].getValue(), "8081");
+        it("EXPOSE 80\\81", () => {
+            let dockerfile = DockerfileParser.parse("EXPOSE 80\\81");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "8081");
+            assert.equal(args[0].getRawValue(), "80\\81");
+            assertRange(args[0].getRange(), 0, 7, 0, 12);
+        });
 
-        dockerfile = DockerfileParser.parse("ENV var=value\nRUN echo $var");
-        args = dockerfile.getInstructions()[1].getExpandedArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getValue(), "echo");
-        assert.equal(args[1].getValue(), "value");
+        it("FROM alpine \\\\n # comment", () => {
+            let dockerfile = DockerfileParser.parse("FROM alpine \\\n # comment");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "alpine");
+            assert.equal(args[0].getRawValue(), "alpine");
+            assertRange(args[0].getRange(), 0, 5, 0, 11);
+        });
 
-        dockerfile = DockerfileParser.parse("ENV var=value\nRUN echo $var$var2");
-        args = dockerfile.getInstructions()[1].getExpandedArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getValue(), "echo");
-        assert.equal(args[1].getValue(), "value$var2");
-
-        dockerfile = DockerfileParser.parse("ARG var=value\nRUN echo $var$var2");
-        args = dockerfile.getInstructions()[1].getExpandedArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getValue(), "echo");
-        assert.equal(args[1].getValue(), "value$var2");
-
-        dockerfile = DockerfileParser.parse("RUN echo $var$var2\nARG var=value\nENV var=value2");
-        args = dockerfile.getInstructions()[0].getExpandedArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getValue(), "echo");
-        assert.equal(args[1].getValue(), "$var$var2");
-
-        dockerfile = DockerfileParser.parse("ENV var=value \\ \t\r\n var2=value2");
-        args = dockerfile.getInstructions()[0].getExpandedArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getValue(), "var=value");
-        assert.equal(args[1].getValue(), "var2=value2");
-
-        dockerfile = DockerfileParser.parse("FROM alpine \\\n # comment");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 1);
-        assert.equal(args[0].getValue(), "alpine");
-
-        dockerfile = DockerfileParser.parse("FROM alpine \\\n # comment \n AS stage");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 3);
-        assert.equal(args[0].getValue(), "alpine");
-        assert.equal(args[1].getValue(), "AS");
-        assert.equal(args[2].getValue(), "stage");
+        it("FROM alpine \\\\n # comment \\n AS stage", () => {
+            let dockerfile = DockerfileParser.parse("FROM alpine \\\n # comment \n AS stage");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 3);
+            assert.equal(args[0].getValue(), "alpine");
+            assert.equal(args[1].getValue(), "AS");
+            assert.equal(args[2].getValue(), "stage");
+            assert.equal(args[0].getRawValue(), "alpine");
+            assert.equal(args[1].getRawValue(), "AS");
+            assert.equal(args[2].getRawValue(), "stage");
+            assertRange(args[0].getRange(), 0, 5, 0, 11);
+            assertRange(args[1].getRange(), 2, 1, 2, 3);
+            assertRange(args[2].getRange(), 2, 4, 2, 9);
+        });
     });
 
-    it("getRawValue", () => {
-        let dockerfile = DockerfileParser.parse("RUN npm install");
-        let args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getRawValue(), "npm");
-        assert.equal(args[1].getRawValue(), "install");
+    describe("expanded", () => {
+        it("ENV var=value\\nRUN echo $var", () => {
+            let dockerfile = DockerfileParser.parse("ENV var=value\nRUN echo $var");
+            let args = dockerfile.getInstructions()[1].getExpandedArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "value");
+            assert.equal(args[0].getRawValue(), "echo");
+            assert.equal(args[1].getRawValue(), "$var");
+            assertRange(args[0].getRange(), 1, 4, 1, 8);
+            assertRange(args[1].getRange(), 1, 9, 1, 13);
+        });
 
-        dockerfile = DockerfileParser.parse("EXPOSE 80\\\n00 8001");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getRawValue(), "80\\\n00");
-        assert.equal(args[1].getRawValue(), "8001");
+        it("ENV var=value\\nRUN echo $var$var2", () => {
+            let dockerfile = DockerfileParser.parse("ENV var=value\nRUN echo $var$var2");
+            let args = dockerfile.getInstructions()[1].getExpandedArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "value$var2");
+            assert.equal(args[0].getRawValue(), "echo");
+            assert.equal(args[1].getRawValue(), "$var$var2");
+            assertRange(args[0].getRange(), 1, 4, 1, 8);
+            assertRange(args[1].getRange(), 1, 9, 1, 18);
+        });
 
-        dockerfile = DockerfileParser.parse("EXPOSE 8000\\\n 8001");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getRawValue(), "8000");
-        assert.equal(args[1].getRawValue(), "8001");
+        it("ARG var=value\\nRUN echo $var$var2", () => {
+            let dockerfile = DockerfileParser.parse("ARG var=value\nRUN echo $var$var2");
+            let args = dockerfile.getInstructions()[1].getExpandedArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "value$var2");
+            assert.equal(args[0].getRawValue(), "echo");
+            assert.equal(args[1].getRawValue(), "$var$var2");
+            assertRange(args[0].getRange(), 1, 4, 1, 8);
+            assertRange(args[1].getRange(), 1, 9, 1, 18);
+        });
 
-        dockerfile = DockerfileParser.parse("EXPOSE 80\\ 81");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getRawValue(), "80");
-        assert.equal(args[1].getRawValue(), "81");
+        it("RUN echo $var$var2\\nARG var=value\\nENV var=value2", () => {
+            let dockerfile = DockerfileParser.parse("RUN echo $var$var2\nARG var=value\nENV var=value2");
+            let args = dockerfile.getInstructions()[0].getExpandedArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "$var$var2");
+            assert.equal(args[0].getRawValue(), "echo");
+            assert.equal(args[1].getRawValue(), "$var$var2");
+            assertRange(args[0].getRange(), 0, 4, 0, 8);
+            assertRange(args[1].getRange(), 0, 9, 0, 18);
+        });
 
-        dockerfile = DockerfileParser.parse("EXPOSE \\ 8000");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 1);
-        assert.equal(args[0].getRawValue(), "8000");
-
-        dockerfile = DockerfileParser.parse("SHELL [ \"a\\ b\" ]");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 4);
-        assert.equal(args[0].getRawValue(), "[");
-        assert.equal(args[1].getRawValue(), "\"a");
-        assert.equal(args[2].getRawValue(), "b\"");
-        assert.equal(args[3].getRawValue(), "]");
-
-        dockerfile = DockerfileParser.parse("EXPOSE \\a");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 1);
-        assert.equal(args[0].getRawValue(), "\\a");
-
-        dockerfile = DockerfileParser.parse("EXPOSE 80\\81");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 1);
-        assert.equal(args[0].getRawValue(), "80\\81");
-
-        dockerfile = DockerfileParser.parse("ENV var=value\nRUN echo $var");
-        args = dockerfile.getInstructions()[1].getExpandedArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getRawValue(), "echo");
-        assert.equal(args[1].getRawValue(), "$var");
-
-        dockerfile = DockerfileParser.parse("ENV var=value\nRUN echo $var$var2");
-        args = dockerfile.getInstructions()[1].getExpandedArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getRawValue(), "echo");
-        assert.equal(args[1].getRawValue(), "$var$var2");
-
-        dockerfile = DockerfileParser.parse("ARG var=value\nRUN echo $var$var2");
-        args = dockerfile.getInstructions()[1].getExpandedArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getRawValue(), "echo");
-        assert.equal(args[1].getRawValue(), "$var$var2");
-
-        dockerfile = DockerfileParser.parse("RUN echo $var$var2\nARG var=value\nENV var=value2");
-        args = dockerfile.getInstructions()[0].getExpandedArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getRawValue(), "echo");
-        assert.equal(args[1].getRawValue(), "$var$var2");
-
-        dockerfile = DockerfileParser.parse("ENV var=value \\ \t\r\n var2=value2");
-        args = dockerfile.getInstructions()[0].getExpandedArguments();
-        assert.equal(args.length, 2);
-        assert.equal(args[0].getRawValue(), "var=value");
-        assert.equal(args[1].getRawValue(), "var2=value2");
-
-        dockerfile = DockerfileParser.parse("FROM alpine \\\n # comment");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 1);
-        assert.equal(args[0].getRawValue(), "alpine");
-
-        dockerfile = DockerfileParser.parse("FROM alpine \\\n # comment \n AS stage");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(args.length, 3);
-        assert.equal(args[0].getRawValue(), "alpine");
-        assert.equal(args[1].getRawValue(), "AS");
-        assert.equal(args[2].getRawValue(), "stage");
-    });
-
-    it("getRange", () => {
-        let dockerfile = DockerfileParser.parse("RUN npm install");
-        let args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(2, args.length);
-        assertRange(args[0].getRange(), 0, 4, 0, 7);
-        assertRange(args[1].getRange(), 0, 8, 0, 15);
-
-        dockerfile = DockerfileParser.parse("EXPOSE 80\\\n00 8001");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(2, args.length);
-        assertRange(args[0].getRange(), 0, 7, 1, 2);
-        assertRange(args[1].getRange(), 1, 3, 1, 7);
-
-        dockerfile = DockerfileParser.parse("EXPOSE 8000\\\n 8001");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(2, args.length);
-        assertRange(args[0].getRange(), 0, 7, 0, 11);
-        assertRange(args[1].getRange(), 1, 1, 1, 5);
-
-        dockerfile = DockerfileParser.parse("EXPOSE 80\\ 81");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(2, args.length);
-        assertRange(args[0].getRange(), 0, 7, 0, 9);
-        assertRange(args[1].getRange(), 0, 11, 0, 13);
-
-        dockerfile = DockerfileParser.parse("EXPOSE \\ 8000");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(1, args.length);
-        assertRange(args[0].getRange(), 0, 9, 0, 13);
-
-        dockerfile = DockerfileParser.parse("SHELL [ \"a\\ b\" ]");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(4, args.length);
-        assertRange(args[0].getRange(), 0, 6, 0, 7);
-        assertRange(args[1].getRange(), 0, 8, 0, 10);
-        assertRange(args[2].getRange(), 0, 12, 0, 14);
-        assertRange(args[3].getRange(), 0, 15, 0, 16);
-
-        dockerfile = DockerfileParser.parse("EXPOSE \\a");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(1, args.length);
-        assertRange(args[0].getRange(), 0, 7, 0, 9);
-
-        dockerfile = DockerfileParser.parse("EXPOSE 80\\81");
-        args = dockerfile.getInstructions()[0].getArguments();
-        assert.equal(1, args.length);
-        assertRange(args[0].getRange(), 0, 7, 0, 12);
-
-        dockerfile = DockerfileParser.parse("ENV var=value\nRUN echo $var");
-        args = dockerfile.getInstructions()[1].getExpandedArguments();
-        assert.equal(2, args.length);
-        assertRange(args[0].getRange(), 1, 4, 1, 8);
-        assertRange(args[1].getRange(), 1, 9, 1, 13);
-
-        dockerfile = DockerfileParser.parse("ENV var=value\nRUN echo $var$var2");
-        args = dockerfile.getInstructions()[1].getExpandedArguments();
-        assert.equal(2, args.length);
-        assertRange(args[0].getRange(), 1, 4, 1, 8);
-        assertRange(args[1].getRange(), 1, 9, 1, 18);
+        it("ENV var=value \\ \\t\\r\\n var2=value2", () => {
+            let dockerfile = DockerfileParser.parse("ENV var=value \\ \t\r\n var2=value2");
+            let args = dockerfile.getInstructions()[0].getExpandedArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "var=value");
+            assert.equal(args[1].getValue(), "var2=value2");
+            assert.equal(args[0].getRawValue(), "var=value");
+            assert.equal(args[1].getRawValue(), "var2=value2");
+            assertRange(args[0].getRange(), 0, 4, 0, 13);
+            assertRange(args[1].getRange(), 1, 1, 1, 12);
+        });
     });
 
     it("isBefore", () => {
