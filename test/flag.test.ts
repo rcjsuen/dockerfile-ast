@@ -9,193 +9,90 @@ import { assertRange } from './util';
 import { DockerfileParser, ModifiableInstruction } from '../src/main';
 
 describe("Flag", () => {
-    it("getName", () => {
+    it("HEALTHCHECK --interval=30s CMD ls", () => {
         let dockerfile = DockerfileParser.parse("HEALTHCHECK --interval=30s CMD ls");
         let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
         let flag = instruction.getFlags()[0];
         assert.equal(flag.getName(), "interval");
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --interval CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getName(), "interval");
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK ---interval CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getName(), "-interval");
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --interval= CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getName(), "interval");
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --int\\\nerval=30s CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getName(), "interval");
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval=30s CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getName(), "interval");
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getName(), "interval");
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval= CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getName(), "interval");
-    });
-
-    it("getNameRange", () => {
-        let dockerfile = DockerfileParser.parse("HEALTHCHECK --interval=30s CMD ls");
-        let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        let flag = instruction.getFlags()[0];
         assertRange(flag.getNameRange(), 0, 14, 0, 22);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --interval CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assertRange(flag.getNameRange(), 0, 14, 0, 22);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --interval= CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assertRange(flag.getNameRange(), 0, 14, 0, 22);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --int\\\nerval=30s CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assertRange(flag.getNameRange(), 0, 14, 1, 5);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval=30s CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assertRange(flag.getNameRange(), 1, 1, 2, 5);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assertRange(flag.getNameRange(), 1, 1, 2, 5);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval= CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assertRange(flag.getNameRange(), 1, 1, 2, 5);
-    });
-
-    it("getName", () => {
-        let dockerfile = DockerfileParser.parse("HEALTHCHECK --interval=30s CMD ls");
-        let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        let flag = instruction.getFlags()[0];
         assert.equal(flag.getValue(), "30s");
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --interval CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getValue(), null);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --interval= CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getValue(), "");
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --int\\\nerval=30s CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getValue(), "30s");
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval=30s CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getValue(), "30s");
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getValue(), null);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval= CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getValue(), "");
-    });
-
-    it("getValueRange", () => {
-        let dockerfile = DockerfileParser.parse("HEALTHCHECK --interval=30s CMD ls");
-        let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        let flag = instruction.getFlags()[0];
         assertRange(flag.getValueRange(), 0, 23, 0, 26);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --interval CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getValueRange(), null);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --interval= CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assertRange(flag.getValueRange(), 0, 23, 0, 23);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --int\\\nerval=30s CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assertRange(flag.getValueRange(), 1, 6, 1, 9);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval=30s CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assertRange(flag.getValueRange(), 2, 6, 2, 9);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assert.equal(flag.getValueRange(), null);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval= CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
-        assertRange(flag.getValueRange(), 2, 6, 2, 6);
+        assertRange(flag.getRange(), 0, 12, 0, 26);
     });
 
-    it("getRange", () => {
-        let dockerfile = DockerfileParser.parse("HEALTHCHECK --interval=30s CMD ls");
+    it("HEALTHCHECK --interval CMD ls", () => {
+        let dockerfile = DockerfileParser.parse("HEALTHCHECK --interval CMD ls");
         let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
         let flag = instruction.getFlags()[0];
-        assertRange(flag.getRange(), 0, 12, 0, 26);
-
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --interval CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
+        assert.equal(flag.getName(), "interval");
+        assertRange(flag.getNameRange(), 0, 14, 0, 22);
+        assert.equal(flag.getValue(), null);
         assertRange(flag.getRange(), 0, 12, 0, 22);
+        assert.equal(flag.getValueRange(), null);
+    });
 
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --interval= CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
+    it("HEALTHCHECK ---interval CMD ls", () => {
+        let dockerfile = DockerfileParser.parse("HEALTHCHECK ---interval CMD ls");
+        let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
+        let flag = instruction.getFlags()[0];
+        assert.equal(flag.getName(), "-interval");
+        assert.equal(flag.getValue(), null);
         assertRange(flag.getRange(), 0, 12, 0, 23);
+        assert.equal(flag.getValueRange(), null);
+    });
 
-        dockerfile = DockerfileParser.parse("HEALTHCHECK --int\\\nerval=30s CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
+    it("HEALTHCHECK --interval= CMD ls", () => {
+        let dockerfile = DockerfileParser.parse("HEALTHCHECK --interval= CMD ls");
+        let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
+        let flag = instruction.getFlags()[0];
+        assert.equal(flag.getName(), "interval");
+        assertRange(flag.getNameRange(), 0, 14, 0, 22);
+        assert.equal(flag.getValue(), "");
+        assertRange(flag.getValueRange(), 0, 23, 0, 23);
+        assertRange(flag.getRange(), 0, 12, 0, 23);
+    });
+
+    it("HEALTHCHECK --int\\\\nerval=30s CMD ls", () => {
+        let dockerfile = DockerfileParser.parse("HEALTHCHECK --int\\\nerval=30s CMD ls");
+        let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
+        let flag = instruction.getFlags()[0];
+        assert.equal(flag.getName(), "interval");
+        assertRange(flag.getNameRange(), 0, 14, 1, 5);
+        assert.equal(flag.getValue(), "30s");
         assertRange(flag.getRange(), 0, 12, 1, 9);
+        assertRange(flag.getValueRange(), 1, 6, 1, 9);
+    });
 
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval=30s CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
+    it("HEALTHCHECK -\\\\n-int\\\\nerval=30s CMD ls", () => {
+        let dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval=30s CMD ls");
+        let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
+        let flag = instruction.getFlags()[0];
+        assert.equal(flag.getName(), "interval");
+        assertRange(flag.getNameRange(), 1, 1, 2, 5);
+        assert.equal(flag.getValue(), "30s");
+        assertRange(flag.getValueRange(), 2, 6, 2, 9);
         assertRange(flag.getRange(), 0, 12, 2, 9);
+    });
 
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
+    it("HEALTHCHECK -\\\\n-int\\\\nerval CMD ls", () => {
+        let dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval CMD ls");
+        let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
+        let flag = instruction.getFlags()[0];
+        assert.equal(flag.getName(), "interval");
+        assertRange(flag.getNameRange(), 1, 1, 2, 5);
+        assert.equal(flag.getValue(), null);
+        assert.equal(flag.getValueRange(), null);
         assertRange(flag.getRange(), 0, 12, 2, 5);
+    });
 
-        dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval= CMD ls");
-        instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
-        flag = instruction.getFlags()[0];
+    it("HEALTHCHECK -\\\\n-int\\\\nerval= CMD ls", () => {
+        let dockerfile = DockerfileParser.parse("HEALTHCHECK -\\\n-int\\\nerval= CMD ls");
+        let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
+        let flag = instruction.getFlags()[0];
+        assert.equal(flag.getName(), "interval");
+        assertRange(flag.getNameRange(), 1, 1, 2, 5);
+        assert.equal(flag.getValue(), "");
+        assertRange(flag.getValueRange(), 2, 6, 2, 6);
         assertRange(flag.getRange(), 0, 12, 2, 6);
     });
 });
