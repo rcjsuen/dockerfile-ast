@@ -21,6 +21,13 @@ export class Flag {
         this.valueRange = valueRange;
     }
 
+    public toString(): string {
+        if (this.valueRange) {
+            return "--" + this.name + "=" + this.value;
+        }
+        return "--" + this.name;
+    }
+
     public getRange(): Range {
         return this.range;
     }
