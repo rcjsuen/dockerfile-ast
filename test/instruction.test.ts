@@ -134,6 +134,20 @@ describe("Instruction", () => {
         assert.equal(instruction.getVariables().length, 0);
     });
 
+    it("FR\\OM alpine", () => {
+        let dockerfile = DockerfileParser.parse("FR\\om alpine");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal("FR\\om", instruction.getInstruction());
+        assert.equal("FR\\OM", instruction.getKeyword());
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 5);
+        assertRange(instruction.getArgumentsRange(), 0, 6, 0, 12);
+        assert.equal(instruction.getArgumentsContent(), "alpine");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 1);
+        assertRange(ranges[0], 0, 6, 0, 12);
+        assert.equal(instruction.getVariables().length, 0);
+    });
+
     it("F", () => {
         let dockerfile = DockerfileParser.parse("F");
         let instruction = dockerfile.getInstructions()[0];
