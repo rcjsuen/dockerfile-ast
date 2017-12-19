@@ -46,18 +46,52 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
     }
 
     public getContainingImage(position: Position): ImageTemplate {
+        let range = Range.create(Position.create(0, 0), this.document.positionAt(this.document.getText().length));
+        if (!Util.isInsideRange(position, range)) {
+            // not inside the document, invalid position
+            return null;
+        }
+
         for (let buildStage of this.buildStages) {
             if (buildStage.contains(position)) {
                 return buildStage;
             }
         }
 
-        if (this.initialInstructions.contains(position)) {
+        let instructions = this.initialInstructions.getInstructions();
+        if (instructions.length > 0 && 
+                (this.initialInstructions.contains(position) || instructions[instructions.length - 1].getRange().end.line >= position.line)) {
             return this.initialInstructions;
         }
 
-        let range = Range.create(Position.create(0, 0), this.document.positionAt(this.document.getText().length));
-        return Util.isInsideRange(position, range) ? this : null;
+        if (this.buildStages.length > 0) {
+            if (this.buildStages[0].getInstructions()[0].getRange().start.line > position.line) {
+                let instructions = this.initialInstructions.getInstructions();
+                if (instructions.length > 0) {
+                    return this.buildStages[0];
+                }
+            }
+
+            let instructions = this.buildStages[this.buildStages.length - 1].getInstructions();
+            if (instructions[instructions.length - 1].getRange().end.line < position.line) {
+                return this;
+            }
+
+            for (let i = 0; i < this.buildStages.length - 1; i++) {
+                let stageInstructions = this.buildStages[i].getInstructions();
+                let stageInstructions2 = this.buildStages[i + 1].getInstructions();
+                let between = Range.create(
+                    stageInstructions[stageInstructions.length - 1].getRange().end,
+                    stageInstructions2[0].getRange().start
+                );
+
+                if (Util.isInsideRange(position, between)) {
+                    return this.buildStages[i + 1];
+                }
+            }
+        }
+
+        return this;
     }
 
     public addInstruction(instruction: Instruction): void {

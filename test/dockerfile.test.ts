@@ -79,6 +79,45 @@ describe("Dockerfile", () => {
         dockerfile = DockerfileParser.parse("# comment\nFROM busybox");
         image = dockerfile.getContainingImage(Position.create(0, 1));
         assert.equal(image, dockerfile);
+
+        dockerfile = DockerfileParser.parse("FROM busybox\n# comment");
+        image = dockerfile.getContainingImage(Position.create(0, 1));
+        image2 = dockerfile.getContainingImage(Position.create(1, 1));
+        assert.notEqual(image2, image);
+        assert.equal(image2, dockerfile);
+
+        dockerfile = DockerfileParser.parse("FROM busybox\n# comment\nFROM alpine");
+        image = dockerfile.getContainingImage(Position.create(1, 1));
+        image2 = dockerfile.getContainingImage(Position.create(2, 1));
+        assert.equal(image2, image);
+
+        dockerfile = DockerfileParser.parse("FROM busybox\nFROM alpine\n# comment\nFROM node");
+        image = dockerfile.getContainingImage(Position.create(2, 1));
+        image2 = dockerfile.getContainingImage(Position.create(3, 1));
+        assert.equal(image2, image);
+
+        dockerfile = DockerfileParser.parse("ARG version=latest\n# comment");
+        image = dockerfile.getContainingImage(Position.create(0, 1));
+        image2 = dockerfile.getContainingImage(Position.create(1, 1));
+        assert.notEqual(image2, image);
+
+        dockerfile = DockerfileParser.parse("ARG version=latest\n# comment\nFROM busybox:${version}");
+        image = dockerfile.getContainingImage(Position.create(0, 1));
+        image2 = dockerfile.getContainingImage(Position.create(1, 1));
+        assert.notEqual(image2, image);
+        image = dockerfile.getContainingImage(Position.create(1, 1));
+        image2 = dockerfile.getContainingImage(Position.create(2, 1));
+        assert.equal(image2, image);
+
+        dockerfile = DockerfileParser.parse("# comment\nARG version=latest");
+        image = dockerfile.getContainingImage(Position.create(0, 1));
+        image2 = dockerfile.getContainingImage(Position.create(1, 1));
+        assert.equal(image2, image);
+
+        dockerfile = DockerfileParser.parse("ARG version=latest\n# comment");
+        image = dockerfile.getContainingImage(Position.create(0, 1));
+        image2 = dockerfile.getContainingImage(Position.create(1, 1));
+        assert.notEqual(image2, image);
     });
 
     it("getComments", () => {
