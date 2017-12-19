@@ -59,6 +59,26 @@ describe("Dockerfile", () => {
         // line doesn't exist
         image = dockerfile.getContainingImage(Position.create(2, 1));
         assert.equal(image, null);
+
+        dockerfile = DockerfileParser.parse("");
+        image = dockerfile.getContainingImage(Position.create(0, 0));
+        assert.equal(image, dockerfile);
+        image = dockerfile.getContainingImage(Position.create(0, 1));
+        assert.equal(image, null);
+
+        dockerfile = DockerfileParser.parse("  ");
+        image = dockerfile.getContainingImage(Position.create(0, 0));
+        assert.equal(image, dockerfile);
+        image = dockerfile.getContainingImage(Position.create(0, 1));
+        assert.equal(image, dockerfile);
+        image = dockerfile.getContainingImage(Position.create(0, 2));
+        assert.equal(image, dockerfile);
+        image = dockerfile.getContainingImage(Position.create(0, 3));
+        assert.equal(image, null);
+
+        dockerfile = DockerfileParser.parse("# comment\nFROM busybox");
+        image = dockerfile.getContainingImage(Position.create(0, 1));
+        assert.equal(image, dockerfile);
     });
 
     it("getComments", () => {

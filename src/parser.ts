@@ -167,7 +167,7 @@ export class Parser {
 
     public parse(buffer: string): Dockerfile {
         let document = TextDocument.create("", "", 0, buffer);
-        let dockerfile = new Dockerfile();
+        let dockerfile = new Dockerfile(document);
         let line: any = this.getDirectiveSymbol(document, buffer);
         let offset = 0;
         this.escapeChar = '\\';
