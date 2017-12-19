@@ -507,6 +507,15 @@ describe("Property", () => {
             assert.equal(properties[0].getValue(), "a ");
             assert.equal(properties[1].getName(), "b");
             assert.equal(properties[1].getValue(), "d");
+
+            dockerfile = DockerfileParser.parse(instruction + " key=value  key2=value2");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 2);
+            assert.equal(properties[0].getName(), "key");
+            assert.equal(properties[0].getValue(), "value");
+            assert.equal(properties[1].getName(), "key2");
+            assert.equal(properties[1].getValue(), "value2");
         });
     }
 

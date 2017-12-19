@@ -138,6 +138,30 @@ describe("Argument", () => {
             assertRange(args[0].getRange(), 0, 4, 0, 7);
             assertRange(args[1].getRange(), 1, 1, 1, 2);
         });
+
+        it("ENV key=value  key2=value2", () => {
+            let dockerfile = DockerfileParser.parse("ENV key=value  key2=value2");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "key=value");
+            assert.equal(args[1].getValue(), "key2=value2");
+            assert.equal(args[0].getRawValue(), "key=value");
+            assert.equal(args[1].getRawValue(), "key2=value2");
+            assertRange(args[0].getRange(), 0, 4, 0, 13);
+            assertRange(args[1].getRange(), 0, 15, 0, 26);
+        });
+
+        it("LABEL key=value  key2=value2", () => {
+            let dockerfile = DockerfileParser.parse("LABEL key=value  key2=value2");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "key=value");
+            assert.equal(args[1].getValue(), "key2=value2");
+            assert.equal(args[0].getRawValue(), "key=value");
+            assert.equal(args[1].getRawValue(), "key2=value2");
+            assertRange(args[0].getRange(), 0, 6, 0, 15);
+            assertRange(args[1].getRange(), 0, 17, 0, 28);
+        });
     });
 
     describe("expanded", () => {

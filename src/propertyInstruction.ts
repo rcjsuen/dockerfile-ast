@@ -214,7 +214,7 @@ export abstract class PropertyInstruction extends Instruction {
                 case '\t':
                     if (escaped) {
                         spaced = true;
-                    } else {
+                    } else if (argStart !== -1) {
                         args.push(new Argument(
                             content.substring(argStart, i),
                             content.substring(argStart, i),
