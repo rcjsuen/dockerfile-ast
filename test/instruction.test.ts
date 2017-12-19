@@ -47,11 +47,11 @@ describe("Instruction", () => {
 
         dockerfile = DockerfileParser.parse("F\\ ");
         instruction = dockerfile.getInstructions()[0];
-        assert.equal(instruction.getInstruction(), "F");
+        assert.equal(instruction.getInstruction(), "F\\");
 
         dockerfile = DockerfileParser.parse("FR\\ ");
         instruction = dockerfile.getInstructions()[0];
-        assert.equal(instruction.getInstruction(), "FR");
+        assert.equal(instruction.getInstruction(), "FR\\");
 
         dockerfile = DockerfileParser.parse("FR\\\nOM alpine");
         instruction = dockerfile.getInstructions()[0];
@@ -119,13 +119,21 @@ describe("Instruction", () => {
         instruction = dockerfile.getInstructions()[0];
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
 
+        dockerfile = DockerfileParser.parse("F\\");
+        instruction = dockerfile.getInstructions()[0];
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 2);
+
+        dockerfile = DockerfileParser.parse("FR\\");
+        instruction = dockerfile.getInstructions()[0];
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
+
         dockerfile = DockerfileParser.parse("F\\ ");
         instruction = dockerfile.getInstructions()[0];
-        assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 2);
 
         dockerfile = DockerfileParser.parse("FR\\ ");
         instruction = dockerfile.getInstructions()[0];
-        assertRange(instruction.getInstructionRange(), 0, 0, 0, 2);
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
 
         dockerfile = DockerfileParser.parse("FR\\\nOM alpine");
         instruction = dockerfile.getInstructions()[0];

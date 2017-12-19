@@ -220,7 +220,7 @@ export class Parser {
                     let instructionEnd = -1;
                     let lineRange: Range | null = null;
                     let instructionRange: Range | null = null;
-                    for (let j = i + 1; j < buffer.length; j++) {
+                    instructionCheck: for (let j = i + 1; j < buffer.length; j++) {
                         char = buffer.charAt(j);
                         switch (char) {
                             case this.escapeChar:
@@ -231,7 +231,7 @@ export class Parser {
                                 } else if (char === '\n') {
                                     j++;
                                 } else if (char === ' ' || char === '\t') {
-                                    escapeCheck: for (let k = j + 2; k < buffer.length; k++) {
+                                    for (let k = j + 2; k < buffer.length; k++) {
                                         switch (buffer.charAt(k)) {
                                             case ' ':
                                             case '\t':
@@ -239,29 +239,33 @@ export class Parser {
                                             case '\r':
                                                 // skip another for \r\n
                                                 j = k + 1;
-                                                break escapeCheck;
+                                                continue instructionCheck;
                                             case '\n':
                                                 j = k;
-                                                break escapeCheck;
+                                                continue instructionCheck;
                                             default:
                                                 instructionEnd = j + 1;
                                                 instruction = instruction + this.escapeChar;
                                                 j = k - 2;
-                                                break escapeCheck;
+                                                continue instructionCheck;
                                         }
                                     }
+                                    instructionEnd = j + 1;
+                                    instruction = instruction + this.escapeChar;
+                                    break instructionCheck;
                                 } else {
+                                    instructionEnd = j + 1;
                                     instruction = instruction + this.escapeChar;
                                 }
                                 break;
                             case ' ':
                             case '\t':
                                 if (instructionEnd === -1) {
-                                    instructionEnd = j === i + 1 ? j : j - 1;
+                                    instructionEnd = j;
                                 }
 
                                 let escaped = false;
-                                instructionCheck: for (let k = j + 1; k < buffer.length; k++) {
+                                argumentsCheck: for (let k = j + 1; k < buffer.length; k++) {
                                     switch (buffer.charAt(k)) {
                                         case '\r':
                                         case '\n':
@@ -312,18 +316,18 @@ export class Parser {
                                                             dockerfile.addComment(new Comment(document, Range.create(document.positionAt(k), document.positionAt(l))));
                                                             // offset one more for \r\n
                                                             k = l + 1;
-                                                            continue instructionCheck;
+                                                            continue argumentsCheck;
                                                         case '\n':
                                                             let range = Range.create(document.positionAt(k), document.positionAt(l));
                                                             dockerfile.addComment(new Comment(document, range));
                                                             k = l;
-                                                            continue instructionCheck;
+                                                            continue argumentsCheck;
                                                     }
                                                 }
 
                                                 let range = Range.create(document.positionAt(k), document.positionAt(buffer.length));
                                                 dockerfile.addComment(new Comment(document, range));
-                                                break instructionCheck;
+                                                break argumentsCheck;
                                             }
                                             break;
                                         case ' ':
