@@ -210,7 +210,7 @@ describe("JSON Instruction", () => {
         assertArgument(bracket, "]", "]", 1, 5, 1, 6);
     });
 
-    it("SHELL [ \"abc\\\  \r\\ndef\" ]", () => {
+    it("SHELL [ \"abc\\\  \\r\\ndef\" ]", () => {
         let dockerfile = DockerfileParser.parse("SHELL [ \"abc\\  \r\ndef\" ]");
         let instruction = dockerfile.getInstructions()[0] as JSONInstruction;
         let bracket = instruction.getOpeningBracket();
