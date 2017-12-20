@@ -28,22 +28,56 @@ export class Flag {
         return "--" + this.name;
     }
 
+    /**
+     * Returns the range that encompasses this entire flag. This includes the
+     * -- prefix in the beginning to the last character of the flag's value (if
+     * it has been defined).
+     * 
+     * @return the entire range of this flag
+     */
     public getRange(): Range {
         return this.range;
     }
 
+    /**
+     * Returns the name of this flag. The name does not include the -- prefix.
+     * Thus, for HEALTHCHECK's --interval flag, interval is the flag's name and
+     * not --interval.
+     * 
+     * @return this flag's name
+     */
     public getName(): string {
         return this.name;
     }
 
+    /**
+     * Returns the range that encompasses the flag's name
+     * 
+     * @return the range containing the flag's name
+     */
     public getNameRange(): Range {
         return this.nameRange;
     }
 
+    /**
+     * Returns the value that has been set to this flag. May be null if the
+     * flag is invalid and has no value set like a --start-period. If the flag
+     * is instead a --start-period= with an equals sign then the flag's value
+     * is the empty string.
+     * 
+     * @return this flag's value if it has been defined, null otherwise
+     */
     public getValue(): string | null {
         return this.value;
     }
 
+    /**
+     * Returns the range that encompasses this flag's value. If no value has
+     * been set then null will be returned.
+     * 
+     * @return the range containing this flag's value, or null if the flag
+     *         has no value defined
+     */
     public getValueRange(): Range | null {
         return this.valueRange;
     }
