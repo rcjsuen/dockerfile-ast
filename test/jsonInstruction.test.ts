@@ -168,7 +168,7 @@ describe("JSON Instruction", () => {
         assertArgument(bracket, "[", 0, 6, 0, 7);
         let strings = instruction.getJSONStrings();
         assert.equal(strings.length, 1);
-        assertArgument(strings[0], "\"\\\\\"", 0, 8, 0, 12);
+        assertArgument(strings[0], "\"\\\"", 0, 8, 0, 12);
         bracket = instruction.getClosingBracket();
         assertArgument(bracket, "]", 0, 13, 0, 14);
     });
@@ -180,7 +180,7 @@ describe("JSON Instruction", () => {
         assertArgument(bracket, "[", 0, 6, 0, 7);
         let strings = instruction.getJSONStrings();
         assert.equal(strings.length, 1);
-        assertArgument(strings[0], "\"\\\"\"", 0, 8, 0, 12);
+        assertArgument(strings[0], "\"\"\"", 0, 8, 0, 12);
         bracket = instruction.getClosingBracket();
         assertArgument(bracket, "]", 0, 13, 0, 14);
     });
@@ -192,7 +192,7 @@ describe("JSON Instruction", () => {
         assertArgument(bracket, "[", 0, 6, 0, 7);
         let strings = instruction.getJSONStrings();
         assert.equal(strings.length, 1);
-        assertArgument(strings[0], "\"abc\\\ndef\"", 0, 8, 1, 4);
+        assertArgument(strings[0], "\"abcdef\"", 0, 8, 1, 4);
         bracket = instruction.getClosingBracket();
         assertArgument(bracket, "]", 1, 5, 1, 6);
     });
@@ -204,7 +204,7 @@ describe("JSON Instruction", () => {
         assertArgument(bracket, "[", 0, 6, 0, 7);
         let strings = instruction.getJSONStrings();
         assert.equal(strings.length, 1);
-        assertArgument(strings[0], "\"abc\\\r\ndef\"", 0, 8, 1, 4);
+        assertArgument(strings[0], "\"abcdef\"", 0, 8, 1, 4);
         bracket = instruction.getClosingBracket();
         assertArgument(bracket, "]", 1, 5, 1, 6);
     });
@@ -216,7 +216,7 @@ describe("JSON Instruction", () => {
         assertArgument(bracket, "[", 0, 6, 0, 7);
         let strings = instruction.getJSONStrings();
         assert.equal(strings.length, 1);
-        assertArgument(strings[0], "\"abc\\  \r\ndef\"", 0, 8, 1, 4);
+        assertArgument(strings[0], "\"abcdef\"", 0, 8, 1, 4);
         bracket = instruction.getClosingBracket();
         assertArgument(bracket, "]", 1, 5, 1, 6);
     });
