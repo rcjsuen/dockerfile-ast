@@ -7,12 +7,10 @@ import { Range, Position } from 'vscode-languageserver-types';
 export class Argument {
 
     private readonly value: string
-    private readonly rawValue: string;
     private readonly range: Range;
 
-    constructor(value: string, rawValue: string, range: Range) {
+    constructor(value: string, range: Range) {
         this.value = value;
-        this.rawValue = rawValue;
         this.range = range;
     }
 
@@ -22,10 +20,6 @@ export class Argument {
 
     public getValue(): string {
         return this.value;
-    }
-
-    public getRawValue(): string {
-        return this.rawValue;
     }
 
     public isAfter(position: Position): boolean {

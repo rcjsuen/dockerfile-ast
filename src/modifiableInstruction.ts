@@ -26,8 +26,8 @@ export abstract class ModifiableInstruction extends Instruction {
                 if (this.stopSearchingForFlags(value)) {
                     return this.flags;
                 } else if (value.indexOf("--") === 0) {
-                    let rawValue = arg.getRawValue();
                     let range = arg.getRange();
+                    let rawValue = this.document.getText().substring(this.document.offsetAt(range.start), this.document.offsetAt(range.end));
                     let nameIndex = value.indexOf('=');
                     let index = rawValue.indexOf('=');
 

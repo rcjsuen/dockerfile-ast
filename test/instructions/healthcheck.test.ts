@@ -19,7 +19,6 @@ describe("HEALTHCHECK", () => {
         assert.equal(healthchecks.length, 1);
         let subcommand = healthchecks[0].getSubcommand();
         assert.equal(subcommand.getValue(), "NONE");
-        assert.equal(subcommand.getRawValue(), "NONE");
         assertRange(subcommand.getRange(), 0, 12, 0, 16);
     });
 });

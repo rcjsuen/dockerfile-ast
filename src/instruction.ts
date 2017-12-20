@@ -184,9 +184,9 @@ export class Instruction extends Line {
                     comment = false;
                 } else if (found !== -1) {
                     if (escapeMarker === -1) {
-                        args.push(new Argument(escapedArg, fullArgs.substring(found, i), Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + i))));
+                        args.push(new Argument(escapedArg, Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + i))));
                     } else {
-                        args.push(new Argument(escapedArg, fullArgs.substring(found, escapeMarker), Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + escapeMarker))));
+                        args.push(new Argument(escapedArg, Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + escapeMarker))));
                     }
                     escapedArg = "";
                     found = -1;
@@ -251,7 +251,7 @@ export class Instruction extends Line {
         }
 
         if (found !== -1) {
-            args.push(new Argument(escapedArg, fullArgs.substring(found), Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + fullArgs.length))));
+            args.push(new Argument(escapedArg, Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + fullArgs.length))));
         }
 
         return args;
@@ -288,7 +288,7 @@ export class Instruction extends Line {
                     }
                 }
 
-                args[i] = new Argument(expanded, args[i].getRawValue(), argRange);
+                args[i] = new Argument(expanded, argRange);
             }
         }
         return args;
@@ -298,7 +298,9 @@ export class Instruction extends Line {
         const variables = [];
         const args = this.getArguments();
         for (const arg of args) {
-            const parsedVariables = this.parseVariables(this.document.offsetAt(arg.getRange().start), arg.getRawValue());
+            let range = arg.getRange();
+            let rawValue = this.document.getText().substring(this.document.offsetAt(range.start), this.document.offsetAt(range.end));
+            const parsedVariables = this.parseVariables(this.document.offsetAt(arg.getRange().start), rawValue);
             for (const parsedVariable of parsedVariables) {
                 variables.push(parsedVariable);
             }

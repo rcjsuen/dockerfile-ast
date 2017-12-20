@@ -24,8 +24,8 @@ export class JSONInstruction extends ModifiableInstruction {
         const args = this.getArguments();
         if (args.length === 1 && args[0].getValue() === "[]") {
             let argRange = args[0].getRange();
-            this.openingBracket = new Argument("[", "[", Range.create(argRange.start.line, argRange.start.character, argRange.start.line, argRange.start.character + 1));
-            this.closingBracket = new Argument("]", "]", Range.create(argRange.start.line, argRange.start.character + 1, argRange.end.line, argRange.end.character));
+            this.openingBracket = new Argument("[", Range.create(argRange.start.line, argRange.start.character, argRange.start.line, argRange.start.character + 1));
+            this.closingBracket = new Argument("]", Range.create(argRange.start.line, argRange.start.character + 1, argRange.end.line, argRange.end.character));
             return;
         } else if (args.length === 2 && args[0].getValue() === '[' && args[1].getValue() === ']') {
             this.openingBracket = args[0];
@@ -44,7 +44,7 @@ export class JSONInstruction extends ModifiableInstruction {
                 case '[':
                     if (last === "") {
                         this.openingBracket = new Argument(
-                            "[", "[", Range.create(document.positionAt(argsOffset + i), document.positionAt(argsOffset + i + 1))
+                            "[", Range.create(document.positionAt(argsOffset + i), document.positionAt(argsOffset + i + 1))
                         );
                         last = '[';
                     } else if (quoted) {
@@ -67,7 +67,6 @@ export class JSONInstruction extends ModifiableInstruction {
                             quoted = false;
                             this.jsonStrings.push(new Argument(
                                 escapedArg,
-                                argsContent.substring(start, i + 1),
                                 Range.create(document.positionAt(argsOffset + start), document.positionAt(argsOffset + i + 1))
                             ));
                             escapedArg = "";
@@ -95,7 +94,7 @@ export class JSONInstruction extends ModifiableInstruction {
                         escapedArg = escapedArg + char;
                     } else if (last !== "") {
                         this.closingBracket = new Argument(
-                            "]", "]", Range.create(document.positionAt(argsOffset + i), document.positionAt(argsOffset + i + 1))
+                            "]", Range.create(document.positionAt(argsOffset + i), document.positionAt(argsOffset + i + 1))
                         );
                         break argsCheck;
                     }

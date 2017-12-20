@@ -38,7 +38,7 @@ export abstract class PropertyInstruction extends Instruction {
                 let start = args[1].getRange().start
                 let end = args[args.length - 1].getRange().end;
                 text = text.substring(this.document.offsetAt(start), this.document.offsetAt(end));
-                this.properties = [new Property(this.document, this.escapeChar, args[0], new Argument(text, text, Range.create(args[1].getRange().start, args[args.length - 1].getRange().end)))];
+                this.properties = [new Property(this.document, this.escapeChar, args[0], new Argument(text, Range.create(args[1].getRange().start, args[args.length - 1].getRange().end)))];
             } else {
                 this.properties = [];
                 for (let i = 0; i < args.length; i++) {
@@ -157,7 +157,7 @@ export abstract class PropertyInstruction extends Instruction {
                                         break;
                                     default:
                                         // whitespace doesn't extend to EOL, create an argument
-                                        args.push(new Argument(content.substring(argStart, i), content.substring(argStart, i),
+                                        args.push(new Argument(content.substring(argStart, i),
                                             Range.create(this.document.positionAt(instructionNameEndOffset + start + argStart), this.document.positionAt(instructionNameEndOffset + start + i + 2))
                                         ));
                                         argStart = j;
@@ -198,7 +198,7 @@ export abstract class PropertyInstruction extends Instruction {
                     for (let j = i + 1; j < content.length; j++) {
                         switch (content.charAt(j)) {
                             case char:
-                                args.push(new Argument(content.substring(argStart, j + 1), content.substring(argStart, j + 1),
+                                args.push(new Argument(content.substring(argStart, j + 1),
                                     Range.create(this.document.positionAt(instructionNameEndOffset + start + argStart), this.document.positionAt(instructionNameEndOffset + start + j + 1))
                                 ));
                                 i = j;
@@ -216,7 +216,6 @@ export abstract class PropertyInstruction extends Instruction {
                         spaced = true;
                     } else if (argStart !== -1) {
                         args.push(new Argument(
-                            content.substring(argStart, i),
                             content.substring(argStart, i),
                             Range.create(this.document.positionAt(instructionNameEndOffset + start + argStart),
                                 this.document.positionAt(instructionNameEndOffset + start + i))
@@ -249,7 +248,6 @@ export abstract class PropertyInstruction extends Instruction {
                         let value = content.substring(argStart, mark);
                         args.push(new Argument(
                             value,
-                            value,
                             Range.create(this.document.positionAt(instructionNameEndOffset + start + argStart),
                                 this.document.positionAt(instructionNameEndOffset + start + mark))
                         ));
@@ -263,7 +261,6 @@ export abstract class PropertyInstruction extends Instruction {
                     if (spaced) {
                         if (argStart !== -1) {
                             args.push(new Argument(
-                                content.substring(argStart, mark),
                                 content.substring(argStart, mark),
                                 Range.create(this.document.positionAt(instructionNameEndOffset + start + argStart),
                                     this.document.positionAt(instructionNameEndOffset + start + mark))
@@ -283,7 +280,6 @@ export abstract class PropertyInstruction extends Instruction {
             let end = endingEscape ? content.length - 1 : content.length;
             let value = content.substring(argStart, end);
             args.push(new Argument(
-                value,
                 value,
                 Range.create(this.document.positionAt(instructionNameEndOffset + start + argStart),
                     this.document.positionAt(instructionNameEndOffset + start + end))
