@@ -20,8 +20,8 @@ Unsupported:
 
 ## Development Instructions
 
-If you wish to build and compile this language server, you must first install [Node.js](https://nodejs.org/en/download/) if you have not already done so.
-After you have installed Node.js and cloned the repository with Git, you may now proceed to build and compile the language server with the following commands:
+If you wish to build and compile this project, you must first install [Node.js](https://nodejs.org/en/download/) if you have not already done so.
+After you have installed Node.js and cloned the repository with Git, you may now proceed to build and compile the project with the following commands:
 
 ```
 npm install
@@ -31,9 +31,6 @@ npm test
 
 If you are planning to change the code, use `npm run watch` to get the
 TypeScript files transpiled on-the-fly as they are modified.
-
-Once the code has finished compiling, you can connect a language server
-client to the server via Node IPC, stdio, or sockets.
 
 ## Installation Instructions
 
