@@ -14,6 +14,10 @@ export class Argument {
         this.range = range;
     }
 
+    public toString(): string {
+        return this.value;
+    }
+
     public getRange(): Range {
         return this.range;
     }

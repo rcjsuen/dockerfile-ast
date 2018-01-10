@@ -16,6 +16,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "npm");
             assert.equal(args[1].getValue(), "install");
+            assert.equal(args[0].toString(), "npm");
+            assert.equal(args[1].toString(), "install");
             assertRange(args[0].getRange(), 0, 4, 0, 7);
             assertRange(args[1].getRange(), 0, 8, 0, 15);
         });
@@ -26,6 +28,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "8000");
             assert.equal(args[1].getValue(), "8001");
+            assert.equal(args[0].toString(), "8000");
+            assert.equal(args[1].toString(), "8001");
             assertRange(args[0].getRange(), 0, 7, 1, 2);
             assertRange(args[1].getRange(), 1, 3, 1, 7);
         });
@@ -36,6 +40,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "8000");
             assert.equal(args[1].getValue(), "8001");
+            assert.equal(args[0].toString(), "8000");
+            assert.equal(args[1].toString(), "8001");
             assertRange(args[0].getRange(), 0, 7, 0, 11);
             assertRange(args[1].getRange(), 1, 1, 1, 5);
         });
@@ -46,6 +52,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "80");
             assert.equal(args[1].getValue(), "81");
+            assert.equal(args[0].toString(), "80");
+            assert.equal(args[1].toString(), "81");
             assertRange(args[0].getRange(), 0, 7, 0, 9);
             assertRange(args[1].getRange(), 0, 11, 0, 13);
         });
@@ -55,6 +63,7 @@ describe("Argument", () => {
             let args = dockerfile.getInstructions()[0].getArguments();
             assert.equal(args.length, 1);
             assert.equal(args[0].getValue(), "8000");
+            assert.equal(args[0].toString(), "8000");
             assertRange(args[0].getRange(), 0, 9, 0, 13);
         });
 
@@ -66,6 +75,10 @@ describe("Argument", () => {
             assert.equal(args[1].getValue(), "\"a");
             assert.equal(args[2].getValue(), "b\"");
             assert.equal(args[3].getValue(), "]");
+            assert.equal(args[0].toString(), "[");
+            assert.equal(args[1].toString(), "\"a");
+            assert.equal(args[2].toString(), "b\"");
+            assert.equal(args[3].toString(), "]");
             assertRange(args[0].getRange(), 0, 6, 0, 7);
             assertRange(args[1].getRange(), 0, 8, 0, 10);
             assertRange(args[2].getRange(), 0, 12, 0, 14);
@@ -77,6 +90,7 @@ describe("Argument", () => {
             let args = dockerfile.getInstructions()[0].getArguments();
             assert.equal(args.length, 1);
             assert.equal(args[0].getValue(), "a");
+            assert.equal(args[0].toString(), "a");
             assertRange(args[0].getRange(), 0, 7, 0, 9);
         });
 
@@ -85,6 +99,7 @@ describe("Argument", () => {
             let args = dockerfile.getInstructions()[0].getArguments();
             assert.equal(args.length, 1);
             assert.equal(args[0].getValue(), "8081");
+            assert.equal(args[0].toString(), "8081");
             assertRange(args[0].getRange(), 0, 7, 0, 12);
         });
 
@@ -93,6 +108,7 @@ describe("Argument", () => {
             let args = dockerfile.getInstructions()[0].getArguments();
             assert.equal(args.length, 1);
             assert.equal(args[0].getValue(), "alpine");
+            assert.equal(args[0].toString(), "alpine");
             assertRange(args[0].getRange(), 0, 5, 0, 11);
         });
 
@@ -103,6 +119,9 @@ describe("Argument", () => {
             assert.equal(args[0].getValue(), "alpine");
             assert.equal(args[1].getValue(), "AS");
             assert.equal(args[2].getValue(), "stage");
+            assert.equal(args[0].toString(), "alpine");
+            assert.equal(args[1].toString(), "AS");
+            assert.equal(args[2].toString(), "stage");
             assertRange(args[0].getRange(), 0, 5, 0, 11);
             assertRange(args[1].getRange(), 2, 1, 2, 3);
             assertRange(args[2].getRange(), 2, 4, 2, 9);
@@ -114,6 +133,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "a=a");
             assert.equal(args[1].getValue(), "b");
+            assert.equal(args[0].toString(), "a=a");
+            assert.equal(args[1].toString(), "b");
             assertRange(args[0].getRange(), 0, 4, 0, 7);
             assertRange(args[1].getRange(), 1, 1, 1, 2);
         });
@@ -124,6 +145,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "key=value");
             assert.equal(args[1].getValue(), "key2=value2");
+            assert.equal(args[0].toString(), "key=value");
+            assert.equal(args[1].toString(), "key2=value2");
             assertRange(args[0].getRange(), 0, 4, 0, 13);
             assertRange(args[1].getRange(), 0, 15, 0, 26);
         });
@@ -134,6 +157,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "key=value");
             assert.equal(args[1].getValue(), "key2=value2");
+            assert.equal(args[0].toString(), "key=value");
+            assert.equal(args[1].toString(), "key2=value2");
             assertRange(args[0].getRange(), 0, 6, 0, 15);
             assertRange(args[1].getRange(), 0, 17, 0, 28);
         });
@@ -146,6 +171,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "echo");
             assert.equal(args[1].getValue(), "value");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "value");
             assertRange(args[0].getRange(), 1, 4, 1, 8);
             assertRange(args[1].getRange(), 1, 9, 1, 13);
         });
@@ -156,6 +183,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "echo");
             assert.equal(args[1].getValue(), "value$var2");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "value$var2");
             assertRange(args[0].getRange(), 1, 4, 1, 8);
             assertRange(args[1].getRange(), 1, 9, 1, 18);
         });
@@ -166,6 +195,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "echo");
             assert.equal(args[1].getValue(), "value$var2");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "value$var2");
             assertRange(args[0].getRange(), 1, 4, 1, 8);
             assertRange(args[1].getRange(), 1, 9, 1, 18);
         });
@@ -176,6 +207,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "echo");
             assert.equal(args[1].getValue(), "$var$var2");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "$var$var2");
             assertRange(args[0].getRange(), 0, 4, 0, 8);
             assertRange(args[1].getRange(), 0, 9, 0, 18);
         });
@@ -186,6 +219,8 @@ describe("Argument", () => {
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "var=value");
             assert.equal(args[1].getValue(), "var2=value2");
+            assert.equal(args[0].toString(), "var=value");
+            assert.equal(args[1].toString(), "var2=value2");
             assertRange(args[0].getRange(), 0, 4, 0, 13);
             assertRange(args[1].getRange(), 1, 1, 1, 12);
         });

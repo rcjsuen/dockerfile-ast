@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Argument
+  - toString() [(#4)](https://github.com/rcjsuen/dockerfile-ast/issues/4)
+
 ### Removed
 - `Argument`'s `getRawValue()` function has been removed [(#10)](https://github.com/rcjsuen/dockerfile-ast/issues/10)
 ```TypeScript
