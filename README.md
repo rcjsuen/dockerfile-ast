@@ -47,7 +47,7 @@ ExposE 8080`
 
 let dockerfile = DockerfileParser.parse(content);
 let instructions = dockerfile.getInstructions();
-for (let instruction in instructions) {
+for (let instruction of instructions) {
   // FROM
   // EXPOSE
   console.log(instruction.getKeyword());
