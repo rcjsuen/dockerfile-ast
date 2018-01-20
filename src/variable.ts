@@ -9,11 +9,13 @@ export class Variable {
     private readonly name: string;
     private readonly nameRange: Range;
     private readonly range: Range;
+    private readonly defined: boolean;
 
-    constructor(name: string, nameRange: Range, range: Range) {
+    constructor(name: string, nameRange: Range, range: Range, defined: boolean) {
         this.name = name;
         this.nameRange = nameRange;
         this.range = range;
+        this.defined = defined;
     }
 
     public getName(): string {
@@ -33,5 +35,14 @@ export class Variable {
      */
     public getRange(): Range {
         return this.range;
+    }
+
+    /**
+     * Returns whether this variable has been defined or not.
+     * 
+     * @return true if this variable has been defined, false otherwise
+     */
+    public isDefined(): boolean {
+        return this.defined;
     }
 }

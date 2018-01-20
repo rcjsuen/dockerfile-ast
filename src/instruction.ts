@@ -346,7 +346,8 @@ export class Instruction extends Line {
                                     variables.push(new Variable(
                                         escapedName,
                                         Range.create(this.document.positionAt(offset + i + 2), this.document.positionAt(offset + nameEnd)),
-                                        Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + j + 1))
+                                        Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + j + 1)),
+                                        this.dockerfile.resolveVariable(escapedName, this.document.positionAt(offset + i).line) !== undefined
                                     ));
                                     i = j;
                                     continue variableLoop;
@@ -380,7 +381,8 @@ export class Instruction extends Line {
                                     variables.push(new Variable(
                                         escapedName,
                                         Range.create(this.document.positionAt(offset + i + 1), this.document.positionAt(offset + j)),
-                                        Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + j))
+                                        Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + j)),
+                                        this.dockerfile.resolveVariable(escapedName, this.document.positionAt(offset + i).line) !== undefined
                                     ));
                                     i = j - 1;
                                     continue variableLoop;
@@ -402,7 +404,8 @@ export class Instruction extends Line {
                                     variables.push(new Variable(
                                         escapedName,
                                         Range.create(this.document.positionAt(offset + i + 1), this.document.positionAt(offset + j)),
-                                        Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + j))
+                                        Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + j)),
+                                        this.dockerfile.resolveVariable(escapedName, this.document.positionAt(offset + i).line) !== undefined
                                     ));
                                     break variableLoop;
                             }
@@ -411,7 +414,8 @@ export class Instruction extends Line {
                         variables.push(new Variable(
                             escapedName,
                             Range.create(this.document.positionAt(offset + i + 1), this.document.positionAt(offset + arg.length)),
-                            Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + arg.length))
+                            Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + arg.length)),
+                            this.dockerfile.resolveVariable(escapedName, this.document.positionAt(offset + i).line) !== undefined
                         ));
                     }
                     break variableLoop;
