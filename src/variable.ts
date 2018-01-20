@@ -10,12 +10,14 @@ export class Variable {
     private readonly nameRange: Range;
     private readonly range: Range;
     private readonly defined: boolean;
+    private readonly buildVariable: boolean;
 
-    constructor(name: string, nameRange: Range, range: Range, defined: boolean) {
+    constructor(name: string, nameRange: Range, range: Range, defined: boolean, buildVariable) {
         this.name = name;
         this.nameRange = nameRange;
         this.range = range;
         this.defined = defined;
+        this.buildVariable = buildVariable;
     }
 
     public getName(): string {
@@ -43,6 +45,14 @@ export class Variable {
      * @return true if this variable has been defined, false otherwise
      */
     public isDefined(): boolean {
-        return this.defined;
+        return this.buildVariable !== undefined;
+    }
+
+    public isBuildVariable(): boolean {
+        return this.buildVariable === true;
+    }
+
+    public isEnvironmentVariable(): boolean {
+        return this.buildVariable === false;
     }
 }

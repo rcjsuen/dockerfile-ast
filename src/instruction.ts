@@ -343,11 +343,13 @@ export class Instruction extends Line {
                                     if (nameEnd === -1) {
                                         nameEnd = j;
                                     }
+                                    let start = this.document.positionAt(offset + i);
                                     variables.push(new Variable(
                                         escapedName,
                                         Range.create(this.document.positionAt(offset + i + 2), this.document.positionAt(offset + nameEnd)),
-                                        Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + j + 1)),
-                                        this.dockerfile.resolveVariable(escapedName, this.document.positionAt(offset + i).line) !== undefined
+                                        Range.create(start, this.document.positionAt(offset + j + 1)),
+                                        this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
+                                        this.isBuildVariable(escapedName, start.line)
                                     ));
                                     i = j;
                                     continue variableLoop;
@@ -378,11 +380,13 @@ export class Instruction extends Line {
                                 case '"':
                                 case ' ':
                                 case '\t':
+                                    let varStart = this.document.positionAt(offset + i);
                                     variables.push(new Variable(
                                         escapedName,
                                         Range.create(this.document.positionAt(offset + i + 1), this.document.positionAt(offset + j)),
-                                        Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + j)),
-                                        this.dockerfile.resolveVariable(escapedName, this.document.positionAt(offset + i).line) !== undefined
+                                        Range.create(varStart, this.document.positionAt(offset + j)),
+                                        this.dockerfile.resolveVariable(escapedName, varStart.line) !== undefined,
+                                        this.isBuildVariable(escapedName, varStart.line)
                                     ));
                                     i = j - 1;
                                     continue variableLoop;
@@ -401,26 +405,55 @@ export class Instruction extends Line {
                                         }
                                     }
                                     // reached EOF after an escape character
+                                    let start = this.document.positionAt(offset + i);
                                     variables.push(new Variable(
                                         escapedName,
                                         Range.create(this.document.positionAt(offset + i + 1), this.document.positionAt(offset + j)),
-                                        Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + j)),
-                                        this.dockerfile.resolveVariable(escapedName, this.document.positionAt(offset + i).line) !== undefined
+                                        Range.create(start, this.document.positionAt(offset + j)),
+                                        this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
+                                        this.isBuildVariable(escapedName, start.line)
                                     ));
                                     break variableLoop;
                             }
                             escapedName += char;
                         }
+                        let start = this.document.positionAt(offset + i);
                         variables.push(new Variable(
                             escapedName,
                             Range.create(this.document.positionAt(offset + i + 1), this.document.positionAt(offset + arg.length)),
-                            Range.create(this.document.positionAt(offset + i), this.document.positionAt(offset + arg.length)),
-                            this.dockerfile.resolveVariable(escapedName, this.document.positionAt(offset + i).line) !== undefined
+                            Range.create(start, this.document.positionAt(offset + arg.length)),
+                            this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
+                            this.isBuildVariable(escapedName, start.line)
                         ));
                     }
                     break variableLoop;
             }
         }
         return variables;
+    }
+
+    private isBuildVariable(variable: string, line: number): boolean | undefined {
+        let image = this.dockerfile.getContainingImage(Position.create(line, 0));
+        let envs = image.getENVs();
+        for (let i = envs.length - 1; i >= 0; i--) {
+            if (envs[i].isBefore(line)) {
+                for (let property of envs[i].getProperties()) {
+                    if (property.getName() === variable) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        let args = image.getARGs();
+        for (let i = args.length - 1; i >= 0; i--) {
+            if (args[i].isBefore(line)) {
+                let property = args[i].getProperty();
+                if (property && property.getName() === variable) {
+                    return true;
+                }
+            }
+        }
+        return undefined;
     }
 }

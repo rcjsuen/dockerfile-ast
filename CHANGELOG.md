@@ -6,7 +6,9 @@ All notable changes to this project will be documented in this file.
 - Argument
   - toString() ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
 - Variable
+  - isBuildVariable() ([#13](https://github.com/rcjsuen/dockerfile-ast/issues/13))
   - isDefined() ([#12](https://github.com/rcjsuen/dockerfile-ast/issues/12))
+  - isEnvironmentVariable() ([#13](https://github.com/rcjsuen/dockerfile-ast/issues/13))
 
 ### Fixed
 - restrict variable resolution to the containing build stage ([#13](https://github.com/rcjsuen/dockerfile-ast/issues/13))
