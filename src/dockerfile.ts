@@ -117,4 +117,9 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
         return this.directive;
     }
 
+    public resolveVariable(variable: string, line: number): string {
+        let image = this.getContainingImage(Position.create(line, 0));
+        return image.resolveVariable(variable, line);
+    }
+
 }

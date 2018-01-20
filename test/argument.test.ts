@@ -224,6 +224,30 @@ describe("Argument", () => {
             assertRange(args[0].getRange(), 0, 4, 0, 13);
             assertRange(args[1].getRange(), 1, 1, 1, 12);
         });
+
+        it("ENV variable defined in another build stage", () => {
+            let dockerfile = DockerfileParser.parse("FROM alpine\nENV var=value\nFROM alpine\nRUN echo $var");
+            let args = dockerfile.getInstructions()[3].getExpandedArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "$var");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "$var");
+            assertRange(args[0].getRange(), 3, 4, 3, 8);
+            assertRange(args[1].getRange(), 3, 9, 3, 13);
+        });
+
+        it("ARG variable defined in another build stage", () => {
+            let dockerfile = DockerfileParser.parse("FROM alpine\nARG var=value\nFROM alpine\nRUN echo $var");
+            let args = dockerfile.getInstructions()[3].getExpandedArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "$var");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "$var");
+            assertRange(args[0].getRange(), 3, 4, 3, 8);
+            assertRange(args[1].getRange(), 3, 9, 3, 13);
+        });
     });
 
     it("isBefore", () => {
