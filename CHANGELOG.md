@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file.
   - isEnvironmentVariable() ([#13](https://github.com/rcjsuen/dockerfile-ast/issues/13))
 
 ### Fixed
-- restrict variable resolution to the containing build stage ([#13](https://github.com/rcjsuen/dockerfile-ast/issues/13))
+- restrict variable resolution to the containing build stage ([#14](https://github.com/rcjsuen/dockerfile-ast/issues/14))
 
 ### Removed
 - `Argument`'s `getRawValue()` function has been removed ([#10](https://github.com/rcjsuen/dockerfile-ast/issues/10))
