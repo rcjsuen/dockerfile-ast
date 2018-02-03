@@ -27,6 +27,15 @@ export class Instruction extends Line {
         this.instructionRange = instructionRange;
     }
 
+    public toString(): string {
+        let value = this.getKeyword();
+        for (let arg of this.getArguments()) {
+            value += ' ';
+            value += arg.getValue();
+        }
+        return value;
+    }
+
     protected getRangeContent(range: Range): string | null {
         if (range === null) {
             return null;
