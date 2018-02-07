@@ -170,5 +170,49 @@ describe("ImageTemplate", () => {
             image = dockerfile.getContainingImage(Position.create(4, 0));
             assert.equal(image.getOnbuildTriggers().length, 1);
         });
+
+        it("getAvailableVariables", () => {
+            let dockerfile = DockerfileParser.parse("FROM node\nARG var=value\nFROM node\nRUN echo $var");
+            let variables = dockerfile.getAvailableVariables(0);
+            assert.equal(variables.length, 0);
+            variables = dockerfile.getAvailableVariables(1);
+            assert.equal(variables.length, 0);
+            variables = dockerfile.getAvailableVariables(2);
+            assert.equal(variables.length, 0);
+            variables = dockerfile.getAvailableVariables(3);
+            assert.equal(variables.length, 0);
+
+            let image = dockerfile.getContainingImage(Position.create(0, 0));
+            let image2 = dockerfile.getContainingImage(Position.create(2, 0));
+            variables = image.getAvailableVariables(0);
+            assert.equal(variables.length, 0);
+            variables = image.getAvailableVariables(1);
+            assert.equal(variables.length, 0);
+            variables = image2.getAvailableVariables(2);
+            assert.equal(variables.length, 0);
+            variables = image2.getAvailableVariables(3);
+            assert.equal(variables.length, 0);
+
+            dockerfile = DockerfileParser.parse("FROM node\nENV var=value\nFROM node\nRUN echo $var");
+            variables = dockerfile.getAvailableVariables(0);
+            assert.equal(variables.length, 0);
+            variables = dockerfile.getAvailableVariables(1);
+            assert.equal(variables.length, 0);
+            variables = dockerfile.getAvailableVariables(2);
+            assert.equal(variables.length, 0);
+            variables = dockerfile.getAvailableVariables(3);
+            assert.equal(variables.length, 0);
+
+            image = dockerfile.getContainingImage(Position.create(0, 0));
+            image2 = dockerfile.getContainingImage(Position.create(2, 0));
+            variables = image.getAvailableVariables(0);
+            assert.equal(variables.length, 0);
+            variables = image.getAvailableVariables(1);
+            assert.equal(variables.length, 0);
+            variables = image2.getAvailableVariables(2);
+            assert.equal(variables.length, 0);
+            variables = image2.getAvailableVariables(3);
+            assert.equal(variables.length, 0);
+        });
     });
 });

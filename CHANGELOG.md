@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 - Instruction
   - toString() ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
 
+### Fixed
+- calling ImageTemplate's getAvailableVariables(number) with a Dockerfile should only return the variables that are declared in the build stage of the given line ([#15](https://github.com/rcjsuen/dockerfile-ast/issues/15))
+
 ## [0.0.2] - 2018-01-20
 ### Added
 - Argument
