@@ -49,13 +49,18 @@ export interface Dockerfile extends ImageTemplate {
     getDirective(): ParserDirective | null;
 
     /**
-     * Resolves a variable with the given name based on the context
-     * of the specified line.
+     * Resolves a variable with the given name at the specified line
+     * to its value. If null is returned, then the variable has been
+     * defined but no value was given. If undefined is returned, then
+     * a variable with the given name has not been defined yet as of
+     * the given line.
      * 
-     * @return the variable's resolved value at the given line, or
-     *         null if the variable is defined but has no value
-     *         defined, or undefined if a variable of the given name
-     *         has not been declared
+     * @param variable the name of the variable to resolve
+     * @param line the line number that the variable is on, zero-based
+     * @return the value of the variable as defined by an ARG or ENV
+     *         instruction, or null if no value has been specified, or
+     *         undefined if a variable with the given name has not
+     *         been defined
      */
     resolveVariable(variable: string, line: number): string | null | undefined;
 
