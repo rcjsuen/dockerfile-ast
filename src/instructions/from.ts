@@ -22,6 +22,17 @@ export class From extends Instruction {
      * @return the base image's name, or null if unspecified
      */
     public getImageName(): string | null {
+        return this.getRangeContent(this.getImageNameRange());
+    }
+
+    /**
+     * Returns the range that covers the name of the image used by
+     * this instruction.
+     * 
+     * @return the range of the name of this instruction's argument,
+     *         or null if no image has been specified
+     */
+    public getImageNameRange(): Range | null {
         let range = this.getImageRange();
         if (range) {
             let content = this.getRangeContent(range);
@@ -30,7 +41,13 @@ export class From extends Instruction {
             if (index === -1 || (digestIndex !== -1 && digestIndex < index)) {
                 index = digestIndex;
             }
-            return index === -1 ? content : content.substring(0, index);
+            if (index !== -1) {
+                return Range.create(
+                    range.start,
+                    this.document.positionAt(this.document.offsetAt(range.start) + index)
+                );
+            }
+            return range;
         }
         return null;
     }

@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
+- From
+  - getImageNameRange() ([#16](https://github.com/rcjsuen/dockerfile-ast/issues/16))
 - Instruction
   - toString() ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
 
