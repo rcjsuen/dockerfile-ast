@@ -39,6 +39,15 @@ export class ImageTemplate implements ast.ImageTemplate {
         return this.instructions;
     }
 
+    protected getInstructionAt(line: number): Instruction {
+        for (let instruction of this.instructions) {
+            if (Util.isInsideRange(Position.create(line, 0), instruction.getRange())) {
+                return instruction;
+            }
+        }
+        return null;
+    }
+
     /**
      * Gets all the ARG instructions that are defined in this image.
      */

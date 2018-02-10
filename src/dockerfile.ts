@@ -10,6 +10,7 @@ import { ParserDirective } from './parserDirective';
 import { ImageTemplate } from './imageTemplate';
 import { Instruction } from './instruction';
 import { Arg } from './instructions/arg';
+import { From } from './instructions/from';
 import { Util } from './util';
 import { Directive, Keyword } from './main';
 
@@ -123,6 +124,17 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
     }
 
     public getAvailableVariables(currentLine: number): string[] {
+        if (this.getInstructionAt(currentLine) instanceof From) {
+            let variables = [];
+            for (let arg of this.getInitialARGs()) {
+                let property = arg.getProperty();
+                if (property) {
+                    variables.push(property.getName());
+                }
+            }
+            return variables;
+        }
+
         let image = this.getContainingImage(Position.create(currentLine, 0));
         return image.getAvailableVariables(currentLine);
     }

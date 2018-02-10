@@ -119,6 +119,16 @@ describe("ImageTemplate", () => {
             variables = dockerfile.getAvailableVariables(3);
             assert.equal(variables.length, 1);
             assert.equal(variables[0], "var");
+
+            dockerfile = DockerfileParser.parse("ARG tag=1.0\nFROM alpine\nFROM busybox");
+            variables = dockerfile.getAvailableVariables(0);
+            assert.equal(variables.length, 0);
+            variables = dockerfile.getAvailableVariables(1);
+            assert.equal(variables.length, 1);
+            assert.equal(variables[0], "tag");
+            variables = dockerfile.getAvailableVariables(2);
+            assert.equal(variables.length, 1);
+            assert.equal(variables[0], "tag");
         });
     });
 
