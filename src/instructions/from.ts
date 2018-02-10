@@ -26,8 +26,9 @@ export class From extends Instruction {
         if (range) {
             let content = this.getRangeContent(range);
             let index = content.lastIndexOf(':');
-            if (index === -1) {
-                index = content.lastIndexOf('@');
+            let digestIndex = content.lastIndexOf('@');
+            if (index === -1 || (digestIndex !== -1 && digestIndex < index)) {
+                index = digestIndex;
             }
             return index === -1 ? content : content.substring(0, index);
         }

@@ -62,6 +62,7 @@ describe("FROM", () => {
         let dockerfile = DockerfileParser.parse("FROM node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         let from = dockerfile.getFROMs()[0];
         assert.equal(from.getImage(), "node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        assert.equal(from.getImageName(), "node");
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 10, 0, 81);
         assert.equal(from.getBuildStage(), null);

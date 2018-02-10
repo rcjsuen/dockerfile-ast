@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - calling ImageTemplate's getAvailableVariables(number) with a Dockerfile should only return the variables that are declared in the build stage of the given line ([#15](https://github.com/rcjsuen/dockerfile-ast/issues/15))
+- correct From's getImageName() to return the right name for the image if it is pointing at a digest
 
 ## [0.0.2] - 2018-01-20
 ### Added
