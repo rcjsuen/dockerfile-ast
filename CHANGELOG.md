@@ -3,23 +3,23 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
-- From
-  - getImageNameRange() ([#16](https://github.com/rcjsuen/dockerfile-ast/issues/16))
-- Instruction
-  - toString() ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
+- `From`
+  - `getImageNameRange()` ([#16](https://github.com/rcjsuen/dockerfile-ast/issues/16))
+- `Instruction`
+  - `toString()` ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
 
 ### Fixed
-- calling ImageTemplate's getAvailableVariables(number) with a Dockerfile should only return the variables that are declared in the build stage of the given line ([#15](https://github.com/rcjsuen/dockerfile-ast/issues/15))
-- correct From's getImageName() to return the right name for the image if it is pointing at a digest ([#17](https://github.com/rcjsuen/dockerfile-ast/issues/17))
+- calling `ImageTemplate`'s `getAvailableVariables(number)` with a Dockerfile should only return the variables that are declared in the build stage of the given line ([#15](https://github.com/rcjsuen/dockerfile-ast/issues/15))
+- correct `From`'s `getImageName()` to return the right name for the image if it is pointing at a digest ([#17](https://github.com/rcjsuen/dockerfile-ast/issues/17))
 
 ## [0.0.2] - 2018-01-20
 ### Added
-- Argument
-  - toString() ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
-- Variable
-  - isBuildVariable() ([#13](https://github.com/rcjsuen/dockerfile-ast/issues/13))
-  - isDefined() ([#12](https://github.com/rcjsuen/dockerfile-ast/issues/12))
-  - isEnvironmentVariable() ([#13](https://github.com/rcjsuen/dockerfile-ast/issues/13))
+- `Argument`
+  - `toString()` ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
+- `Variable`
+  - `isBuildVariable()` ([#13](https://github.com/rcjsuen/dockerfile-ast/issues/13))
+  - `isDefined()` ([#12](https://github.com/rcjsuen/dockerfile-ast/issues/12))
+  - `isEnvironmentVariable()` ([#13](https://github.com/rcjsuen/dockerfile-ast/issues/13))
 
 ### Fixed
 - restrict variable resolution to the containing build stage ([#14](https://github.com/rcjsuen/dockerfile-ast/issues/14))
