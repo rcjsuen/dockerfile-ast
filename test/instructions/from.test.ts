@@ -8,125 +8,82 @@ import { assertRange } from '../util';
 import { DockerfileParser } from '../../src/main';
 
 describe("FROM", () => {
-    describe("single stage", () => {
-        it("getImage", () => {
-            let dockerfile = DockerfileParser.parse("FROM");
-            let froms = dockerfile.getFROMs();
-            assert.equal(froms.length, 1);
-            assert.equal(froms[0].getImage(), null);
+    it("FROM", () => {
+        let dockerfile = DockerfileParser.parse("FROM");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), null);
+        assert.equal(from.getImageName(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
 
-            dockerfile = DockerfileParser.parse("FROM node");
-            froms = dockerfile.getFROMs();
-            assert.equal(froms.length, 1);
-            assert.equal(froms[0].getImage(), "node");
+    it("FROM node", () => {
+        let dockerfile = DockerfileParser.parse("FROM node");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "node");
+        assert.equal(from.getImageName(), "node");
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
 
-            dockerfile = DockerfileParser.parse("FROM node:alpine");
-            froms = dockerfile.getFROMs();
-            assert.equal(froms.length, 1);
-            assert.equal(froms[0].getImage(), "node:alpine");
-        });
+    it("FROM node:", () => {
+        let dockerfile = DockerfileParser.parse("FROM node:");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "node:");
+        assert.equal(from.getImageName(), "node");
+        assertRange(from.getImageTagRange(), 0, 10, 0, 10);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
 
-        it("getImageName", () => {
-            let dockerfile = DockerfileParser.parse("FROM");
-            let froms = dockerfile.getFROMs();
-            assert.equal(froms.length, 1);
-            assert.equal(froms[0].getImageName(), null);
+    it("FROM node:alpine", () => {
+        let dockerfile = DockerfileParser.parse("FROM node:alpine");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "node:alpine");
+        assert.equal(from.getImageName(), "node");
+        assertRange(from.getImageTagRange(), 0, 10, 0, 16);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
 
-            dockerfile = DockerfileParser.parse("FROM node");
-            froms = dockerfile.getFROMs();
-            assert.equal(froms.length, 1);
-            assert.equal(froms[0].getImageName(), "node");
+    it("FROM node@", () => {
+        let dockerfile = DockerfileParser.parse("FROM node@");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "node@");
+        assert.equal(from.getImageName(), "node");
+        assert.equal(from.getImageTagRange(), null);
+        assertRange(from.getImageDigestRange(), 0, 10, 0, 10);
+        assert.equal(from.getBuildStage(), null);
+    });
 
-            dockerfile = DockerfileParser.parse("FROM node:alpine");
-            froms = dockerfile.getFROMs();
-            assert.equal(froms.length, 1);
-            assert.equal(froms[0].getImageName(), "node");
-        });
+    it("FROM node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
+        let dockerfile = DockerfileParser.parse("FROM node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        assert.equal(from.getImageTagRange(), null);
+        assertRange(from.getImageDigestRange(), 0, 10, 0, 81);
+        assert.equal(from.getBuildStage(), null);
+    });
 
-        it("getImageTagRange", () => {
-            let dockerfile = DockerfileParser.parse("FROM");
-            let froms = dockerfile.getFROMs();
-            assert.equal(froms.length, 1);
-            assert.equal(froms[0].getImageTagRange(), null);
+    it("FROM node AS", () => {
+        let dockerfile = DockerfileParser.parse("FROM node AS");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "node");
+        assert.equal(from.getImageName(), "node");
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
 
-            dockerfile = DockerfileParser.parse("FROM node");
-            froms = dockerfile.getFROMs();
-            assert.equal(froms.length, 1);
-            assert.equal(froms[0].getImageTagRange(), null);
-
-            dockerfile = DockerfileParser.parse("FROM node:");
-            froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assertRange(froms[0].getImageTagRange(), 0, 10, 0, 10);
-
-            dockerfile = DockerfileParser.parse("FROM node@");
-            froms = dockerfile.getFROMs();
-            assert.equal(froms.length, 1);
-            assert.equal(froms[0].getImageTagRange(), null);
-
-            dockerfile = DockerfileParser.parse("FROM node:alpine");
-            froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assertRange(froms[0].getImageTagRange(), 0, 10, 0, 16);
-
-            dockerfile = DockerfileParser.parse("FROM node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
-            froms = dockerfile.getFROMs();
-            assert.equal(froms.length, 1);
-            assert.equal(froms[0].getImageTagRange(), null);
-        });
-
-        it("getImageDigestRange", () => {
-            let dockerfile = DockerfileParser.parse("FROM");
-            let froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assert.equal(froms[0].getImageDigestRange(), null);
-
-            dockerfile = DockerfileParser.parse("FROM node");
-            froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assert.equal(froms[0].getImageDigestRange(), null);
-
-            dockerfile = DockerfileParser.parse("FROM node:");
-            froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assert.equal(froms[0].getImageDigestRange(), null);
-
-            dockerfile = DockerfileParser.parse("FROM node@");
-            froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assertRange(froms[0].getImageDigestRange(), 0, 10, 0, 10);
-
-            dockerfile = DockerfileParser.parse("FROM node:alpine");
-            froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assert.equal(froms[0].getImageDigestRange(), null);
-
-            dockerfile = DockerfileParser.parse("FROM node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
-            froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assertRange(froms[0].getImageDigestRange(), 0, 10, 0, 81);
-        });
-
-        it("getBuildStage", () => {
-            let dockerfile = DockerfileParser.parse("FROM");
-            let froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assert.equal(froms[0].getBuildStage(), null);
-
-            dockerfile = DockerfileParser.parse("FROM node");
-            froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assert.equal(froms[0].getBuildStage(), null);
-
-            dockerfile = DockerfileParser.parse("FROM node AS");
-            froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assert.equal(froms[0].getBuildStage(), null);
-
-            dockerfile = DockerfileParser.parse("FROM node AS stage");
-            froms = dockerfile.getFROMs();
-            assert.equal(1, froms.length);
-            assert.equal(froms[0].getBuildStage(), "stage");
-        });
+    it("FROM node AS stage", () => {
+        let dockerfile = DockerfileParser.parse("FROM node AS stage");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "node");
+        assert.equal(from.getImageName(), "node");
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getBuildStage(), "stage");
     });
 });
