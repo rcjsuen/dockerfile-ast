@@ -87,15 +87,6 @@ describe("JSON Instruction", () => {
         assert.equal(instruction.getClosingBracket(), null);
     });
 
-    it("SHELL [ \"a\", \"b\" ]", () => {
-        let dockerfile = DockerfileParser.parse("SHELL [ \"a\", \"b\" ]");
-        let instruction = dockerfile.getInstructions()[0] as JSONInstruction;
-        let bracket = instruction.getOpeningBracket();
-        assertArgument(bracket, "[", 0, 6, 0, 7);
-        bracket = instruction.getClosingBracket();
-        assertArgument(bracket, "]", 0, 17, 0, 18);
-    });
-
     it("SHELL [ \"a\", \"b\" \\\\n ]", () => {
         let dockerfile = DockerfileParser.parse("SHELL [ \"a\", \"b\" \\\n ]");
         let instruction = dockerfile.getInstructions()[0] as JSONInstruction;
