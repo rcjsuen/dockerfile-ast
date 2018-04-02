@@ -12,6 +12,14 @@ export class Comment extends Line {
         super(document, range);
     }
 
+    public toString(): string {
+        const content = this.getContent();
+        if (content) {
+            return "# " + content;
+        }
+        return "#";
+    }
+
     /**
      * Returns the content of this comment. This excludes leading and
      * trailing whitespace as well as the # symbol. If the comment only
