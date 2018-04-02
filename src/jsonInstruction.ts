@@ -5,13 +5,14 @@
 import { TextDocument, Range } from 'vscode-languageserver-types';
 import { Dockerfile } from './dockerfile';
 import { Argument } from './argument';
+import { JSONArgument } from './jsonArgument';
 import { ModifiableInstruction } from './modifiableInstruction';
 
 export class JSONInstruction extends ModifiableInstruction {
 
     private readonly openingBracket: Argument;
     private readonly closingBracket: Argument;
-    private readonly jsonStrings: Argument[] = [];
+    private readonly jsonStrings: JSONArgument[] = [];
 
     constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
         super(document, range, dockerfile, escapeChar, instruction, instructionRange);
@@ -65,9 +66,10 @@ export class JSONInstruction extends ModifiableInstruction {
                             escapedArg = escapedArg + char;
                             // quoted string done
                             quoted = false;
-                            this.jsonStrings.push(new Argument(
+                            this.jsonStrings.push(new JSONArgument(
                                 escapedArg,
-                                Range.create(document.positionAt(argsOffset + start), document.positionAt(argsOffset + i + 1))
+                                Range.create(document.positionAt(argsOffset + start), document.positionAt(argsOffset + i + 1)),
+                                Range.create(document.positionAt(argsOffset + start + 1), document.positionAt(argsOffset + i))
                             ));
                             escapedArg = "";
                         } else {
@@ -171,7 +173,7 @@ export class JSONInstruction extends ModifiableInstruction {
         return this.openingBracket;
     }
 
-    public getJSONStrings(): Argument[] {
+    public getJSONStrings(): JSONArgument[] {
         return this.jsonStrings;
     }
 

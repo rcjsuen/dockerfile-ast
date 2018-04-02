@@ -5,6 +5,7 @@
 import { Position } from 'vscode-languageserver-types';
 
 export { Argument } from './argument';
+export { JSONArgument } from './jsonArgument';
 import { Comment } from './comment';
 export { Comment };
 import * as dockerfile from './dockerfile';

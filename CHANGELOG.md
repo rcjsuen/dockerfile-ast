@@ -3,8 +3,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
+- `JSONArgument extends Argument` ([#20](https://github.com/rcjsuen/dockerfile-ast/issues/20))
+  - `getJSONRange()`
+  - `getJSONValue()`
 - `Comment`
   - `toString()` ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
+
+### Changed
+- `JSONInstruction`
+  - `getJSONStrings()` now returns `JSONArgument[]` instead of `Argument[]`
+    - since `JSONArgument` extends `Argument`, any existing code should continue to work with no code changes required
 
 ## [0.0.3] - 2018-02-10
 ### Added
