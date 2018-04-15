@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.5] - 2018-04-15
 ### Fixed
 - fix resolution of `ARG` variables that are used in a `FROM` ([#22](https://github.com/rcjsuen/dockerfile-ast/issues/22))
 - prevent error from being thrown if an invalid line number is specified by `Dockerfile`'s `getAvailableVariables(number)` function ([#23](https://github.com/rcjsuen/dockerfile-ast/issues/23))
@@ -62,7 +62,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.4...HEAD
+[0.0.5]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.1...v0.0.2
