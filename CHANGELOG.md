@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Fixed
 - fix resolution of `ARG` variables that are used in a `FROM` ([#22](https://github.com/rcjsuen/dockerfile-ast/issues/22))
+- prevent error from being thrown if an invalid line number is specified by `Dockerfile`'s `getAvailableVariables(number)` function ([#23](https://github.com/rcjsuen/dockerfile-ast/issues/23))
 
 ## [0.0.4] - 2018-04-03
 ### Added

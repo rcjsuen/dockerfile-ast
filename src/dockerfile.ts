@@ -142,7 +142,7 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
         }
 
         let image = this.getContainingImage(Position.create(currentLine, 0));
-        return image.getAvailableVariables(currentLine);
+        return image ? image.getAvailableVariables(currentLine) : [];
     }
 
 }

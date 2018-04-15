@@ -129,6 +129,13 @@ describe("ImageTemplate", () => {
             variables = dockerfile.getAvailableVariables(2);
             assert.equal(variables.length, 1);
             assert.equal(variables[0], "tag");
+
+            // invalid line numbers that are outside the parsed Dockerfile
+            dockerfile = DockerfileParser.parse("FROM node");
+            variables = dockerfile.getAvailableVariables(-1);
+            assert.equal(variables.length, 0);
+            variables = dockerfile.getAvailableVariables(1);
+            assert.equal(variables.length, 0);
         });
     });
 

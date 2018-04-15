@@ -34,6 +34,16 @@ export interface ImageTemplate {
 
     contains(position: Position): boolean;
 
+    /**
+     * Retrieves an array of variable names that are valid at the
+     * given line in the Dockerfile (zero-based). If the 
+     * line is outside the range of the parsed Dockerfile, an empty
+     * array will be returned.
+     * 
+     * @param line the interested line, zero-based
+     * @return the array of variables that may be used by an
+     *         instruction at the specified line
+     */
     getAvailableVariables(line: number): string[];
 }
 
