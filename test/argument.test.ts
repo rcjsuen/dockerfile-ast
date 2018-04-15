@@ -248,6 +248,55 @@ describe("Argument", () => {
             assertRange(args[0].getRange(), 3, 4, 3, 8);
             assertRange(args[1].getRange(), 3, 9, 3, 13);
         });
+
+        it("ARG variables being used in FROM", () => {
+            let dockerfile = DockerfileParser.parse("ARG tag=8\nFROM node:$tag");
+            let args = dockerfile.getInstructions()[1].getExpandedArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "node:8");
+            assert.equal(args[0].toString(), "node:8");
+            assertRange(args[0].getRange(), 1, 5, 1, 14);
+
+            dockerfile = DockerfileParser.parse("ARG VERSION=latest\nFROM alpine:$VERSION");
+            args = dockerfile.getInstructions()[1].getExpandedArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "alpine:latest");
+            assert.equal(args[0].toString(), "alpine:latest");
+            assertRange(args[0].getRange(), 1, 5, 1, 20);
+
+            dockerfile = DockerfileParser.parse("ARG version=atest\nFROM alpine:l$version");
+            args = dockerfile.getInstructions()[1].getExpandedArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "alpine:latest");
+            assert.equal(args[0].toString(), "alpine:latest");
+            assertRange(args[0].getRange(), 1, 5, 1, 21);
+
+            dockerfile = DockerfileParser.parse("ARG atest=atest\nFROM alpine:l$atest");
+            args = dockerfile.getInstructions()[1].getExpandedArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "alpine:latest");
+            assert.equal(args[0].toString(), "alpine:latest");
+            assertRange(args[0].getRange(), 1, 5, 1, 19);
+
+            dockerfile = DockerfileParser.parse("ARG DIGEST=sha256:7df6db5aa61ae9480f52f0b3a06a140ab98d427f86d8d5de0bedab9b8df6b1c0\nFROM alpine@$DIGEST");
+            args = dockerfile.getInstructions()[1].getExpandedArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "alpine@sha256:7df6db5aa61ae9480f52f0b3a06a140ab98d427f86d8d5de0bedab9b8df6b1c0");
+            assert.equal(args[0].toString(), "alpine@sha256:7df6db5aa61ae9480f52f0b3a06a140ab98d427f86d8d5de0bedab9b8df6b1c0");
+            assertRange(args[0].getRange(), 1, 5, 1, 19);
+
+            dockerfile = DockerfileParser.parse("ARG alpine=latest\nARG node=8\nFROM alpine:$alpine\nFROM node:$node");
+            args = dockerfile.getInstructions()[2].getExpandedArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "alpine:latest");
+            assert.equal(args[0].toString(), "alpine:latest");
+            assertRange(args[0].getRange(), 2, 5, 2, 19);
+            args = dockerfile.getInstructions()[3].getExpandedArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "node:8");
+            assert.equal(args[0].toString(), "node:8");
+            assertRange(args[0].getRange(), 3, 5, 3, 15);
+        });
     });
 
     it("isBefore", () => {
