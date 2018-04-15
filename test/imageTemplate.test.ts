@@ -136,6 +136,12 @@ describe("ImageTemplate", () => {
             assert.equal(variables.length, 0);
             variables = dockerfile.getAvailableVariables(1);
             assert.equal(variables.length, 0);
+
+            dockerfile = DockerfileParser.parse("ARG\nFROM node");
+            variables = dockerfile.getAvailableVariables(0);
+            assert.equal(variables.length, 0);
+            variables = dockerfile.getAvailableVariables(1);
+            assert.equal(variables.length, 0);
         });
     });
 
