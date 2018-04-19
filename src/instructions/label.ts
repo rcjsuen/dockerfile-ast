@@ -20,7 +20,7 @@ export class Label extends PropertyInstruction {
         const properties = this.getProperties();
         // iterate over all of this LABEL's properties
         for (const property of properties) {
-            const value = property.getRawValue();
+            const value = property.getUnescapedValue();
             // check if the value is contained in single quotes,
             // single quotes would indicate a literal value
             if (value.length > 2 && value.charAt(0) === '\'' && value.charAt(value.length - 1) === '\'') {

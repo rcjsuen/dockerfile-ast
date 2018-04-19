@@ -59,7 +59,17 @@ export class Property {
         return this.valueRange;
     }
 
-    public getRawValue(): string {
+    /**
+     * Returns the value of this property including any enclosing
+     * single or double quotes and relevant escape characters.
+     * Escaped newlines and its associated contiguous whitespace
+     * characters however will not be returned as they are deemed to
+     * be uninteresting to clients trying to return a Dockerfile.
+     * 
+     * @return the unescaped value of this property or null if thi
+     *         property has no associated value
+     */
+    public getUnescapedValue(): string {
         if (this.valueRange === null) {
             return null;
         }

@@ -19,7 +19,7 @@ describe("Property", () => {
             let property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), null);
-            assert.equal(property.getRawValue(), null);
+            assert.equal(property.getUnescapedValue(), null);
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assert.equal(property.getValueRange(), null);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 4);
@@ -31,12 +31,12 @@ describe("Property", () => {
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             if (delimiter === " ") {
                 assert.equal(property.getValue(), null);
-                assert.equal(property.getRawValue(), null);
+                assert.equal(property.getUnescapedValue(), null);
                 assert.equal(property.getValueRange(), null);
                 assertRange(property.getRange(), 0, offset + 1, 0, offset + 4);
             } else {
                 assert.equal(property.getValue(), "");
-                assert.equal(property.getRawValue(), "");
+                assert.equal(property.getUnescapedValue(), "");
                 assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 5);
                 assertRange(property.getRange(), 0, offset + 1, 0, offset + 5);
             }
@@ -46,7 +46,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
-            assert.equal(property.getRawValue(), "value");
+            assert.equal(property.getUnescapedValue(), "value");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -56,7 +56,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
-            assert.equal(property.getRawValue(), "value");
+            assert.equal(property.getUnescapedValue(), "value");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -66,7 +66,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
-            assert.equal(property.getRawValue(), "value");
+            assert.equal(property.getUnescapedValue(), "value");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -76,7 +76,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
-            assert.equal(property.getRawValue(), "value");
+            assert.equal(property.getUnescapedValue(), "value");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -86,7 +86,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
-            assert.equal(property.getRawValue(), "value");
+            assert.equal(property.getUnescapedValue(), "value");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -96,7 +96,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
-            assert.equal(property.getRawValue(), "value");
+            assert.equal(property.getUnescapedValue(), "value");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -106,7 +106,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
-            assert.equal(property.getRawValue(), "value");
+            assert.equal(property.getUnescapedValue(), "value");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -116,7 +116,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
-            assert.equal(property.getRawValue(), "value");
+            assert.equal(property.getUnescapedValue(), "value");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -126,7 +126,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
-            assert.equal(property.getRawValue(), "value");
+            assert.equal(property.getUnescapedValue(), "value");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -136,7 +136,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "y z");
-            assert.equal(property.getRawValue(), "y\\ z");
+            assert.equal(property.getUnescapedValue(), "y\\ z");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 2);
             assertRange(property.getValueRange(), 0, offset + 3, 0, offset + 7);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 7);
@@ -146,7 +146,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "#");
-            assert.equal(property.getRawValue(), "#");
+            assert.equal(property.getUnescapedValue(), "#");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 2);
             assertRange(property.getValueRange(), 0, offset + 3, 0, offset + 4);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 4);
@@ -156,7 +156,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "yz");
-            assert.equal(property.getRawValue(), "y\\z");
+            assert.equal(property.getUnescapedValue(), "y\\z");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 2);
             assertRange(property.getValueRange(), 0, offset + 3, 0, offset + 6);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 6);
@@ -166,7 +166,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "yz");
-            assert.equal(property.getRawValue(), "y`z");
+            assert.equal(property.getUnescapedValue(), "y`z");
             assertRange(property.getNameRange(), 1, offset + 1, 1, offset + 2);
             assertRange(property.getValueRange(), 1, offset + 3, 1, offset + 6);
             assertRange(property.getRange(), 1, offset + 1, 1, offset + 6);
@@ -176,7 +176,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "y");
-            assert.equal(property.getRawValue(), "\\y");
+            assert.equal(property.getUnescapedValue(), "\\y");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 2);
             assertRange(property.getValueRange(), 0, offset + 3, 0, offset + 5);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 5);
@@ -186,7 +186,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "y");
-            assert.equal(property.getRawValue(), "`y");
+            assert.equal(property.getUnescapedValue(), "`y");
             assertRange(property.getNameRange(), 1, offset + 1, 1, offset + 2);
             assertRange(property.getValueRange(), 1, offset + 3, 1, offset + 5);
             assertRange(property.getRange(), 1, offset + 1, 1, offset + 5);
@@ -196,7 +196,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "y\\z");
-            assert.equal(property.getRawValue(), "y\\\\z");
+            assert.equal(property.getUnescapedValue(), "y\\\\z");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 2);
             assertRange(property.getValueRange(), 0, offset + 3, 0, offset + 7);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 7);
@@ -206,7 +206,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "y`z");
-            assert.equal(property.getRawValue(), "y``z");
+            assert.equal(property.getUnescapedValue(), "y``z");
             assertRange(property.getNameRange(), 1, offset + 1, 1, offset + 2);
             assertRange(property.getValueRange(), 1, offset + 3, 1, offset + 7);
             assertRange(property.getRange(), 1, offset + 1, 1, offset + 7);
@@ -216,7 +216,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "def");
-            assert.equal(property.getRawValue(), "def");
+            assert.equal(property.getUnescapedValue(), "def");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 4, 2);
             assertRange(property.getRange(), 0, offset + 1, 4, 2);
@@ -226,7 +226,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "def");
-            assert.equal(property.getRawValue(), "def");
+            assert.equal(property.getUnescapedValue(), "def");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 2, 2);
             assertRange(property.getRange(), 0, offset + 1, 2, 2);
@@ -236,7 +236,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "def");
-            assert.equal(property.getRawValue(), "def");
+            assert.equal(property.getUnescapedValue(), "def");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 4, 2);
             assertRange(property.getRange(), 0, offset + 1, 4, 2);
@@ -246,7 +246,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "de#f");
-            assert.equal(property.getRawValue(), "de#f");
+            assert.equal(property.getUnescapedValue(), "de#f");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 4, 3);
             assertRange(property.getRange(), 0, offset + 1, 4, 3);
@@ -256,7 +256,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "def");
-            assert.equal(property.getRawValue(), "def");
+            assert.equal(property.getUnescapedValue(), "def");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 2, 2);
             assertRange(property.getRange(), 0, offset + 1, 2, 2);
@@ -266,7 +266,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "d");
-            assert.equal(property.getRawValue(), "d");
+            assert.equal(property.getUnescapedValue(), "d");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 6);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 6);
@@ -276,7 +276,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "a b  c");
-            assert.equal(property.getRawValue(), "a\\ b\\ \\ c");
+            assert.equal(property.getUnescapedValue(), "a\\ b\\ \\ c");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 2);
             assertRange(property.getValueRange(), 0, offset + 3, 0, offset + 12);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 12);
@@ -286,7 +286,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "BUNDLE_WITHOUT");
             assert.equal(property.getValue(), "${bundle_without:-'development test'}");
-            assert.equal(property.getRawValue(), "${bundle_without:-'development test'}");
+            assert.equal(property.getUnescapedValue(), "${bundle_without:-'development test'}");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 15);
             assertRange(property.getValueRange(), 0, offset + 16, 0, offset + 53);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 53);
@@ -296,7 +296,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "BUNDLE_WITHOUT");
             assert.equal(property.getValue(), "${bundle_without:-\"development test\"}");
-            assert.equal(property.getRawValue(), "${bundle_without:-\"development test\"}");
+            assert.equal(property.getUnescapedValue(), "${bundle_without:-\"development test\"}");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 15);
             assertRange(property.getValueRange(), 0, offset + 16, 0, offset + 53);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 53);
@@ -306,7 +306,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "aaab");
             assert.equal(property.getValue(), "${bbb:-\"ccc dddd' y=z");
-            assert.equal(property.getRawValue(), "${bbb:-\"ccc dddd' y=z");
+            assert.equal(property.getUnescapedValue(), "${bbb:-\"ccc dddd' y=z");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 5);
             assertRange(property.getValueRange(), 0, offset + 6, 0, offset + 27);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 27);
@@ -316,7 +316,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "aaa");
             assert.equal(property.getValue(), "${bbb:-\"ccc   ddd\"");
-            assert.equal(property.getRawValue(), "${bbb:-\"ccc   ddd\"");
+            assert.equal(property.getUnescapedValue(), "${bbb:-\"ccc   ddd\"");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 1, 4);
             assertRange(property.getRange(), 0, offset + 1, 1, 4);
@@ -326,7 +326,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "aaa");
             assert.equal(property.getValue(), "${bbb:-\"ccc   ddd\"");
-            assert.equal(property.getRawValue(), "${bbb:-\"ccc   ddd\"");
+            assert.equal(property.getUnescapedValue(), "${bbb:-\"ccc   ddd\"");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 3, 4);
             assertRange(property.getRange(), 0, offset + 1, 3, 4);
@@ -336,7 +336,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "aaa");
             assert.equal(property.getValue(), "${bbb:-\"ccc  ddd\"");
-            assert.equal(property.getRawValue(), "${bbb:-\"ccc  ddd\"");
+            assert.equal(property.getUnescapedValue(), "${bbb:-\"ccc  ddd\"");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 1, 4);
             assertRange(property.getRange(), 0, offset + 1, 1, 4);
@@ -346,7 +346,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "aaa");
             assert.equal(property.getValue(), "${bbb:-\"c''c\"}");
-            assert.equal(property.getRawValue(), "${bbb:-\"c''c\"}");
+            assert.equal(property.getUnescapedValue(), "${bbb:-\"c''c\"}");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 19);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 19);
@@ -356,7 +356,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "aaa");
             assert.equal(property.getValue(), "${bbb:-'c\"\"c'}");
-            assert.equal(property.getRawValue(), "${bbb:-'c\"\"c'}");
+            assert.equal(property.getUnescapedValue(), "${bbb:-'c\"\"c'}");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 19);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 19);
@@ -372,7 +372,7 @@ describe("Property", () => {
             let property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value value2 value3");
-            assert.equal(property.getRawValue(), "value value2 value3");
+            assert.equal(property.getUnescapedValue(), "value value2 value3");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 24);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 24);
@@ -382,7 +382,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "\\a");
-            assert.equal(property.getRawValue(), "\\\\a");
+            assert.equal(property.getUnescapedValue(), "\\\\a");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 8);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 8);
@@ -392,7 +392,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "a");
-            assert.equal(property.getRawValue(), "a");
+            assert.equal(property.getUnescapedValue(), "a");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 6);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 6);
@@ -408,7 +408,7 @@ describe("Property", () => {
             let property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "a b");
-            assert.equal(property.getRawValue(), "\"a b\"");
+            assert.equal(property.getUnescapedValue(), "\"a b\"");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -418,7 +418,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "\"a \\");
-            assert.equal(property.getRawValue(), "\"a \\");
+            assert.equal(property.getUnescapedValue(), "\"a \\");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 9);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 9);
@@ -428,7 +428,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "'a \\");
-            assert.equal(property.getRawValue(), "'a \\");
+            assert.equal(property.getUnescapedValue(), "'a \\");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 9);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 9);
@@ -438,7 +438,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "ab");
-            assert.equal(property.getRawValue(), "'ab'");
+            assert.equal(property.getUnescapedValue(), "'ab'");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 1, 2);
             assertRange(property.getRange(), 0, offset + 1, 1, 2);
@@ -448,7 +448,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "ab");
-            assert.equal(property.getRawValue(), "'ab'");
+            assert.equal(property.getUnescapedValue(), "'ab'");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 1, 2);
             assertRange(property.getRange(), 0, offset + 1, 1, 2);
@@ -458,7 +458,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "ab");
-            assert.equal(property.getRawValue(), "\"ab\"");
+            assert.equal(property.getUnescapedValue(), "\"ab\"");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 1, 2);
             assertRange(property.getRange(), 0, offset + 1, 1, 2);
@@ -468,7 +468,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "ab");
-            assert.equal(property.getRawValue(), "\"ab\"");
+            assert.equal(property.getUnescapedValue(), "\"ab\"");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 1, 2);
             assertRange(property.getRange(), 0, offset + 1, 1, 2);
@@ -478,7 +478,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "a\\b");
-            assert.equal(property.getRawValue(), "'a\\b'");
+            assert.equal(property.getUnescapedValue(), "'a\\b'");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -488,7 +488,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "a\\b");
-            assert.equal(property.getRawValue(), "\"a\\b\"");
+            assert.equal(property.getUnescapedValue(), "\"a\\b\"");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -498,7 +498,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "a\"");
-            assert.equal(property.getRawValue(), "\"a\\\"\"");
+            assert.equal(property.getUnescapedValue(), "\"a\\\"\"");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 10);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
@@ -508,7 +508,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "a\\b");
-            assert.equal(property.getRawValue(), "\"a\\\\b\"");
+            assert.equal(property.getUnescapedValue(), "\"a\\\\b\"");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 11);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 11);
@@ -518,7 +518,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "a\\  b");
-            assert.equal(property.getRawValue(), "\"a\\  b\"");
+            assert.equal(property.getUnescapedValue(), "\"a\\  b\"");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 12);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 12);
@@ -528,7 +528,7 @@ describe("Property", () => {
             property = propInstruction.getProperties()[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "a\\  b");
-            assert.equal(property.getRawValue(), "'a\\  b'");
+            assert.equal(property.getUnescapedValue(), "'a\\  b'");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 12);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 12);

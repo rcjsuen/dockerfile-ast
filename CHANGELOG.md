@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Changed
+- `Property`
+  - `getRawValue()` has been renamed to `getUnescapedValue()` ([#25](https://github.com/rcjsuen/dockerfile-ast/issues/25))
+    - the underlying implementation of the function has not changed so it should be easy for clients to migrate to the new API
+
+### Fixed
 - fix parsing of spaces embedded within a variable replacement in `ARG`, `ENV`, and `LABEL` instructions ([#24](https://github.com/rcjsuen/dockerfile-ast/issues/24))
 
 ## [0.0.5] - 2018-04-15
