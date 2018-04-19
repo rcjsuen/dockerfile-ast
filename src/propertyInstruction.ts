@@ -273,6 +273,45 @@ export abstract class PropertyInstruction extends Instruction {
                     if (argStart === -1) {
                         argStart = i;
                     }
+
+                    // variable detected
+                    if (char === '$' && content.charAt(i + 1) === '{') {
+                        let singleQuotes = false;
+                        let doubleQuotes = false;
+                        let escaped = false;
+                        for (let j = i + 1; j < content.length; j++) {
+                            switch (content.charAt(j)) {
+                                case this.escapeChar:
+                                    escaped = true;
+                                    break;
+                                case '\r':
+                                case '\n':
+                                    break;
+                                case '\'':
+                                    singleQuotes = !singleQuotes;
+                                    escaped = false;
+                                    break;
+                                case '"':
+                                    doubleQuotes = !doubleQuotes;
+                                    escaped = false;
+                                    break;
+                                case ' ':
+                                case '\t':
+                                    if (escaped || singleQuotes || doubleQuotes) {
+                                        break;
+                                    }
+                                    i = j - 1;
+                                    continue argumentLoop;
+                                case '}':
+                                    i = j;
+                                    continue argumentLoop;
+                                default:
+                                    escaped = false;
+                                    break;
+                            }
+                        }
+                        break argumentLoop;
+                    }
                     break;
             }
         }
