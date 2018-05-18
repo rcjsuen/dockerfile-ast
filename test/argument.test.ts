@@ -297,6 +297,38 @@ describe("Argument", () => {
             assert.equal(args[0].toString(), "node:8");
             assertRange(args[0].getRange(), 3, 5, 3, 15);
         });
+
+        it("ARG variable inherits default value from ARG before FROM", () => {
+            let dockerfile = DockerfileParser.parse("ARG var=value\nFROM alpine\nARG var\nRUN echo $var");
+            let args = dockerfile.getInstructions()[3].getExpandedArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "value");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "value");
+            assertRange(args[0].getRange(), 3, 4, 3, 8);
+            assertRange(args[1].getRange(), 3, 9, 3, 13);
+
+            dockerfile = DockerfileParser.parse("ARG var=value\nFROM alpine\nARG var=value2\nRUN echo $var");
+            args = dockerfile.getInstructions()[3].getExpandedArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "value2");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "value2");
+            assertRange(args[0].getRange(), 3, 4, 3, 8);
+            assertRange(args[1].getRange(), 3, 9, 3, 13);
+
+            dockerfile = DockerfileParser.parse("ARG var=value\nFROM alpine\nARG var=value2\nARG var\nRUN echo $var");
+            args = dockerfile.getInstructions()[4].getExpandedArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "value");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "value");
+            assertRange(args[0].getRange(), 4, 4, 4, 8);
+            assertRange(args[1].getRange(), 4, 9, 4, 13);
+        });
     });
 
     it("isBefore", () => {

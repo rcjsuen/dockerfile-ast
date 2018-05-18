@@ -143,4 +143,39 @@ describe("Dockerfile", () => {
         directive = dockerfile.getDirective();
         assert.ok(directive !== null);
     });
+
+    it("resolveVariable", () => {
+        let dockerfile = DockerfileParser.parse(
+            "ARG ver=latest\n" +
+            "FROM busybox:$ver\n" +
+            "ARG ver\n" +
+            "RUN echo $ver\n" +
+            "FROM busybox:$ver\n" +
+            "ARG ver=override\n" +
+            "RUN echo $ver\n" +
+            "FROM busybox:$ver\n" +
+            "RUN echo $ver"
+        );
+        let from1 = dockerfile.resolveVariable("ver", 1);
+        let from2 = dockerfile.resolveVariable("ver", 4);
+        let from3 = dockerfile.resolveVariable("ver", 7);
+        let run1 = dockerfile.resolveVariable("ver", 3);
+        let run2 = dockerfile.resolveVariable("ver", 6);
+        let run3 = dockerfile.resolveVariable("ver", 8);
+        assert.equal("latest", from1);
+        assert.equal("latest", from2);
+        assert.equal("latest", from3);
+        assert.equal("latest", run1);
+        assert.equal("override", run2);
+        assert.equal(undefined, run3);
+
+        dockerfile = DockerfileParser.parse(
+            "ARG ver=latest\n" +
+            "ARG ver\n" +
+            "FROM alpine\n" +
+            "ARG ver\n" +
+            "RUN echo $ver"
+        );
+        assert.equal(null, dockerfile.resolveVariable("ver", 4));
+    });
 });
