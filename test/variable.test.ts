@@ -224,6 +224,17 @@ describe("Variable", () => {
         assert.equal(variable.isEnvironmentVariable(), false);
     });
 
+    it("defined ARG variable before FROM", () => {
+        let dockerfile = DockerfileParser.parse("ARG var=value\nFROM alpine\nRUN echo $var");
+        let variable = dockerfile.getInstructions()[2].getVariables()[0];
+        assert.equal(variable.getName(), "var");
+        assertRange(variable.getNameRange(), 2, 10, 2, 13);
+        assertRange(variable.getRange(), 2, 9, 2, 13);
+        assert.equal(variable.isDefined(), false);
+        assert.equal(variable.isBuildVariable(), false);
+        assert.equal(variable.isEnvironmentVariable(), false);
+    });
+
     it("defined ENV variable", () => {
         let dockerfile = DockerfileParser.parse("ENV var=value\nRUN echo $var");
         let variable = dockerfile.getInstructions()[1].getVariables()[0];
