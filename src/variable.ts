@@ -9,13 +9,15 @@ export class Variable {
     private readonly name: string;
     private readonly nameRange: Range;
     private readonly range: Range;
+    private readonly modifier: string;
     private readonly defined: boolean;
     private readonly buildVariable: boolean;
 
-    constructor(name: string, nameRange: Range, range: Range, defined: boolean, buildVariable: boolean) {
+    constructor(name: string, nameRange: Range, range: Range, modifier: string, defined: boolean, buildVariable: boolean) {
         this.name = name;
         this.nameRange = nameRange;
         this.range = range;
+        this.modifier = modifier;
         this.defined = defined;
         this.buildVariable = buildVariable;
     }
@@ -37,6 +39,20 @@ export class Variable {
      */
     public getRange(): Range {
         return this.range;
+    }
+
+    /**
+     * Returns the modifier character that has been set for
+     * specifying how this variable should be expanded and resolved.
+     * If this variable is ${variable:+value} then the modifier
+     * character is '+'. May be null if this variable does not have a
+     * modifier character defined (such as ${variable} or $variable).
+     * 
+     * @return this variable's modifier character, or null if there
+     *         is not one defined
+     */
+    public getModifier(): string {
+        return this.modifier;
     }
 
     /**

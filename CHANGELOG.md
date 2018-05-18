@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- `Variable`
+  - `getModifier()` ([#38](https://github.com/rcjsuen/dockerfile-utils/issues/38))
+
 ### Fixed
 - resolve references to uninitialized `ARG` variables against `ARG` variables before the first `FROM` if present ([#26](https://github.com/rcjsuen/dockerfile-ast/issues/26))
 
