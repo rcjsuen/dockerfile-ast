@@ -12,7 +12,7 @@ export class Variable {
     private readonly defined: boolean;
     private readonly buildVariable: boolean;
 
-    constructor(name: string, nameRange: Range, range: Range, defined: boolean, buildVariable) {
+    constructor(name: string, nameRange: Range, range: Range, defined: boolean, buildVariable: boolean) {
         this.name = name;
         this.nameRange = nameRange;
         this.range = range;
