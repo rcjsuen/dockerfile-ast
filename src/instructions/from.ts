@@ -36,15 +36,46 @@ export class From extends Instruction {
         let range = this.getImageRange();
         if (range) {
             let content = this.getRangeContent(range);
-            let index = content.lastIndexOf(':');
+            let trailingSlashIndex = content.lastIndexOf('/');
             let digestIndex = content.lastIndexOf('@');
-            if (index === -1 || (digestIndex !== -1 && digestIndex < index)) {
-                index = digestIndex;
+            let colonIndex = content.lastIndexOf(':');
+            if (trailingSlashIndex < colonIndex || trailingSlashIndex === -1) {
+                let rangeStart = this.document.offsetAt(range.start);
+                let start = rangeStart;
+                if (colonIndex === -1 || (digestIndex !== -1 && digestIndex < colonIndex)) {
+                    colonIndex = digestIndex;
+                }
+                // slash found
+                if (trailingSlashIndex !== -1) {
+                    let startingSlashIndex = content.indexOf('/');
+                    // are there two slashes or a port, might be a private registry
+                    if (startingSlashIndex !== trailingSlashIndex || content.substring(0, startingSlashIndex).indexOf(':') !== -1) {
+                        // adjust the starting range if a private registry is specified
+                        start = start + startingSlashIndex + 1;
+                    }
+                }
+                if (colonIndex !== -1) {
+                    return Range.create(
+                        this.document.positionAt(start),
+                        this.document.positionAt(rangeStart + colonIndex)
+                    );
+                }
+                return range;
             }
-            if (index !== -1) {
+            let startingSlashIndex = content.indexOf('/');
+            // check if two slashes have been detected or if there is a port defined
+            if (startingSlashIndex !== trailingSlashIndex || colonIndex < startingSlashIndex) {
+                let rangeStart = this.document.offsetAt(range.start);
+                if (digestIndex !== -1) {
+                    // digest found, use that as the end instead
+                    return Range.create(
+                        this.document.positionAt(rangeStart + startingSlashIndex + 1),
+                        this.document.positionAt(rangeStart + digestIndex)
+                    );
+                }
                 return Range.create(
-                    range.start,
-                    this.document.positionAt(this.document.offsetAt(range.start) + index)
+                    this.document.positionAt(rangeStart + startingSlashIndex + 1),
+                    range.end
                 );
             }
             return range;
@@ -78,7 +109,8 @@ export class From extends Instruction {
             let content = this.getRangeContent(range);
             if (content.indexOf('@') === -1) {
                 let index = content.lastIndexOf(':');
-                if (index !== -1) {
+                // the colon might be for a private registry's port and not a tag
+                if (index > content.indexOf('/')) {
                     return Range.create(range.start.line, range.start.character + index + 1, range.end.line, range.end.character);
                 }
             }

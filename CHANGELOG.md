@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - resolve references to uninitialized `ARG` variables against `ARG` variables before the first `FROM` if present ([#26](https://github.com/rcjsuen/dockerfile-ast/issues/26))
+- change `FROM` to parse its image argument correctly if it is in a private registry ([#28](https://github.com/rcjsuen/dockerfile-ast/issues/28))
 
 ## [0.0.6] - 2018-04-19
 ### Changed
