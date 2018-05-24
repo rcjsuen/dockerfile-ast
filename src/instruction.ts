@@ -328,6 +328,7 @@ export class Instruction extends Line {
                     break;
                 case '$':
                     if (arg.charAt(i + 1) === '{') {
+                        let escapedString = "${";
                         let escapedName = "";
                         let nameEnd = -1;
                         let escapedSubstitutionValue = "";
@@ -351,6 +352,7 @@ export class Instruction extends Line {
                                     }
                                     break;
                                 case '}':
+                                    escapedString += '}';
                                     let modifier = null;
                                     let substitutionValue = null;
                                     if (nameEnd === -1) {
@@ -369,7 +371,8 @@ export class Instruction extends Line {
                                         modifier,
                                         substitutionValue,
                                         this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
-                                        this.isBuildVariable(escapedName, start.line)
+                                        this.isBuildVariable(escapedName, start.line),
+                                        escapedString
                                     ));
                                     i = j;
                                     continue variableLoop;
@@ -381,6 +384,7 @@ export class Instruction extends Line {
                                     } else {
                                         modifierRead = true;
                                     }
+                                    escapedString += ':';
                                     break;
                                 default:
                                     if (nameEnd === -1) {
@@ -390,6 +394,7 @@ export class Instruction extends Line {
                                     } else {
                                         modifierRead = true;
                                     }
+                                    escapedString += char;
                                     break;
                             }
                         }
@@ -416,7 +421,8 @@ export class Instruction extends Line {
                                         null,
                                         null,
                                         this.dockerfile.resolveVariable(escapedName, varStart.line) !== undefined,
-                                        this.isBuildVariable(escapedName, varStart.line)
+                                        this.isBuildVariable(escapedName, varStart.line),
+                                        '$' + escapedName
                                     ));
                                     i = j - 1;
                                     continue variableLoop;
@@ -443,7 +449,8 @@ export class Instruction extends Line {
                                         null,
                                         null,
                                         this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
-                                        this.isBuildVariable(escapedName, start.line)
+                                        this.isBuildVariable(escapedName, start.line),
+                                        '$' + escapedName
                                     ));
                                     break variableLoop;
                             }
@@ -457,7 +464,8 @@ export class Instruction extends Line {
                             null,
                             null,
                             this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
-                            this.isBuildVariable(escapedName, start.line)
+                            this.isBuildVariable(escapedName, start.line),
+                            '$' + escapedName
                         ));
                     }
                     break variableLoop;

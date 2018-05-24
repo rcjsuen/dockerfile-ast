@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 - `Variable`
   - `getModifier()` ([#27](https://github.com/rcjsuen/dockerfile-ast/issues/27))
   - `getSubstitutionValue()` ([#27](https://github.com/rcjsuen/dockerfile-ast/issues/27))
+  - `toString()` ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
 
 ### Fixed
 - resolve references to uninitialized `ARG` variables against `ARG` variables before the first `FROM` if present ([#26](https://github.com/rcjsuen/dockerfile-ast/issues/26))

@@ -20,6 +20,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$image");
     });
 
     it("FROM $image\\ ", () => {
@@ -33,6 +34,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$image");
     });
 
     it("FROM ${image}", () => {
@@ -46,6 +48,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${image}");
     });
 
     it("FROM ${image:node}", () => {
@@ -59,6 +62,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${image:node}");
     });
 
     it("FROM ${image:+node}", () => {
@@ -72,6 +76,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${image:+node}");
     });
 
     it("FROM ${image:-node}", () => {
@@ -85,6 +90,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${image:-node}");
     });
 
     it("FROM $im\\\\nage", () => {
@@ -98,6 +104,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$image");
     });
 
     it("FROM ${im\\\\nage}", () => {
@@ -111,6 +118,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${image}");
     });
 
     it("FROM ${im\\\\nage:node}", () => {
@@ -124,6 +132,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${image:node}");
     });
 
     it("FROM ${im\\ \\t\\r\\nage:node}", () => {
@@ -137,6 +146,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${image:node}");
     });
 
     it("FROM ${image:no\\\\nde}", () => {
@@ -150,6 +160,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${image:node}");
     });
 
     it("FROM ${image:no\\ \\t\\r\\nde}", () => {
@@ -163,6 +174,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${image:node}");
     });
 
     it("FROM $image$image2", () => {
@@ -184,6 +196,8 @@ describe("Variable", () => {
         assert.equal(variables[1].isBuildVariable(), false);
         assert.equal(variables[0].isEnvironmentVariable(), false);
         assert.equal(variables[1].isEnvironmentVariable(), false);
+        assert.equal(variables[0].toString(), "$image");
+        assert.equal(variables[1].toString(), "$image2");
     });
 
     it("EXPOSE $po\\rt", () => {
@@ -197,6 +211,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$po");
     });
 
     it("EXPOSE $port\\$port2", () => {
@@ -210,6 +225,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$port");
     });
 
     it("RUN echo \\a $port", () => {
@@ -223,6 +239,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$port");
     });
 
     it("RUN echo ${}", () => {
@@ -236,6 +253,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${}");
     });
 
     it("RUN echo ${:}", () => {
@@ -249,6 +267,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${:}");
     });
 
     it("RUN echo ${::}", () => {
@@ -262,6 +281,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${::}");
     });
 
     it("RUN echo ${::abc}", () => {
@@ -275,6 +295,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${::abc}");
     });
 
     it("defined ARG variable", () => {
@@ -288,6 +309,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), true);
         assert.equal(variable.isBuildVariable(), true);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$var");
     });
 
     it("defined ARG variable in another image", () => {
@@ -301,6 +323,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$var");
     });
 
     it("defined ARG variable before FROM", () => {
@@ -314,6 +337,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$var");
     });
 
     it("defined ENV variable", () => {
@@ -327,6 +351,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), true);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), true);
+        assert.equal(variable.toString(), "$var");
     });
 
     it("defined ENV variable in another image", () => {
@@ -340,6 +365,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$var");
     });
 
     it("defined ARG and ENV variable", () => {
@@ -353,6 +379,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), true);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), true);
+        assert.equal(variable.toString(), "$var");
     });
 
     it("defined ENV and ARG variable", () => {
@@ -366,6 +393,7 @@ describe("Variable", () => {
         assert.equal(variable.isDefined(), true);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), true);
+        assert.equal(variable.toString(), "$var");
     });
 
     describe("default variables", () => {
@@ -382,6 +410,7 @@ describe("Variable", () => {
                 assert.equal(variable.isDefined(), false);
                 assert.equal(variable.isBuildVariable(), false);
                 assert.equal(variable.isEnvironmentVariable(), false);
+                assert.equal(variable.toString(), simple);
             });
 
             let brackets = "${" + defaultVariable + "}";
@@ -396,6 +425,7 @@ describe("Variable", () => {
                 assert.equal(variable.isDefined(), false);
                 assert.equal(variable.isBuildVariable(), false);
                 assert.equal(variable.isEnvironmentVariable(), false);
+                assert.equal(variable.toString(), brackets);
             });
         }
     });
