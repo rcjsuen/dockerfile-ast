@@ -376,9 +376,10 @@ export class Instruction extends Line {
                                 case ':':
                                     if (nameEnd === -1) {
                                         nameEnd = j;
+                                    } else if (modifierRead) {
+                                        escapedSubstitutionValue += ':';
                                     } else {
                                         modifierRead = true;
-                                        escapedSubstitutionValue += ':';
                                     }
                                     break;
                                 default:

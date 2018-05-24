@@ -258,7 +258,7 @@ describe("Variable", () => {
         assertRange(variable.getNameRange(), 0, 11, 0, 11);
         assertRange(variable.getRange(), 0, 9, 0, 14);
         assert.equal(variable.getModifier(), ":");
-        assert.equal(variable.getSubstitutionValue(), ":");
+        assert.equal(variable.getSubstitutionValue(), null);
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
@@ -271,7 +271,7 @@ describe("Variable", () => {
         assertRange(variable.getNameRange(), 0, 11, 0, 11);
         assertRange(variable.getRange(), 0, 9, 0, 17);
         assert.equal(variable.getModifier(), ":");
-        assert.equal(variable.getSubstitutionValue(), ":abc");
+        assert.equal(variable.getSubstitutionValue(), "abc");
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
