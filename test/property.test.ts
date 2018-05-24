@@ -533,6 +533,54 @@ describe("Property", () => {
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 12);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 12);
         });
+
+        it("\"a\\\"b\"" + delimiter + "\"c\\\"d\"", () => {
+            let dockerfile = DockerfileParser.parse(instruction + " \"a\\\"b\"" + delimiter + "\"c\\\"d\"");
+            let propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            let property = propInstruction.getProperties()[0];
+            assert.equal(property.getName(), "a\"b");
+            assert.equal(property.getValue(), "c\"d");
+            assert.equal(property.getUnescapedValue(), "\"c\\\"d\"");
+            assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 7);
+            assertRange(property.getValueRange(), 0, offset + 8, 0, offset + 14);
+            assertRange(property.getRange(), 0, offset + 1, 0, offset + 14);
+        });
+
+        it("\"a\\\"b\"" + delimiter + "'c\"d'", () => {
+            let dockerfile = DockerfileParser.parse(instruction + " \"a\\\"b\"" + delimiter + "'c\"d'");
+            let propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            let property = propInstruction.getProperties()[0];
+            assert.equal(property.getName(), "a\"b");
+            assert.equal(property.getValue(), "c\"d");
+            assert.equal(property.getUnescapedValue(), "'c\"d'");
+            assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 7);
+            assertRange(property.getValueRange(), 0, offset + 8, 0, offset + 13);
+            assertRange(property.getRange(), 0, offset + 1, 0, offset + 13);
+        });
+
+        it("'a\"b'" + delimiter + "\"c\"d\"", () => {
+            let dockerfile = DockerfileParser.parse(instruction + " 'a\"b'" + delimiter + "\"c\"d\"");
+            let propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            let property = propInstruction.getProperties()[0];
+            assert.equal(property.getName(), "a\"b");
+            assert.equal(property.getValue(), "c\"d");
+            assert.equal(property.getUnescapedValue(), "\"c\"d\"");
+            assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 6);
+            assertRange(property.getValueRange(), 0, offset + 7, 0, offset + 12);
+            assertRange(property.getRange(), 0, offset + 1, 0, offset + 12);
+        });
+
+        it("'a\"b'" + delimiter + "'c\"d'", () => {
+            let dockerfile = DockerfileParser.parse(instruction + " 'a\"b'" + delimiter + "'c\"d'");
+            let propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            let property = propInstruction.getProperties()[0];
+            assert.equal(property.getName(), "a\"b");
+            assert.equal(property.getValue(), "c\"d");
+            assert.equal(property.getUnescapedValue(), "'c\"d'");
+            assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 6);
+            assertRange(property.getValueRange(), 0, offset + 7, 0, offset + 12);
+            assertRange(property.getRange(), 0, offset + 1, 0, offset + 12);
+        });
     }
 
     function createMultiplePropertyTests(instruction: string) {

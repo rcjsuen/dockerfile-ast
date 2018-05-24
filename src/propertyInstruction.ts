@@ -198,6 +198,13 @@ export abstract class PropertyInstruction extends Instruction {
                     for (let j = i + 1; j < content.length; j++) {
                         switch (content.charAt(j)) {
                             case char:
+                                if (content.charAt(j + 1) !== ' ' && content.charAt(j + 1) !== '') {
+                                    // there is more content after this quote,
+                                    // continue so that it is all processed as
+                                    // one single argument
+                                    i = j;
+                                    continue argumentLoop;
+                                }
                                 args.push(new Argument(content.substring(argStart, j + 1),
                                     Range.create(this.document.positionAt(instructionNameEndOffset + start + argStart), this.document.positionAt(instructionNameEndOffset + start + j + 1))
                                 ));

@@ -20,22 +20,29 @@ export class Property {
     constructor(document: TextDocument, escapeChar: string, arg: Argument, arg2?: Argument) {
         this.document = document;
         this.escapeChar = escapeChar;
+        this.nameRange = Property.getNameRange(document, arg);
+        let value = document.getText().substring(document.offsetAt(this.nameRange.start), document.offsetAt(this.nameRange.end));
+        this.name = Property.getValue(value, escapeChar);
         if (arg2) {
-            this.nameRange = arg.getRange();
-            this.name = document.getText().substring(document.offsetAt(this.nameRange.start), document.offsetAt(this.nameRange.end));
             this.valueRange = arg2.getRange();
-            let value = document.getText().substring(document.offsetAt(this.valueRange.start), document.offsetAt(this.valueRange.end));
+            value = document.getText().substring(document.offsetAt(this.valueRange.start), document.offsetAt(this.valueRange.end));
             this.value = Property.getValue(value, escapeChar);
             this.range = Range.create(this.nameRange.start, this.valueRange.end);
         } else {
-            this.nameRange = Property.getNameRange(document, arg);
-            this.name = document.getText().substring(document.offsetAt(this.nameRange.start), document.offsetAt(this.nameRange.end));
-            this.valueRange = Property.getValueRange(document, arg);
-            if (this.valueRange) {
-                let value = document.getText().substring(document.offsetAt(this.valueRange.start), document.offsetAt(this.valueRange.end));
-                this.value = Property.getValue(value, escapeChar);
+            let argRange = arg.getRange();
+            if (this.nameRange.start.line === argRange.start.line
+                && this.nameRange.start.character === argRange.start.character
+                && this.nameRange.end.line === argRange.end.line
+                && this.nameRange.end.character === argRange.end.character) {
+                this.valueRange = null;
+            } else {
+                this.valueRange = Property.getValueRange(document, arg);
+                if (this.valueRange) {
+                    value = document.getText().substring(document.offsetAt(this.valueRange.start), document.offsetAt(this.valueRange.end));
+                    this.value = Property.getValue(value, escapeChar);
+                }
             }
-            this.range = arg.getRange();
+            this.range = argRange;
         }
     }
 
