@@ -141,9 +141,19 @@ export class Property {
     }
 
     private static getNameRange(document: TextDocument, arg: Argument): Range {
-        let index = arg.getValue().indexOf('=');
+        let value = arg.getValue();
+        let index = value.indexOf('=');
         if (index !== -1) {
-            return Range.create(arg.getRange().start, document.positionAt(document.offsetAt(arg.getRange().start) + index));
+            let initial = value.charAt(0);
+            let before = value.charAt(index - 1);
+            // check if content before the equals sign are in quotes
+            // "var"=value
+            // 'var'=value
+            // otherwise, just assume it's a standard definition
+            // var=value
+            if ((initial === '"' && before === '"') || (initial === '\'' && before === '\'') || (initial !== '"' && initial !== '\'')) {
+                return Range.create(arg.getRange().start, document.positionAt(document.offsetAt(arg.getRange().start) + index));
+            }
         }
         // no '=' found, just defined the ARG's name
         return arg.getRange();

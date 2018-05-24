@@ -581,6 +581,30 @@ describe("Property", () => {
             assertRange(property.getValueRange(), 0, offset + 7, 0, offset + 12);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 12);
         });
+
+        it("single quoted with invalid key \"abc" + delimiter + "xyz\"", () => {
+            let dockerfile = DockerfileParser.parse(instruction + " \"abc" + delimiter + "xyz\"");
+            let propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            let property = propInstruction.getProperties()[0];
+            assert.equal(property.getName(), "abc" + delimiter + "xyz");
+            assert.equal(property.getValue(), null);
+            assert.equal(property.getUnescapedValue(), null);
+            assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 10);
+            assert.equal(property.getValueRange(), null);
+            assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
+        });
+
+        it("single quoted with invalid key 'abc" + delimiter + "xyz'", () => {
+            let dockerfile = DockerfileParser.parse(instruction + " 'abc" + delimiter + "xyz'");
+            let propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            let property = propInstruction.getProperties()[0];
+            assert.equal(property.getName(), "abc" + delimiter + "xyz");
+            assert.equal(property.getValue(), null);
+            assert.equal(property.getUnescapedValue(), null);
+            assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 10);
+            assert.equal(property.getValueRange(), null);
+            assertRange(property.getRange(), 0, offset + 1, 0, offset + 10);
+        });
     }
 
     function createMultiplePropertyTests(instruction: string) {
