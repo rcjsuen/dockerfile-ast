@@ -10,14 +10,16 @@ export class Variable {
     private readonly nameRange: Range;
     private readonly range: Range;
     private readonly modifier: string;
+    private readonly substitutionValue: string;
     private readonly defined: boolean;
     private readonly buildVariable: boolean;
 
-    constructor(name: string, nameRange: Range, range: Range, modifier: string, defined: boolean, buildVariable: boolean) {
+    constructor(name: string, nameRange: Range, range: Range, modifier: string, substitutionValue: string, defined: boolean, buildVariable: boolean) {
         this.name = name;
         this.nameRange = nameRange;
         this.range = range;
         this.modifier = modifier;
+        this.substitutionValue = substitutionValue;
         this.defined = defined;
         this.buildVariable = buildVariable;
     }
@@ -53,6 +55,21 @@ export class Variable {
      */
     public getModifier(): string {
         return this.modifier;
+    }
+
+    /**
+     * Returns the value that will be used for substitution if this
+     * variable uses modifiers to define how its value should be
+     * resolved. If this variable is ${variable:+value} then the
+     * substitution value will be 'value'. May be null if this
+     * variable does not have a substition value defined (such as
+     * ${variable} or $variable).
+     * 
+     * @return this variable's substitution value, or null if there
+     *         is not one defined
+     */
+    public getSubstitutionValue(): string | null {
+        return this.substitutionValue;
     }
 
     /**

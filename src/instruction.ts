@@ -330,6 +330,8 @@ export class Instruction extends Line {
                     if (arg.charAt(i + 1) === '{') {
                         let escapedName = "";
                         let nameEnd = -1;
+                        let escapedSubstitutionValue = "";
+                        let modifierRead = false;
                         nameLoop: for (let j = i + 2; j < arg.length; j++) {
                             let char = arg.charAt(j);
                             switch (char) {
@@ -350,10 +352,14 @@ export class Instruction extends Line {
                                     break;
                                 case '}':
                                     let modifier = null;
+                                    let substitutionValue = null;
                                     if (nameEnd === -1) {
                                         nameEnd = j;
                                     } else {
                                         modifier = arg.substring(nameEnd + 1, nameEnd + 2);
+                                        if (escapedSubstitutionValue !== "") {
+                                            substitutionValue = escapedSubstitutionValue;
+                                        }
                                     }
                                     let start = this.document.positionAt(offset + i);
                                     variables.push(new Variable(
@@ -361,6 +367,7 @@ export class Instruction extends Line {
                                         Range.create(this.document.positionAt(offset + i + 2), this.document.positionAt(offset + nameEnd)),
                                         Range.create(start, this.document.positionAt(offset + j + 1)),
                                         modifier,
+                                        substitutionValue,
                                         this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
                                         this.isBuildVariable(escapedName, start.line)
                                     ));
@@ -369,11 +376,18 @@ export class Instruction extends Line {
                                 case ':':
                                     if (nameEnd === -1) {
                                         nameEnd = j;
+                                    } else {
+                                        modifierRead = true;
+                                        escapedSubstitutionValue += ':';
                                     }
                                     break;
                                 default:
                                     if (nameEnd === -1) {
                                         escapedName += char;
+                                    } else if (modifierRead) {
+                                        escapedSubstitutionValue += char;
+                                    } else {
+                                        modifierRead = true;
                                     }
                                     break;
                             }
@@ -398,6 +412,7 @@ export class Instruction extends Line {
                                         escapedName,
                                         Range.create(this.document.positionAt(offset + i + 1), this.document.positionAt(offset + j)),
                                         Range.create(varStart, this.document.positionAt(offset + j)),
+                                        null,
                                         null,
                                         this.dockerfile.resolveVariable(escapedName, varStart.line) !== undefined,
                                         this.isBuildVariable(escapedName, varStart.line)
@@ -425,6 +440,7 @@ export class Instruction extends Line {
                                         Range.create(this.document.positionAt(offset + i + 1), this.document.positionAt(offset + j)),
                                         Range.create(start, this.document.positionAt(offset + j)),
                                         null,
+                                        null,
                                         this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
                                         this.isBuildVariable(escapedName, start.line)
                                     ));
@@ -437,6 +453,7 @@ export class Instruction extends Line {
                             escapedName,
                             Range.create(this.document.positionAt(offset + i + 1), this.document.positionAt(offset + arg.length)),
                             Range.create(start, this.document.positionAt(offset + arg.length)),
+                            null,
                             null,
                             this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
                             this.isBuildVariable(escapedName, start.line)
