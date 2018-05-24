@@ -74,6 +74,61 @@ describe("FROM", () => {
         assert.equal(from.getBuildStage(), null);
     });
 
+    it("FROM custom/node", () => {
+        let dockerfile = DockerfileParser.parse("FROM custom/node");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "custom/node");
+        assert.equal(from.getImageName(), "custom/node");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
+    it("FROM custom/node:", () => {
+        let dockerfile = DockerfileParser.parse("FROM custom/node:");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "custom/node:");
+        assert.equal(from.getImageName(), "custom/node");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assertRange(from.getImageTagRange(), 0, 17, 0, 17);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
+    it("FROM custom/node:alpine", () => {
+        let dockerfile = DockerfileParser.parse("FROM custom/node:alpine");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "custom/node:alpine");
+        assert.equal(from.getImageName(), "custom/node");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assertRange(from.getImageTagRange(), 0, 17, 0, 23);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
+    it("FROM custom/node@", () => {
+        let dockerfile = DockerfileParser.parse("FROM custom/node@");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "custom/node@");
+        assert.equal(from.getImageName(), "custom/node");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assert.equal(from.getImageTagRange(), null);
+        assertRange(from.getImageDigestRange(), 0, 17, 0, 17);
+        assert.equal(from.getBuildStage(), null);
+    });
+
+    it("FROM custom/node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
+        let dockerfile = DockerfileParser.parse("FROM custom/node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "custom/node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        assert.equal(from.getImageName(), "custom/node");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assert.equal(from.getImageTagRange(), null);
+        assertRange(from.getImageDigestRange(), 0, 17, 0, 88);
+        assert.equal(from.getBuildStage(), null);
+    });
+
     it("FROM privateregistry.com/base/image", () => {
         let dockerfile = DockerfileParser.parse("FROM privateregistry.com/base/image");
         let from = dockerfile.getFROMs()[0];

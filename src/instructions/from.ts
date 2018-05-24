@@ -62,23 +62,18 @@ export class From extends Instruction {
                 }
                 return range;
             }
+            let rangeStart = this.document.offsetAt(range.start);
+            // if digest found, use that as the end instead
+            let rangeEnd = digestIndex === -1 ? range.end : this.document.positionAt(rangeStart + digestIndex);
             let startingSlashIndex = content.indexOf('/');
             // check if two slashes have been detected or if there is a port defined
-            if (startingSlashIndex !== trailingSlashIndex || colonIndex < startingSlashIndex) {
-                let rangeStart = this.document.offsetAt(range.start);
-                if (digestIndex !== -1) {
-                    // digest found, use that as the end instead
-                    return Range.create(
-                        this.document.positionAt(rangeStart + startingSlashIndex + 1),
-                        this.document.positionAt(rangeStart + digestIndex)
-                    );
-                }
+            if (startingSlashIndex !== trailingSlashIndex || (colonIndex !== -1 && colonIndex < startingSlashIndex)) {
                 return Range.create(
                     this.document.positionAt(rangeStart + startingSlashIndex + 1),
-                    range.end
+                    rangeEnd
                 );
             }
-            return range;
+            return Range.create(range.start, rangeEnd);
         }
         return null;
     }
