@@ -231,6 +231,8 @@ describe("Variable", () => {
         assert.equal(variable.getName(), "");
         assertRange(variable.getNameRange(), 0, 11, 0, 11);
         assertRange(variable.getRange(), 0, 9, 0, 12);
+        assert.equal(variable.getModifier(), null);
+        assert.equal(variable.getSubstitutionValue(), null);
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
