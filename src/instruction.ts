@@ -357,6 +357,8 @@ export class Instruction extends Line {
                                     let substitutionValue = null;
                                     if (nameEnd === -1) {
                                         nameEnd = j;
+                                    } else if (nameEnd + 1 === j) {
+                                        modifier = "";
                                     } else {
                                         modifier = arg.substring(nameEnd + 1, nameEnd + 2);
                                         if (escapedSubstitutionValue !== "") {

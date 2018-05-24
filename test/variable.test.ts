@@ -262,7 +262,7 @@ describe("Variable", () => {
         assert.equal(variable.getName(), "");
         assertRange(variable.getNameRange(), 0, 11, 0, 11);
         assertRange(variable.getRange(), 0, 9, 0, 13);
-        assert.equal(variable.getModifier(), "}");
+        assert.equal(variable.getModifier(), "");
         assert.equal(variable.getSubstitutionValue(), null);
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);

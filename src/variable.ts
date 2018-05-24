@@ -53,11 +53,14 @@ export class Variable {
      * Returns the modifier character that has been set for
      * specifying how this variable should be expanded and resolved.
      * If this variable is ${variable:+value} then the modifier
-     * character is '+'. May be null if this variable does not have a
-     * modifier character defined (such as ${variable} or $variable).
+     * character is '+'. Will be the empty string if the variable is
+     * declared as ${variable:}. Otherwise, will be null if this
+     * variable will not use variable substitution at all (such as
+     * ${variable} or $variable).
      * 
-     * @return this variable's modifier character, or null if there
-     *         is not one defined
+     * @return this variable's modifier character, or the empty
+     *         string if it does not have one, or null if this
+     *         variable will not use variable substitution
      */
     public getModifier(): string {
         return this.modifier;
