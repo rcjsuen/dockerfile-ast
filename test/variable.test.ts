@@ -277,11 +277,25 @@ describe("Variable", () => {
         assertRange(variable.getNameRange(), 0, 11, 0, 11);
         assertRange(variable.getRange(), 0, 9, 0, 14);
         assert.equal(variable.getModifier(), ":");
-        assert.equal(variable.getSubstitutionValue(), null);
+        assert.equal(variable.getSubstitutionValue(), "");
         assert.equal(variable.isDefined(), false);
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
         assert.equal(variable.toString(), "${::}");
+    });
+
+    it("RUN echo ${:::}", () => {
+        let dockerfile = DockerfileParser.parse("RUN echo ${:::}");
+        let variable = dockerfile.getInstructions()[0].getVariables()[0];
+        assert.equal(variable.getName(), "");
+        assertRange(variable.getNameRange(), 0, 11, 0, 11);
+        assertRange(variable.getRange(), 0, 9, 0, 15);
+        assert.equal(variable.getModifier(), ":");
+        assert.equal(variable.getSubstitutionValue(), ":");
+        assert.equal(variable.isDefined(), false);
+        assert.equal(variable.isBuildVariable(), false);
+        assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${:::}");
     });
 
     it("RUN echo ${::abc}", () => {
@@ -296,6 +310,20 @@ describe("Variable", () => {
         assert.equal(variable.isBuildVariable(), false);
         assert.equal(variable.isEnvironmentVariable(), false);
         assert.equal(variable.toString(), "${::abc}");
+    });
+
+    it("RUN echo ${:::abc}", () => {
+        let dockerfile = DockerfileParser.parse("RUN echo ${:::abc}");
+        let variable = dockerfile.getInstructions()[0].getVariables()[0];
+        assert.equal(variable.getName(), "");
+        assertRange(variable.getNameRange(), 0, 11, 0, 11);
+        assertRange(variable.getRange(), 0, 9, 0, 18);
+        assert.equal(variable.getModifier(), ":");
+        assert.equal(variable.getSubstitutionValue(), ":abc");
+        assert.equal(variable.isDefined(), false);
+        assert.equal(variable.isBuildVariable(), false);
+        assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${:::abc}");
     });
 
     it("defined ARG variable", () => {

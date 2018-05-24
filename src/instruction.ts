@@ -354,16 +354,13 @@ export class Instruction extends Line {
                                 case '}':
                                     escapedString += '}';
                                     let modifier = null;
-                                    let substitutionValue = null;
+                                    let substitutionValue = modifierRead ? escapedSubstitutionValue : null;
                                     if (nameEnd === -1) {
                                         nameEnd = j;
                                     } else if (nameEnd + 1 === j) {
                                         modifier = "";
                                     } else {
                                         modifier = arg.substring(nameEnd + 1, nameEnd + 2);
-                                        if (escapedSubstitutionValue !== "") {
-                                            substitutionValue = escapedSubstitutionValue;
-                                        }
                                     }
                                     let start = this.document.positionAt(offset + i);
                                     variables.push(new Variable(

@@ -70,12 +70,17 @@ export class Variable {
      * Returns the value that will be used for substitution if this
      * variable uses modifiers to define how its value should be
      * resolved. If this variable is ${variable:+value} then the
-     * substitution value will be 'value'. May be null if this
-     * variable does not have a substition value defined (such as
+     * substitution value will be 'value'. Will be the empty string
+     * if the variable is declared as ${variable:+} or some other
+     * variant where the only thing that follows the modifier
+     * character (excluding considerations of escape characters and
+     * so on) is the variable's closing bracket. May be null if this
+     * variable does not have a modifier character defined (such as
      * ${variable} or $variable).
      * 
-     * @return this variable's substitution value, or null if there
-     *         is not one defined
+     * @return this variable's substitution value, or the empty
+     *         string if it does not have one, or null if there is
+     *         not one defined
      */
     public getSubstitutionValue(): string | null {
         return this.substitutionValue;
