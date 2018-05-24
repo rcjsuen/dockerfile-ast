@@ -37,10 +37,8 @@ export class Property {
                 this.valueRange = null;
             } else {
                 this.valueRange = Property.getValueRange(document, arg);
-                if (this.valueRange) {
-                    value = document.getText().substring(document.offsetAt(this.valueRange.start), document.offsetAt(this.valueRange.end));
-                    this.value = Property.getValue(value, escapeChar);
-                }
+                value = document.getText().substring(document.offsetAt(this.valueRange.start), document.offsetAt(this.valueRange.end));
+                this.value = Property.getValue(value, escapeChar);
             }
             this.range = argRange;
         }
@@ -160,15 +158,8 @@ export class Property {
     }
 
     private static getValueRange(document: TextDocument, arg: Argument): Range | null {
-        let argValue = arg.getValue();
-        let index = argValue.indexOf('=');
-        if (index === -1) {
-            // no value declared if no '=' found
-            return null;
-        }
-
         return Range.create(
-            document.positionAt(document.offsetAt(arg.getRange().start) + index + 1),
+            document.positionAt(document.offsetAt(arg.getRange().start) + arg.getValue().indexOf('=') + 1),
             document.positionAt(document.offsetAt(arg.getRange().end))
         );
     }
