@@ -95,7 +95,7 @@ export abstract class PropertyInstruction extends Instruction {
         return index;
     }
 
-    private getPropertyArguments(): Argument[] {
+    public getPropertyArguments(): Argument[] {
         const args: Argument[] = [];
         let range = this.getInstructionRange();
         let instructionNameEndOffset = this.document.offsetAt(range.end);

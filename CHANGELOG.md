@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
+- `PropertyInstruction`
+  - `getPropertyArguments()` ([#37](https://github.com/rcjsuen/dockerfile-ast/issues/37))
 - `Variable`
   - `getModifier()` ([#27](https://github.com/rcjsuen/dockerfile-ast/issues/27))
   - `getModifierRange()` ([#33](https://github.com/rcjsuen/dockerfile-ast/issues/33))
@@ -13,7 +15,14 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - `PropertyInstruction`
   - `getArguments()` ([#34](https://github.com/rcjsuen/dockerfile-ast/issues/34))
-    - to make this function more predictable, `PropertyInstruction` no longer overrides this function with its own implementation
+    - to make this function more predictable, `PropertyInstruction` no longer overrides this function with its own implementation, existing callers should call `getPropertyArguments()` instead if the old behaviour is desired
+```TypeScript
+// this function has been changed to possibly not return the same thing
+// depending on the structure of the instruction's arguments
+let args = propertyInstruction.getArguments();
+// to get the same behaviour in 0.0.6, use getPropertyArguments() instead
+let args = propertyInstruction.getPropertyArguments();
+```
 
 ### Fixed
 - resolve references to uninitialized `ARG` variables against `ARG` variables before the first `FROM` if present ([#26](https://github.com/rcjsuen/dockerfile-ast/issues/26))
