@@ -372,7 +372,7 @@ export class Instruction extends Line {
                         let escapedString = "${";
                         let escapedName = "";
                         let nameEnd = -1;
-                        let escapedSubstitutionValue = "";
+                        let escapedSubstitutionParameter = "";
                         let modifierRead = -1;
                         nameLoop: for (let j = i + 2; j < arg.length; j++) {
                             let char = arg.charAt(j);
@@ -396,7 +396,7 @@ export class Instruction extends Line {
                                     escapedString += '}';
                                     let modifier = null;
                                     let modifierRange = null;
-                                    let substitutionValue = modifierRead !== -1 ? escapedSubstitutionValue : null;
+                                    let substitutionParameter = modifierRead !== -1 ? escapedSubstitutionParameter : null;
                                     if (nameEnd === -1) {
                                         nameEnd = j;
                                     } else if (nameEnd + 1 === j) {
@@ -413,7 +413,7 @@ export class Instruction extends Line {
                                         Range.create(start, this.document.positionAt(offset + j + 1)),
                                         modifier,
                                         modifierRange,
-                                        substitutionValue,
+                                        substitutionParameter,
                                         this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
                                         this.isBuildVariable(escapedName, start.line),
                                         escapedString
@@ -424,7 +424,7 @@ export class Instruction extends Line {
                                     if (nameEnd === -1) {
                                         nameEnd = j;
                                     } else if (modifierRead !== -1) {
-                                        escapedSubstitutionValue += ':';
+                                        escapedSubstitutionParameter += ':';
                                     } else {
                                         modifierRead = j;
                                     }
@@ -439,7 +439,7 @@ export class Instruction extends Line {
                                     if (nameEnd === -1) {
                                         escapedName += char;
                                     } else if (modifierRead !== -1) {
-                                        escapedSubstitutionValue += char;
+                                        escapedSubstitutionParameter += char;
                                     } else {
                                         modifierRead = j;
                                     }

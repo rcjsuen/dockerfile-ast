@@ -11,18 +11,18 @@ export class Variable {
     private readonly range: Range;
     private readonly modifier: string;
     private readonly modifierRange: Range;
-    private readonly substitutionValue: string;
+    private readonly substitutionParameter: string;
     private readonly defined: boolean;
     private readonly buildVariable: boolean;
     private readonly stringValue: string;
 
-    constructor(name: string, nameRange: Range, range: Range, modifier: string, modifierRange: Range, substitutionValue: string, defined: boolean, buildVariable: boolean, stringValue: string) {
+    constructor(name: string, nameRange: Range, range: Range, modifier: string, modifierRange: Range, substitutionParameter: string, defined: boolean, buildVariable: boolean, stringValue: string) {
         this.name = name;
         this.nameRange = nameRange;
         this.range = range;
         this.modifier = modifier;
         this.modifierRange = modifierRange;
-        this.substitutionValue = substitutionValue;
+        this.substitutionParameter = substitutionParameter;
         this.defined = defined;
         this.buildVariable = buildVariable;
         this.stringValue = stringValue;
@@ -73,8 +73,8 @@ export class Variable {
     }
 
     /**
-     * Returns the value that will be used for substitution if this
-     * variable uses modifiers to define how its value should be
+     * Returns the parameter that will be used for substitution if
+     * this variable uses modifiers to define how its value should be
      * resolved. If this variable is ${variable:+value} then the
      * substitution value will be 'value'. Will be the empty string
      * if the variable is declared as ${variable:+} or some other
@@ -84,12 +84,12 @@ export class Variable {
      * variable does not have a modifier character defined (such as
      * ${variable} or $variable).
      * 
-     * @return this variable's substitution value, or the empty
+     * @return this variable's substitution parameter, or the empty
      *         string if it does not have one, or null if there is
      *         not one defined
      */
-    public getSubstitutionValue(): string | null {
-        return this.substitutionValue;
+    public getSubstitutionParameter(): string | null {
+        return this.substitutionParameter;
     }
 
     /**
