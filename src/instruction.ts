@@ -430,6 +430,11 @@ export class Instruction extends Line {
                                     }
                                     escapedString += ':';
                                     break;
+                                case '\n':
+                                case '\r':
+                                case ' ':
+                                case '\t':
+                                    break;
                                 default:
                                     if (nameEnd === -1) {
                                         escapedName += char;
@@ -452,11 +457,14 @@ export class Instruction extends Line {
                         nameLoop: for (let j = i + 1; j < arg.length; j++) {
                             let char = arg.charAt(j);
                             switch (char) {
+                                case '\r':
+                                case '\n':
+                                case ' ':
+                                case '\t':
+                                    continue;
                                 case '$':
                                 case '\'':
                                 case '"':
-                                case ' ':
-                                case '\t':
                                     let varStart = this.document.positionAt(offset + i);
                                     variables.push(new Variable(
                                         escapedName,
