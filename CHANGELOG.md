@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - change `FROM` to parse its image argument correctly if it is in a private registry ([#28](https://github.com/rcjsuen/dockerfile-ast/issues/28))
 - fix parsing issue with quoted keys and values in `ARG`, `ENV`, and `LABEL` ([#30](https://github.com/rcjsuen/dockerfile-ast/issues/30))
 - ignore equals signs that are found inside quotes ([#29](https://github.com/rcjsuen/dockerfile-ast/issues/29))
+- prevent arguments from being split up if they span multiple lines via escaped newlines ([#34](https://github.com/rcjsuen/dockerfile-ast/issues/34))
 
 ## [0.0.6] - 2018-04-19
 ### Changed
