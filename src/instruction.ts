@@ -443,7 +443,7 @@ export class Instruction extends Line {
                                     } else if (modifierRead !== -1) {
                                         if (substitutionStart === -1) {
                                             substitutionStart = j;
-                                            substitutionEnd = j + 1;
+                                            substitutionEnd = j;
                                         } else {
                                             substitutionEnd = j + 1;
                                         }
