@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
+- `ParserDirective`
+  - `toString()` ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
 - `PropertyInstruction`
   - `getPropertyArguments()` ([#37](https://github.com/rcjsuen/dockerfile-ast/issues/37))
 - `Variable`

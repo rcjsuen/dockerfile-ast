@@ -18,6 +18,7 @@ describe("Parser Directive", () => {
             assert.equal(directive.getValue(), "`");
             assertRange(directive.getValueRange(), 0, 9, 0, 10);
             assert.equal(directive.getDirective(), Directive.escape);
+            assert.equal(directive.toString(), "# escape=`");
         });
 
         it("# Escape=`", () => {
@@ -28,6 +29,7 @@ describe("Parser Directive", () => {
             assert.equal(directive.getValue(), "`");
             assertRange(directive.getValueRange(), 0, 9, 0, 10);
             assert.equal(directive.getDirective(), Directive.escape);
+            assert.equal(directive.toString(), "# Escape=`");
         });
 
         it("# escape= \\t\\r\\n", () => {
@@ -38,6 +40,7 @@ describe("Parser Directive", () => {
             assert.equal(directive.getValue(), " \t");
             assertRange(directive.getValueRange(), 0, 9, 0, 11);
             assert.equal(directive.getDirective(), Directive.escape);
+            assert.equal(directive.toString(), "# escape= \t");
         });
 
         it("# escape=`\\r\\n", () => {
@@ -48,6 +51,7 @@ describe("Parser Directive", () => {
             assert.equal(directive.getValue(), "`");
             assertRange(directive.getValueRange(), 0, 9, 0, 10);
             assert.equal(directive.getDirective(), Directive.escape);
+            assert.equal(directive.toString(), "# escape=`");
         });
 
         it("#\\t\\tEscape   =`", () => {
@@ -58,6 +62,7 @@ describe("Parser Directive", () => {
             assert.equal(directive.getValue(), "`");
             assertRange(directive.getValueRange(), 0, 13, 0, 14);
             assert.equal(directive.getDirective(), Directive.escape);
+            assert.equal(directive.toString(), "# Escape=`");
         });
 
         it("# Escape=aaa", () => {
@@ -68,6 +73,7 @@ describe("Parser Directive", () => {
             assert.equal(directive.getValue(), "aaa");
             assertRange(directive.getValueRange(), 0, 9, 0, 12);
             assert.equal(directive.getDirective(), Directive.escape);
+            assert.equal(directive.toString(), "# Escape=aaa");
         });
 
         it("# escape=asdf asdf", () => {
@@ -78,6 +84,7 @@ describe("Parser Directive", () => {
             assert.equal(directive.getValue(), "asdf");
             assertRange(directive.getValueRange(), 0, 9, 0, 13);
             assert.equal(directive.getDirective(), Directive.escape);
+            assert.equal(directive.toString(), "# escape=asdf");
         });
 
         it("# escape=", () => {
@@ -88,6 +95,7 @@ describe("Parser Directive", () => {
             assert.equal(directive.getValue(), "");
             assertRange(directive.getValueRange(), 0, 9, 0, 9);
             assert.equal(directive.getDirective(), Directive.escape);
+            assert.equal(directive.toString(), "# escape=");
         });
 
         it("# unknown=value", () => {
@@ -98,6 +106,7 @@ describe("Parser Directive", () => {
             assert.equal(directive.getValue(), "value");
             assertRange(directive.getValueRange(), 0, 10, 0, 15);
             assert.equal(directive.getDirective(), undefined);
+            assert.equal(directive.toString(), "# unknown=value");
         });
     });
 });

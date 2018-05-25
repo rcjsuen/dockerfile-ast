@@ -18,6 +18,10 @@ export class ParserDirective extends Line {
         this.valueRange = valueRange;
     }
 
+    public toString(): string {
+        return "# " + this.getName() + '=' + this.getValue();
+    }
+
     public getNameRange(): Range {
         return this.nameRange;
     }
