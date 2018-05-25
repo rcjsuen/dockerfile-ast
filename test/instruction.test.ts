@@ -458,8 +458,40 @@ describe("Instruction", () => {
         assert.equal(instruction.toString(), "FROM alpine AS base");
     });
 
+    it("FROM alpine AS \\\\r\\n base\\\\r\\n # comment", () => {
+        let dockerfile = DockerfileParser.parse("FROM alpine AS \\\r\n base\\\r\n # comment");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "FROM");
+        assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
+        assertRange(instruction.getArgumentsRange(), 0, 5, 1, 5);
+        assert.equal(instruction.getArgumentsContent(), "alpine AS  base");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 2);
+        assertRange(ranges[0], 0, 5, 0, 15);
+        assertRange(ranges[1], 1, 0, 1, 5);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "FROM alpine AS base");
+    });
+
     it("FROM busybox\\nFROM alpine AS \\\\n base\\\\n # comment", () => {
         let dockerfile = DockerfileParser.parse("FROM busybox\nFROM alpine AS \\\n base\\\n # comment");
+        let instruction = dockerfile.getInstructions()[1];
+        assert.equal(instruction.getInstruction(), "FROM");
+        assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getInstructionRange(), 1, 0, 1, 4);
+        assertRange(instruction.getArgumentsRange(), 1, 5, 2, 5);
+        assert.equal(instruction.getArgumentsContent(), "alpine AS  base");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 2);
+        assertRange(ranges[0], 1, 5, 1, 15);
+        assertRange(ranges[1], 2, 0, 2, 5);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "FROM alpine AS base");
+    });
+
+    it("FROM busybox\\r\\nFROM alpine AS \\\\r\\n base\\\\r\\n # comment", () => {
+        let dockerfile = DockerfileParser.parse("FROM busybox\r\nFROM alpine AS \\\r\n base\\\r\n # comment");
         let instruction = dockerfile.getInstructions()[1];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");

@@ -46,6 +46,18 @@ describe("Argument", () => {
             assertRange(args[1].getRange(), 1, 1, 1, 5);
         });
 
+        it("EXPOSE 8000\\\\r\\n 8001", () => {
+            let dockerfile = DockerfileParser.parse("EXPOSE 8000\\\r\n 8001");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "8000");
+            assert.equal(args[1].getValue(), "8001");
+            assert.equal(args[0].toString(), "8000");
+            assert.equal(args[1].toString(), "8001");
+            assertRange(args[0].getRange(), 0, 7, 0, 11);
+            assertRange(args[1].getRange(), 1, 1, 1, 5);
+        });
+
         it("EXPOSE 80\\ 81", () => {
             let dockerfile = DockerfileParser.parse("EXPOSE 80\\ 81");
             let args = dockerfile.getInstructions()[0].getArguments();
@@ -103,6 +115,96 @@ describe("Argument", () => {
             assertRange(args[0].getRange(), 0, 7, 0, 12);
         });
 
+        it("USER r\\\\n\\oot", () => {
+            let dockerfile = DockerfileParser.parse("USER r\\\n\\oot");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "root");
+            assert.equal(args[0].toString(), "root");
+            assertRange(args[0].getRange(), 0, 5, 1, 4);
+        });
+
+        it("RUN echo\\\\n \\abc", () => {
+            let dockerfile = DockerfileParser.parse("RUN echo\\\n \\abc");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[0].toString(), "echo");
+            assertRange(args[0].getRange(), 0, 4, 0, 8);
+            assert.equal(args[1].getValue(), "abc");
+            assert.equal(args[1].toString(), "abc");
+            assertRange(args[1].getRange(), 1, 1, 1, 5);
+        });
+
+        it("RUN echo\\\\n 'Hello'", () => {
+            let dockerfile = DockerfileParser.parse("RUN echo\\\n 'Hello'");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[0].toString(), "echo");
+            assertRange(args[0].getRange(), 0, 4, 0, 8);
+            assert.equal(args[1].getValue(), "'Hello'");
+            assert.equal(args[1].toString(), "'Hello'");
+            assertRange(args[1].getRange(), 1, 1, 1, 8);
+        });
+
+        it("RUN echo\\ \\n 'Hello'", () => {
+            let dockerfile = DockerfileParser.parse("RUN echo\\ \n 'Hello'");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[0].toString(), "echo");
+            assertRange(args[0].getRange(), 0, 4, 0, 8);
+            assert.equal(args[1].getValue(), "'Hello'");
+            assert.equal(args[1].toString(), "'Hello'");
+            assertRange(args[1].getRange(), 1, 1, 1, 8);
+        });
+
+        it("FROM alp\\\\nine", () => {
+            let dockerfile = DockerfileParser.parse("FROM alp\\\nine");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "alpine");
+            assert.equal(args[0].toString(), "alpine");
+            assertRange(args[0].getRange(), 0, 5, 1, 3);
+        });
+
+        it("FROM alp\\\\n\\nine", () => {
+            let dockerfile = DockerfileParser.parse("FROM alp\\\n\nine");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "alpine");
+            assert.equal(args[0].toString(), "alpine");
+            assertRange(args[0].getRange(), 0, 5, 2, 3);
+        });
+
+        it("FROM alp\\\\r\\n \t\\nine", () => {
+            let dockerfile = DockerfileParser.parse("FROM alp\\\r\n \t\nine");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "alpine");
+            assert.equal(args[0].toString(), "alpine");
+            assertRange(args[0].getRange(), 0, 5, 2, 3);
+        });
+
+        it("FROM alp\\\\n \t\\r\\nine", () => {
+            let dockerfile = DockerfileParser.parse("FROM alp\\\n \t\r\nine");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "alpine");
+            assert.equal(args[0].toString(), "alpine");
+            assertRange(args[0].getRange(), 0, 5, 2, 3);
+        });
+
+        it("ARG var=\\\\n\\nvalue", () => {
+            let dockerfile = DockerfileParser.parse("ARG var=\\\n\nvalue");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "var=value");
+            assert.equal(args[0].toString(), "var=value");
+            assertRange(args[0].getRange(), 0, 4, 2, 5);
+        });
+
         it("FROM alpine \\\\n # comment", () => {
             let dockerfile = DockerfileParser.parse("FROM alpine \\\n # comment");
             let args = dockerfile.getInstructions()[0].getArguments();
@@ -129,6 +231,18 @@ describe("Argument", () => {
 
         it("ARG a=a\\\\n b", () => {
             let dockerfile = DockerfileParser.parse("ARG a=a\\\n b");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "a=a");
+            assert.equal(args[1].getValue(), "b");
+            assert.equal(args[0].toString(), "a=a");
+            assert.equal(args[1].toString(), "b");
+            assertRange(args[0].getRange(), 0, 4, 0, 7);
+            assertRange(args[1].getRange(), 1, 1, 1, 2);
+        });
+
+        it("ARG a=a\\\\r\\n b", () => {
+            let dockerfile = DockerfileParser.parse("ARG a=a\\\r\n b");
             let args = dockerfile.getInstructions()[0].getArguments();
             assert.equal(args.length, 2);
             assert.equal(args[0].getValue(), "a=a");

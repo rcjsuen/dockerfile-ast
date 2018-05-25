@@ -27,6 +27,11 @@ describe("PropertyInstruction", () => {
             properties = propInstruction.getProperties();
             assert.equal(properties.length, 1);
 
+            dockerfile = DockerfileParser.parse(instruction + " key\\\n" + delimiter + "value");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+
             dockerfile = DockerfileParser.parse(instruction + " key" + delimiter + "value");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
             properties = propInstruction.getProperties();

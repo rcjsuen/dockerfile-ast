@@ -19,7 +19,7 @@ export abstract class PropertyInstruction extends Instruction {
 
     public getProperties(): Property[] {
         if (this.properties === undefined) {
-            let args = this.getArguments();
+            let args = this.getPropertyArguments();
             if (args.length === 0) {
                 this.properties = [];
             } else if (args.length === 1) {
@@ -95,7 +95,7 @@ export abstract class PropertyInstruction extends Instruction {
         return index;
     }
 
-    public getArguments(): Argument[] {
+    private getPropertyArguments(): Argument[] {
         const args: Argument[] = [];
         let range = this.getInstructionRange();
         let instructionNameEndOffset = this.document.offsetAt(range.end);

@@ -184,19 +184,35 @@ export class Instruction extends Line {
         let start = false;
         let comment = false;
         let found = -1;
+        // determines whether the parser has found a space or tab
+        // whitespace character that's a part of an escaped newline sequence
+        let escapedWhitespaceDetected = false;
+        // determines if the parser is currently in an escaped newline sequence
+        let escaping = false;
         let escapeMarker = -1;
         let escapedArg = "";
         for (let i = 0; i < fullArgs.length; i++) {
             let char = fullArgs.charAt(i);
             if (Util.isWhitespace(char)) {
-                if (Util.isNewline(char) && comment) {
-                    comment = false;
+                if (escaping) {
+                    escapedWhitespaceDetected = true;
+                    if (Util.isNewline(char)) {
+                        // reached a newline, any previously
+                        // detected whitespace should be ignored
+                        escapedWhitespaceDetected = false;
+                        if (comment) {
+                            // reached a newline, no longer in a comment
+                            comment = false;
+                        }
+                    }
+                    continue;
                 } else if (found !== -1) {
                     if (escapeMarker === -1) {
                         args.push(new Argument(escapedArg, Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + i))));
                     } else {
                         args.push(new Argument(escapedArg, Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + escapeMarker))));
                     }
+                    escapeMarker = -1;
                     escapedArg = "";
                     found = -1;
                 }
@@ -212,8 +228,11 @@ export class Instruction extends Line {
                             case '\r':
                                 j++;
                             case '\n':
+                                escaping = true;
                                 start = true;
-                                escapeMarker = i;
+                                if (found !== -1) {
+                                    escapeMarker = i;
+                                }
                                 i = j;
                                 break whitespaceCheck;
                             default:
@@ -225,21 +244,32 @@ export class Instruction extends Line {
                         }
                     }
                 } else if (next === '\r') {
+                    escaping = true;
                     start = true;
-                    escapeMarker = i;
+                    if (found !== -1) {
+                        escapeMarker = i;
+                    }
                     i += 2;
                 } else if (next === '\n') {
+                    escaping = true;
                     start = true;
-                    escapeMarker = i;
-                    i++;
-                } else if (next === '$') {
-                    escapedArg = escapedArg + char + next;
-                    if (found === -1) {
-                        found = i;
+                    if (found !== -1) {
+                        escapeMarker = i;
                     }
                     i++;
                 } else {
-                    escapedArg = escapedArg + next;
+                    if (escapedWhitespaceDetected && escapeMarker !== -1) {
+                        args.push(new Argument(escapedArg, Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + escapeMarker))));
+                        escapedArg = "";
+                        found = -1;
+                    }
+                    escapedWhitespaceDetected = false;
+                    escaping = false;
+                    if (next === '$') {
+                        escapedArg = escapedArg + char + next;
+                    } else {
+                        escapedArg = escapedArg + next;
+                    }
                     if (found === -1) {
                         found = i;
                     }
@@ -250,6 +280,13 @@ export class Instruction extends Line {
                     start = false;
                     comment = true;
                 } else {
+                    if (escapedWhitespaceDetected && escapeMarker !== -1) {
+                        args.push(new Argument(escapedArg, Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + escapeMarker))));
+                        escapedArg = "";
+                        found = -1;
+                    }
+                    escapedWhitespaceDetected = false;
+                    escaping = false;
                     escapeMarker = -1;
                     escapedArg = escapedArg + char;
                     if (found === -1) {
@@ -260,7 +297,11 @@ export class Instruction extends Line {
         }
 
         if (found !== -1) {
-            args.push(new Argument(escapedArg, Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + fullArgs.length))));
+            if (escapeMarker === -1) {
+                args.push(new Argument(escapedArg, Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + fullArgs.length))));
+            } else {
+                args.push(new Argument(escapedArg, Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + escapeMarker))));
+            }
         }
 
         return args;
