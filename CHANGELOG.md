@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.7] - 2018-05-25
 ### Added
 - `ParserDirective`
   - `toString()` ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
@@ -104,7 +104,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.6...HEAD
+[0.0.7]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.3...v0.0.4
