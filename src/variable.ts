@@ -12,17 +12,19 @@ export class Variable {
     private readonly modifier: string;
     private readonly modifierRange: Range;
     private readonly substitutionParameter: string;
+    private readonly substitutionRange: Range;
     private readonly defined: boolean;
     private readonly buildVariable: boolean;
     private readonly stringValue: string;
 
-    constructor(name: string, nameRange: Range, range: Range, modifier: string, modifierRange: Range, substitutionParameter: string, defined: boolean, buildVariable: boolean, stringValue: string) {
+    constructor(name: string, nameRange: Range, range: Range, modifier: string, modifierRange: Range, substitutionParameter: string, substitutionRange: Range, defined: boolean, buildVariable: boolean, stringValue: string) {
         this.name = name;
         this.nameRange = nameRange;
         this.range = range;
         this.modifier = modifier;
         this.modifierRange = modifierRange;
         this.substitutionParameter = substitutionParameter;
+        this.substitutionRange = substitutionRange;
         this.defined = defined;
         this.buildVariable = buildVariable;
         this.stringValue = stringValue;
@@ -90,6 +92,10 @@ export class Variable {
      */
     public getSubstitutionParameter(): string | null {
         return this.substitutionParameter;
+    }
+
+    public getSubstitutionRange(): Range {
+        return this.substitutionRange;
     }
 
     /**

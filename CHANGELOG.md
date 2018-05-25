@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
   - `getModifier()` ([#27](https://github.com/rcjsuen/dockerfile-ast/issues/27))
   - `getModifierRange()` ([#33](https://github.com/rcjsuen/dockerfile-ast/issues/33))
   - `getSubstitutionParameter()` ([#27](https://github.com/rcjsuen/dockerfile-ast/issues/27))
+  - `getSubstitutionRange()` ([#33](https://github.com/rcjsuen/dockerfile-ast/issues/33))
   - `toString()` ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
 
 ### Fixed

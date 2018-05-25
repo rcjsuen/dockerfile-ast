@@ -373,6 +373,8 @@ export class Instruction extends Line {
                         let escapedName = "";
                         let nameEnd = -1;
                         let escapedSubstitutionParameter = "";
+                        let substitutionStart = -1;
+                        let substitutionEnd = -1;
                         let modifierRead = -1;
                         nameLoop: for (let j = i + 2; j < arg.length; j++) {
                             let char = arg.charAt(j);
@@ -397,14 +399,28 @@ export class Instruction extends Line {
                                     let modifier = null;
                                     let modifierRange = null;
                                     let substitutionParameter = modifierRead !== -1 ? escapedSubstitutionParameter : null;
+                                    let substitutionRange = null;
                                     if (nameEnd === -1) {
                                         nameEnd = j;
                                     } else if (nameEnd + 1 === j) {
                                         modifier = "";
                                         modifierRange = Range.create(this.document.positionAt(offset + nameEnd + 1), this.document.positionAt(offset + nameEnd + 1));
                                     } else {
+                                        if (substitutionStart === -1) {
+                                            // no substitution parameter found,
+                                            // but a modifier character existed,
+                                            // just offset the range by 1 from
+                                            // the modifier character
+                                            substitutionStart = modifierRead + 1;
+                                            substitutionEnd = modifierRead + 1;
+                                        } else {
+                                            // offset one more from the last
+                                            // character found
+                                            substitutionEnd = substitutionEnd + 1;
+                                        }
                                         modifier = arg.substring(modifierRead, modifierRead + 1);
                                         modifierRange = Range.create(this.document.positionAt(offset + modifierRead), this.document.positionAt(offset + modifierRead + 1));
+                                        substitutionRange = Range.create(this.document.positionAt(offset + substitutionStart), this.document.positionAt(offset + substitutionEnd));
                                     }
                                     let start = this.document.positionAt(offset + i);
                                     variables.push(new Variable(
@@ -414,6 +430,7 @@ export class Instruction extends Line {
                                         modifier,
                                         modifierRange,
                                         substitutionParameter,
+                                        substitutionRange,
                                         this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
                                         this.isBuildVariable(escapedName, start.line),
                                         escapedString
@@ -424,6 +441,12 @@ export class Instruction extends Line {
                                     if (nameEnd === -1) {
                                         nameEnd = j;
                                     } else if (modifierRead !== -1) {
+                                        if (substitutionStart === -1) {
+                                            substitutionStart = j;
+                                            substitutionEnd = j + 1;
+                                        } else {
+                                            substitutionEnd = j + 1;
+                                        }
                                         escapedSubstitutionParameter += ':';
                                     } else {
                                         modifierRead = j;
@@ -439,6 +462,12 @@ export class Instruction extends Line {
                                     if (nameEnd === -1) {
                                         escapedName += char;
                                     } else if (modifierRead !== -1) {
+                                        if (substitutionStart === -1) {
+                                            substitutionStart = j;
+                                            substitutionEnd = j;
+                                        } else {
+                                            substitutionEnd = j;
+                                        }
                                         escapedSubstitutionParameter += char;
                                     } else {
                                         modifierRead = j;
@@ -473,6 +502,7 @@ export class Instruction extends Line {
                                         null,
                                         null,
                                         null,
+                                        null,
                                         this.dockerfile.resolveVariable(escapedName, varStart.line) !== undefined,
                                         this.isBuildVariable(escapedName, varStart.line),
                                         '$' + escapedName
@@ -502,6 +532,7 @@ export class Instruction extends Line {
                                         null,
                                         null,
                                         null,
+                                        null,
                                         this.dockerfile.resolveVariable(escapedName, start.line) !== undefined,
                                         this.isBuildVariable(escapedName, start.line),
                                         '$' + escapedName
@@ -515,6 +546,7 @@ export class Instruction extends Line {
                             escapedName,
                             Range.create(this.document.positionAt(offset + i + 1), this.document.positionAt(offset + arg.length)),
                             Range.create(start, this.document.positionAt(offset + arg.length)),
+                            null,
                             null,
                             null,
                             null,
