@@ -445,7 +445,7 @@ export class Instruction extends Line {
                                             substitutionStart = j;
                                             substitutionEnd = j;
                                         } else {
-                                            substitutionEnd = j + 1;
+                                            substitutionEnd = j;
                                         }
                                         escapedSubstitutionParameter += ':';
                                     } else {

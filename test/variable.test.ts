@@ -89,6 +89,22 @@ describe("Variable", () => {
         assert.equal(variable.toString(), "${image:node}");
     });
 
+    it("FROM ${image:nod:}", () => {
+        let dockerfile = DockerfileParser.parse("FROM ${image:nod:}");
+        let variable = dockerfile.getInstructions()[0].getVariables()[0];
+        assert.equal(variable.getName(), "image");
+        assertRange(variable.getNameRange(), 0, 7, 0, 12);
+        assertRange(variable.getRange(), 0, 5, 0, 18);
+        assert.equal(variable.getModifier(), "n");
+        assertRange(variable.getModifierRange(), 0, 13, 0, 14);
+        assert.equal(variable.getSubstitutionParameter(), "od:");
+        assertRange(variable.getSubstitutionRange(), 0, 14, 0, 17);
+        assert.equal(variable.isDefined(), false);
+        assert.equal(variable.isBuildVariable(), false);
+        assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${image:nod:}");
+    });
+
     it("FROM ${image:+node}", () => {
         let dockerfile = DockerfileParser.parse("FROM ${image:+node}");
         let variable = dockerfile.getInstructions()[0].getVariables()[0];
