@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
   - `getSubstitutionRange()` ([#33](https://github.com/rcjsuen/dockerfile-ast/issues/33))
   - `toString()` ([#4](https://github.com/rcjsuen/dockerfile-ast/issues/4))
 
+### Changed
+- `PropertyInstruction`
+  - `getArguments()` ([#34](https://github.com/rcjsuen/dockerfile-ast/issues/34))
+    - to make this function more predictable, `PropertyInstruction` no longer overrides this function with its own implementation
+
 ### Fixed
 - resolve references to uninitialized `ARG` variables against `ARG` variables before the first `FROM` if present ([#26](https://github.com/rcjsuen/dockerfile-ast/issues/26))
 - change `FROM` to parse its image argument correctly if it is in a private registry ([#28](https://github.com/rcjsuen/dockerfile-ast/issues/28))
