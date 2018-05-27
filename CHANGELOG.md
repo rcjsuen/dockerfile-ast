@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.8] - 2018-05-27
 ### Fixed
 - prevent `getVariables()` from throwing an error if a `LABEL` has no value defined ([#38](https://github.com/rcjsuen/dockerfile-ast/issues/38))
 
@@ -108,7 +108,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.7...HEAD
+[0.0.8]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.4...v0.0.5
