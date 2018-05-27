@@ -23,7 +23,7 @@ export class Label extends PropertyInstruction {
             const value = property.getUnescapedValue();
             // check if the value is contained in single quotes,
             // single quotes would indicate a literal value
-            if (value.length > 2 && value.charAt(0) === '\'' && value.charAt(value.length - 1) === '\'') {
+            if (value !== null && value.length > 2 && value.charAt(0) === '\'' && value.charAt(value.length - 1) === '\'') {
                 const range = property.getValueRange();
                 for (let i = 0; i < variables.length; i++) {
                     // if a variable is in a single quote, remove it from the list

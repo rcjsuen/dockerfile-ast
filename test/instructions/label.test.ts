@@ -33,5 +33,20 @@ describe("LABEL", () => {
         assert.equal(variables[0].getName(), "value");
         assertRange(variables[0].getNameRange(), 0, 11, 0, 16);
         assertRange(variables[0].getRange(), 0, 10, 0, 16);
+
+        dockerfile = DockerfileParser.parse("LABEL");
+        label = dockerfile.getInstructions()[0];
+        variables = label.getVariables();
+        assert.equal(variables.length, 0);
+
+        dockerfile = DockerfileParser.parse("LABEL abc");
+        label = dockerfile.getInstructions()[0];
+        variables = label.getVariables();
+        assert.equal(variables.length, 0);
+
+        dockerfile = DockerfileParser.parse("LABEL abc=def xyz");
+        label = dockerfile.getInstructions()[0];
+        variables = label.getVariables();
+        assert.equal(variables.length, 0);
     });
 });
