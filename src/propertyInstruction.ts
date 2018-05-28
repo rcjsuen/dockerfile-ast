@@ -251,14 +251,16 @@ export abstract class PropertyInstruction extends Instruction {
                         }
                         // went to the end without finding a newline,
                         // the comment was the last line in the instruction,
-                        // just stop parsing
-                        let value = content.substring(argStart, mark);
-                        args.push(new Argument(
-                            value,
-                            Range.create(this.document.positionAt(instructionNameEndOffset + start + argStart),
-                                this.document.positionAt(instructionNameEndOffset + start + mark))
-                        ));
-                        argStart = -1;
+                        // just stop parsing, create an argument if needed
+                        if (argStart !== -1) {
+                            let value = content.substring(argStart, mark);
+                            args.push(new Argument(
+                                value,
+                                Range.create(this.document.positionAt(instructionNameEndOffset + start + argStart),
+                                    this.document.positionAt(instructionNameEndOffset + start + mark))
+                            ));
+                            argStart = -1;
+                        }
                         break argumentLoop;
                     } else if (argStart === -1) {
                         argStart = i;
