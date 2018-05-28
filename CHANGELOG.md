@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Fixed
 - handle comments in the last line of a file properly for `ARG`, `ENV`, and `LABEL` ([#40](https://github.com/rcjsuen/dockerfile-ast/issues/40))
+- parse ARG instructions properly when its value contains an unclosed quote ([#41](https://github.com/rcjsuen/dockerfile-ast/issues/41))
 
 ## [0.0.8] - 2018-05-27
 ### Fixed

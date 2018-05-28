@@ -13,7 +13,7 @@ export class Arg extends PropertyInstruction {
 
     constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
         super(document, range, dockerfile, escapeChar, instruction, instructionRange);
-        const args = this.getArguments();
+        const args = this.getPropertyArguments();
         if (args.length === 1) {
             this.property = new Property(this.document, this.escapeChar, args[0]);
         } else {
