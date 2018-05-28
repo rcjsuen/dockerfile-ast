@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.9] - 2018-05-28
 ### Fixed
 - handle comments in the last line of a file properly for `ARG`, `ENV`, and `LABEL` ([#40](https://github.com/rcjsuen/dockerfile-ast/issues/40))
 - parse ARG instructions properly when its value contains an unclosed quote ([#41](https://github.com/rcjsuen/dockerfile-ast/issues/41))
@@ -113,7 +113,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.8...HEAD
+[0.0.9]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.5...v0.0.6
