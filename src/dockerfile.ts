@@ -130,7 +130,11 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
         if (resolvedVariable === null) {
             // refers to an uninitialized ARG variable,
             // try resolving it against the initial ARGs then
-            return this.initialInstructions.resolveVariable(variable, line);
+            let initialARGs = new ImageTemplate();
+            for (let instruction of this.initialInstructions.getARGs()) {
+                initialARGs.addInstruction(instruction);
+            }
+            return initialARGs.resolveVariable(variable, line);
         }
         return resolvedVariable;
     }

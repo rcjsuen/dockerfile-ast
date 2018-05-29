@@ -443,6 +443,18 @@ describe("Argument", () => {
             assertRange(args[0].getRange(), 4, 4, 4, 8);
             assertRange(args[1].getRange(), 4, 9, 4, 13);
         });
+
+        it("ARG variable does not inherit default value from ENV before FROM", () => {
+            let dockerfile = DockerfileParser.parse("ENV var=value\nFROM alpine\nARG var\nRUN echo $var");
+            let args = dockerfile.getInstructions()[3].getExpandedArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "$var");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "$var");
+            assertRange(args[0].getRange(), 3, 4, 3, 8);
+            assertRange(args[1].getRange(), 3, 9, 3, 13);
+        });
     });
 
     it("isBefore", () => {

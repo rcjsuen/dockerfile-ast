@@ -177,5 +177,13 @@ describe("Dockerfile", () => {
             "RUN echo $ver"
         );
         assert.equal(null, dockerfile.resolveVariable("ver", 4));
+
+        dockerfile = DockerfileParser.parse(
+            "ENV ver=latest\n " +
+            "FROM busybox:$ver\n " +
+            "ARG ver\n " +
+            "RUN echo $ver"
+        );
+        assert.equal(null, dockerfile.resolveVariable("ver", 3));
     });
 });
