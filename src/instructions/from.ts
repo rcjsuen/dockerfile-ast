@@ -5,6 +5,7 @@
 import { TextDocument, Range } from 'vscode-languageserver-types';
 import { Dockerfile } from '../dockerfile';
 import { Instruction } from '../instruction';
+import { Util } from '../util';
 
 export class From extends Instruction {
 
@@ -35,29 +36,27 @@ export class From extends Instruction {
     public getImageNameRange(): Range | null {
         let range = this.getImageRange();
         if (range) {
+            let tagRange = this.getImageTagRange();
+            if (tagRange !== null) {
+                range.end = this.document.positionAt(this.document.offsetAt(tagRange.start) - 1);
+            }
             let content = this.getRangeContent(range);
             let trailingSlashIndex = content.lastIndexOf('/');
             let digestIndex = content.lastIndexOf('@');
             let colonIndex = content.lastIndexOf(':');
             if (trailingSlashIndex < colonIndex || trailingSlashIndex === -1) {
-                let rangeStart = this.document.offsetAt(range.start);
-                let start = rangeStart;
-                if (colonIndex === -1 || (digestIndex !== -1 && digestIndex < colonIndex)) {
-                    colonIndex = digestIndex;
-                }
-                // slash found
-                if (trailingSlashIndex !== -1) {
+                if (digestIndex !== -1) {
+                    let rangeStart = this.document.offsetAt(range.start);
+                    let start = rangeStart;
                     let startingSlashIndex = content.indexOf('/');
                     // are there two slashes or a port, might be a private registry
                     if (startingSlashIndex !== trailingSlashIndex || content.substring(0, startingSlashIndex).indexOf(':') !== -1) {
                         // adjust the starting range if a private registry is specified
                         start = start + startingSlashIndex + 1;
                     }
-                }
-                if (colonIndex !== -1) {
                     return Range.create(
                         this.document.positionAt(start),
-                        this.document.positionAt(rangeStart + colonIndex)
+                        this.document.positionAt(rangeStart + digestIndex)
                     );
                 }
                 return range;
@@ -67,7 +66,7 @@ export class From extends Instruction {
             let rangeEnd = digestIndex === -1 ? range.end : this.document.positionAt(rangeStart + digestIndex);
             let startingSlashIndex = content.indexOf('/');
             // check if two slashes have been detected or if there is a port defined
-            if (startingSlashIndex !== trailingSlashIndex || (colonIndex !== -1 && colonIndex < startingSlashIndex)) {
+            if (startingSlashIndex !== trailingSlashIndex || colonIndex !== -1) {
                 return Range.create(
                     this.document.positionAt(rangeStart + startingSlashIndex + 1),
                     rangeEnd
@@ -104,6 +103,18 @@ export class From extends Instruction {
             let content = this.getRangeContent(range);
             if (content.indexOf('@') === -1) {
                 let index = content.lastIndexOf(':');
+                let variables = this.getVariables();
+                for (let i = 0; i < variables.length; i++) {
+                    let position = this.document.positionAt(this.document.offsetAt(range.start) + index);
+                    if (Util.isInsideRange(position, variables[i].getRange())) {
+                        index = content.substring(0, index).lastIndexOf(':');
+                        if (index === -1) {
+                            return null;
+                        }
+                        i = -1;
+                        continue;
+                    }
+                }
                 // the colon might be for a private registry's port and not a tag
                 if (index > content.indexOf('/')) {
                     return Range.create(range.start.line, range.start.character + index + 1, range.end.line, range.end.character);

@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Fixed
 - do not resolve reinitialized ARG variables with ENV instructions at the top of the Dockerfile ([#42](https://github.com/rcjsuen/dockerfile-ast/issues/42))
+- improve parsing of FROM instructions that refer to variables ([#39](https://github.com/rcjsuen/dockerfile-ast/issues/39))
 
 ## [0.0.9] - 2018-05-28
 ### Fixed
