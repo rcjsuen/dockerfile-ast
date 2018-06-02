@@ -190,6 +190,7 @@ describe("FROM", () => {
         assert.equal(from.getImage(), "privateregistry.com/base/image:tag");
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 25, 0, 35);
+        assertRange(from.getImageTagRange(), 0, 36, 0, 39);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
