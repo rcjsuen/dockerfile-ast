@@ -37,42 +37,27 @@ export class From extends Instruction {
         let range = this.getImageRange();
         if (range) {
             let tagRange = this.getImageTagRange();
-            if (tagRange !== null) {
+            let digestRange = this.getImageDigestRange();
+            if (tagRange === null) {
+                if (digestRange !== null) {
+                    range.end = this.document.positionAt(this.document.offsetAt(digestRange.start) - 1);    
+                }
+            } else {
                 range.end = this.document.positionAt(this.document.offsetAt(tagRange.start) - 1);
             }
             let content = this.getRangeContent(range);
-            let trailingSlashIndex = content.lastIndexOf('/');
-            let digestIndex = content.lastIndexOf('@');
-            let colonIndex = content.lastIndexOf(':');
-            if (trailingSlashIndex < colonIndex || trailingSlashIndex === -1) {
-                if (digestIndex !== -1) {
-                    let rangeStart = this.document.offsetAt(range.start);
-                    let start = rangeStart;
-                    let startingSlashIndex = content.indexOf('/');
-                    // are there two slashes or a port, might be a private registry
-                    if (startingSlashIndex !== trailingSlashIndex || content.substring(0, startingSlashIndex).indexOf(':') !== -1) {
-                        // adjust the starting range if a private registry is specified
-                        start = start + startingSlashIndex + 1;
-                    }
-                    return Range.create(
-                        this.document.positionAt(start),
-                        this.document.positionAt(rangeStart + digestIndex)
-                    );
-                }
-                return range;
-            }
-            let rangeStart = this.document.offsetAt(range.start);
-            // if digest found, use that as the end instead
-            let rangeEnd = digestIndex === -1 ? range.end : this.document.positionAt(rangeStart + digestIndex);
+            let portIndex = content.lastIndexOf(':');
             let startingSlashIndex = content.indexOf('/');
             // check if two slashes have been detected or if there is a port defined
-            if (startingSlashIndex !== trailingSlashIndex || colonIndex !== -1) {
+            if (startingSlashIndex !== content.lastIndexOf('/') || portIndex !== -1) {
+                // start the range after the registry's URI then
+                let rangeStart = this.document.offsetAt(range.start);
                 return Range.create(
                     this.document.positionAt(rangeStart + startingSlashIndex + 1),
-                    rangeEnd
+                    range.end
                 );
             }
-            return Range.create(range.start, rangeEnd);
+            return range;
         }
         return null;
     }
