@@ -70,7 +70,7 @@ export class From extends Instruction {
      * @return the range of the image argument, or null if no image
      *         has been specified
      */
-    private getImageRange(): Range | null {
+    public getImageRange(): Range | null {
         let args = this.getArguments();
         return args.length !== 0 ? args[0].getRange() : null;
     }

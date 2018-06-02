@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- `From`
+  - `getImageRange()` ([#43](https://github.com/rcjsuen/dockerfile-ast/issues/43))
+
 ### Fixed
 - do not resolve reinitialized ARG variables with ENV instructions at the top of the Dockerfile ([#42](https://github.com/rcjsuen/dockerfile-ast/issues/42))
 - improve parsing of FROM instructions that refer to variables ([#39](https://github.com/rcjsuen/dockerfile-ast/issues/39))
