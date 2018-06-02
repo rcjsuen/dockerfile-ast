@@ -113,6 +113,10 @@ export class From extends Instruction {
         return null;
     }
 
+    public getImageDigest(): string | null {
+        return this.getRangeContent(this.getImageDigestRange());
+    }
+
     /**
      * Returns the range in the document that the digest of the base
      * image encompasses.
