@@ -385,7 +385,7 @@ describe("FROM", () => {
         assert.equal(from.getBuildStage(), null);
     });
 
-    it("FROM privateregistry.com:5000/base/image@", () => {
+    it("FROM privateregistry.com:5000/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
         let dockerfile = DockerfileParser.parse("FROM privateregistry.com:5000/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         let from = dockerfile.getFROMs()[0];
         assert.equal(from.getImage(), "privateregistry.com:5000/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
@@ -580,7 +580,7 @@ describe("FROM", () => {
         assert.equal(from.getBuildStage(), null);
     });
 
-    it("FROM localhost:1234/base/image@", () => {
+    it("FROM localhost:1234/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
         let dockerfile = DockerfileParser.parse("FROM localhost:1234/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         let from = dockerfile.getFROMs()[0];
         assert.equal(from.getImage(), "localhost:1234/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
