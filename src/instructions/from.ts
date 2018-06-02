@@ -75,6 +75,10 @@ export class From extends Instruction {
         return args.length !== 0 ? args[0].getRange() : null;
     }
 
+    public getImageTag(): string | null {
+        return this.getRangeContent(this.getImageTagRange());
+    }
+
     /**
      * Returns the range in the document that the tag of the base
      * image encompasses.

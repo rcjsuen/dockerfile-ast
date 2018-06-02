@@ -15,6 +15,7 @@ describe("FROM", () => {
         assert.equal(from.getImageRange(), null);
         assert.equal(from.getImageName(), null);
         assert.equal(from.getImageNameRange(), null);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -27,6 +28,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 9);
         assert.equal(from.getImageName(), "node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -39,6 +41,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 16);
         assert.equal(from.getImageName(), "no${de:-de}");
         assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -51,6 +54,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 10);
         assert.equal(from.getImageName(), "node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), "");
         assertRange(from.getImageTagRange(), 0, 10, 0, 10);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -63,6 +67,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 16);
         assert.equal(from.getImageName(), "node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), "alpine");
         assertRange(from.getImageTagRange(), 0, 10, 0, 16);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -75,6 +80,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 24);
         assert.equal(from.getImageName(), "node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), "${tag:-latest}");
         assertRange(from.getImageTagRange(), 0, 10, 0, 24);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -87,6 +93,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 10);
         assert.equal(from.getImageName(), "node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 10, 0, 10);
         assert.equal(from.getBuildStage(), null);
@@ -99,6 +106,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 81);
         assert.equal(from.getImageName(), "node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 10, 0, 81);
         assert.equal(from.getBuildStage(), null);
@@ -111,6 +119,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 91);
         assert.equal(from.getImageName(), "node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 10, 0, 91);
         assert.equal(from.getBuildStage(), null);
@@ -123,6 +132,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 16);
         assert.equal(from.getImageName(), "custom/node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -135,6 +145,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 17);
         assert.equal(from.getImageName(), "custom/node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assert.equal(from.getImageTag(), "");
         assertRange(from.getImageTagRange(), 0, 17, 0, 17);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -147,6 +158,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 23);
         assert.equal(from.getImageName(), "custom/node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assert.equal(from.getImageTag(), "alpine");
         assertRange(from.getImageTagRange(), 0, 17, 0, 23);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -159,6 +171,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 17);
         assert.equal(from.getImageName(), "custom/node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 17, 0, 17);
         assert.equal(from.getBuildStage(), null);
@@ -171,6 +184,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 88);
         assert.equal(from.getImageName(), "custom/node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 17, 0, 88);
         assert.equal(from.getBuildStage(), null);
@@ -183,6 +197,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 35);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 25, 0, 35);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -195,6 +210,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 36);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 25, 0, 35);
+        assert.equal(from.getImageTag(), "");
         assertRange(from.getImageTagRange(), 0, 36, 0, 36);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -207,6 +223,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 39);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 25, 0, 35);
+        assert.equal(from.getImageTag(), "tag");
         assertRange(from.getImageTagRange(), 0, 36, 0, 39);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -219,6 +236,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 36);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 25, 0, 35);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 36, 0, 36);
         assert.equal(from.getBuildStage(), null);
@@ -231,6 +249,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 107);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 25, 0, 35);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 36, 0, 107);
         assert.equal(from.getBuildStage(), null);
@@ -243,6 +262,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 35);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 30, 0, 35);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -255,6 +275,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 36);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 30, 0, 35);
+        assert.equal(from.getImageTag(), "");
         assertRange(from.getImageTagRange(), 0, 36, 0, 36);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -267,6 +288,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 39);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 30, 0, 35);
+        assert.equal(from.getImageTag(), "tag");
         assertRange(from.getImageTagRange(), 0, 36, 0, 39);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -279,6 +301,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 39);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 30, 0, 35);
+        assert.equal(from.getImageTag(), "tag");
         assertRange(from.getImageTagRange(), 0, 36, 0, 39);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -291,6 +314,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 36);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 30, 0, 35);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 36, 0, 36);
         assert.equal(from.getBuildStage(), null);
@@ -303,6 +327,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 107);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 30, 0, 35);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 36, 0, 107);
         assert.equal(from.getBuildStage(), null);
@@ -315,6 +340,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 40);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 30, 0, 40);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -327,6 +353,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 41);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 30, 0, 40);
+        assert.equal(from.getImageTag(), "");
         assertRange(from.getImageTagRange(), 0, 41, 0, 41);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -339,6 +366,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 44);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 30, 0, 40);
+        assert.equal(from.getImageTag(), "tag");
         assertRange(from.getImageTagRange(), 0, 41, 0, 44);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -351,6 +379,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 41);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 30, 0, 40);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 41, 0, 41);
         assert.equal(from.getBuildStage(), null);
@@ -363,6 +392,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 112);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 30, 0, 40);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 41, 0, 112);
         assert.equal(from.getBuildStage(), null);
@@ -375,6 +405,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 25);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 15, 0, 25);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -387,6 +418,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 26);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 15, 0, 25);
+        assert.equal(from.getImageTag(), "");
         assertRange(from.getImageTagRange(), 0, 26, 0, 26);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -399,6 +431,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 29);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 15, 0, 25);
+        assert.equal(from.getImageTag(), "tag");
         assertRange(from.getImageTagRange(), 0, 26, 0, 29);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -411,6 +444,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 26);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 15, 0, 25);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 26, 0, 26);
         assert.equal(from.getBuildStage(), null);
@@ -423,6 +457,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 97);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 15, 0, 25);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 26, 0, 97);
         assert.equal(from.getBuildStage(), null);
@@ -435,6 +470,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 25);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 20, 0, 25);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -447,6 +483,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 26);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 20, 0, 25);
+        assert.equal(from.getImageTag(), "");
         assertRange(from.getImageTagRange(), 0, 26, 0, 26);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -459,6 +496,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 29);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 20, 0, 25);
+        assert.equal(from.getImageTag(), "tag");
         assertRange(from.getImageTagRange(), 0, 26, 0, 29);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -471,6 +509,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 26);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 20, 0, 25);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 26, 0, 26);
         assert.equal(from.getBuildStage(), null);
@@ -483,6 +522,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 97);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 20, 0, 25);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 26, 0, 97);
         assert.equal(from.getBuildStage(), null);
@@ -495,6 +535,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 30);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 20, 0, 30);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -507,6 +548,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 31);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 20, 0, 30);
+        assert.equal(from.getImageTag(), "");
         assertRange(from.getImageTagRange(), 0, 31, 0, 31);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -519,6 +561,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 34);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 20, 0, 30);
+        assert.equal(from.getImageTag(), "tag");
         assertRange(from.getImageTagRange(), 0, 31, 0, 34);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -531,6 +574,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 31);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 20, 0, 30);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 31, 0, 31);
         assert.equal(from.getBuildStage(), null);
@@ -543,6 +587,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 102);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 20, 0, 30);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 31, 0, 102);
         assert.equal(from.getBuildStage(), null);
@@ -555,6 +600,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 29);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 19, 0, 29);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -567,6 +613,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 30);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 19, 0, 29);
+        assert.equal(from.getImageTag(), "");
         assertRange(from.getImageTagRange(), 0, 30, 0, 30);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -579,6 +626,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 33);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 19, 0, 29);
+        assert.equal(from.getImageTag(), "tag");
         assertRange(from.getImageTagRange(), 0, 30, 0, 33);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -591,6 +639,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 30);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 19, 0, 29);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 30, 0, 30);
         assert.equal(from.getBuildStage(), null);
@@ -603,6 +652,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 101);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 19, 0, 29);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 30, 0, 101);
         assert.equal(from.getBuildStage(), null);
@@ -615,6 +665,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 29);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 24, 0, 29);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -627,6 +678,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 30);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 24, 0, 29);
+        assert.equal(from.getImageTag(), "");
         assertRange(from.getImageTagRange(), 0, 30, 0, 30);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -639,6 +691,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 33);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 24, 0, 29);
+        assert.equal(from.getImageTag(), "tag");
         assertRange(from.getImageTagRange(), 0, 30, 0, 33);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -651,6 +704,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 30);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 24, 0, 29);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 30, 0, 30);
         assert.equal(from.getBuildStage(), null);
@@ -663,6 +717,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 101);
         assert.equal(from.getImageName(), "image");
         assertRange(from.getImageNameRange(), 0, 24, 0, 29);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 30, 0, 101);
         assert.equal(from.getBuildStage(), null);
@@ -675,6 +730,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 34);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 24, 0, 34);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -687,6 +743,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 35);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 24, 0, 34);
+        assert.equal(from.getImageTag(), "");
         assertRange(from.getImageTagRange(), 0, 35, 0, 35);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -699,6 +756,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 38);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 24, 0, 34);
+        assert.equal(from.getImageTag(), "tag");
         assertRange(from.getImageTagRange(), 0, 35, 0, 38);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -711,6 +769,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 35);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 24, 0, 34);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 35, 0, 35);
         assert.equal(from.getBuildStage(), null);
@@ -723,6 +782,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 106);
         assert.equal(from.getImageName(), "base/image");
         assertRange(from.getImageNameRange(), 0, 24, 0, 34);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assertRange(from.getImageDigestRange(), 0, 35, 0, 106);
         assert.equal(from.getBuildStage(), null);
@@ -735,6 +795,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 9);
         assert.equal(from.getImageName(), "node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), null);
@@ -747,6 +808,7 @@ describe("FROM", () => {
         assertRange(from.getImageRange(), 0, 5, 0, 9);
         assert.equal(from.getImageName(), "node");
         assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigestRange(), null);
         assert.equal(from.getBuildStage(), "stage");

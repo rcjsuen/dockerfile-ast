@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - `From`
   - `getImageRange()` ([#43](https://github.com/rcjsuen/dockerfile-ast/issues/43))
+  - `getImageTag()` ([#43](https://github.com/rcjsuen/dockerfile-ast/issues/43))
 
 ### Fixed
 - do not resolve reinitialized ARG variables with ENV instructions at the top of the Dockerfile ([#42](https://github.com/rcjsuen/dockerfile-ast/issues/42))
