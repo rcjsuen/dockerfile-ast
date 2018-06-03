@@ -36,6 +36,10 @@ export class From extends Instruction {
     public getImageNameRange(): Range | null {
         let range = this.getImageRange();
         if (range) {
+            let registryRange = this.getRegistryRange();
+            if (registryRange) {
+                range.start = this.document.positionAt(this.document.offsetAt(registryRange.end) + 1);
+            }
             let tagRange = this.getImageTagRange();
             let digestRange = this.getImageDigestRange();
             if (tagRange === null) {
@@ -44,18 +48,6 @@ export class From extends Instruction {
                 }
             } else {
                 range.end = this.document.positionAt(this.document.offsetAt(tagRange.start) - 1);
-            }
-            let content = this.getRangeContent(range);
-            let portIndex = content.lastIndexOf(':');
-            let startingSlashIndex = content.indexOf('/');
-            // check if two slashes have been detected or if there is a port defined
-            if (startingSlashIndex !== content.lastIndexOf('/') || portIndex !== -1) {
-                // start the range after the registry's URI then
-                let rangeStart = this.document.offsetAt(range.start);
-                return Range.create(
-                    this.document.positionAt(rangeStart + startingSlashIndex + 1),
-                    range.end
-                );
             }
             return range;
         }
@@ -131,6 +123,55 @@ export class From extends Instruction {
             let index = content.lastIndexOf('@');
             if (index !== -1) {
                 return Range.create(range.start.line, range.start.character + index + 1, range.end.line, range.end.character);
+            }
+        }
+        return null;
+    }
+
+    private indexOf(documentOffset: number, content: string, searchString: string): number {
+        let index = content.indexOf(searchString);
+        const variables = this.getVariables();
+        for (let i = 0; i < variables.length; i++) {
+            const position = this.document.positionAt(documentOffset + index);
+            if (Util.isInsideRange(position, variables[i].getRange())) {
+                index = content.substring(0, index).indexOf(':');
+                if (index === -1) {
+                    return -1;
+                }
+                i = -1;
+                continue;
+            }
+        }
+        return index;
+    }
+
+    public getRegistry(): string | null {
+        return this.getRangeContent(this.getRegistryRange());
+    }
+
+    public getRegistryRange(): Range | null {
+        const range = this.getImageRange();
+        if (range) {
+            const tagRange = this.getImageTagRange();
+            const digestRange = this.getImageDigestRange();
+            if (tagRange === null) {
+                if (digestRange !== null) {
+                    range.end = this.document.positionAt(this.document.offsetAt(digestRange.start) - 1);    
+                }
+            } else {
+                range.end = this.document.positionAt(this.document.offsetAt(tagRange.start) - 1);
+            }
+            const content = this.getRangeContent(range);
+            const portIndex = this.indexOf(this.document.offsetAt(range.start), content, ':');
+            const startingSlashIndex = content.indexOf('/');
+            // check if two slashes have been detected or if there is a port defined
+            if (startingSlashIndex !== content.lastIndexOf('/') || portIndex !== -1) {
+                // registry detected, return its range
+                const rangeStart = this.document.offsetAt(range.start);
+                return Range.create(
+                    range.start,
+                    this.document.positionAt(rangeStart + startingSlashIndex),
+                );
             }
         }
         return null;

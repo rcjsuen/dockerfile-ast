@@ -19,6 +19,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -33,6 +35,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -47,6 +51,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -61,6 +67,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 10, 0, 10);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -75,6 +83,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 10, 0, 16);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -89,6 +99,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 10, 0, 24);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -103,6 +115,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "");
         assertRange(from.getImageDigestRange(), 0, 10, 0, 10);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -117,6 +131,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 10, 0, 81);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -131,6 +147,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "${digest:-sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 10, 0, 91);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -145,6 +163,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -159,6 +179,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 17, 0, 17);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -173,6 +195,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 17, 0, 23);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -187,6 +211,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "");
         assertRange(from.getImageDigestRange(), 0, 17, 0, 17);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -201,6 +227,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 17, 0, 88);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -215,6 +243,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "privateregistry.com");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -229,6 +259,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 36, 0, 36);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "privateregistry.com");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -243,6 +275,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 36, 0, 39);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "privateregistry.com");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -257,6 +291,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "");
         assertRange(from.getImageDigestRange(), 0, 36, 0, 36);
+        assert.equal(from.getRegistry(), "privateregistry.com");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -271,6 +307,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 36, 0, 107);
+        assert.equal(from.getRegistry(), "privateregistry.com");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -285,6 +323,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "privateregistry.com:5000");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -299,6 +339,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 36, 0, 36);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "privateregistry.com:5000");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -313,6 +355,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 36, 0, 39);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "privateregistry.com:5000");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -327,6 +371,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 36, 0, 39);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "privateregistry.com:5000");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -341,6 +387,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "");
         assertRange(from.getImageDigestRange(), 0, 36, 0, 36);
+        assert.equal(from.getRegistry(), "privateregistry.com:5000");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -355,6 +403,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 36, 0, 107);
+        assert.equal(from.getRegistry(), "privateregistry.com:5000");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -369,6 +419,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "privateregistry.com:5000");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -383,6 +435,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 41, 0, 41);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "privateregistry.com:5000");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -397,6 +451,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 41, 0, 44);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "privateregistry.com:5000");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -411,6 +467,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "");
         assertRange(from.getImageDigestRange(), 0, 41, 0, 41);
+        assert.equal(from.getRegistry(), "privateregistry.com:5000");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -425,6 +483,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 41, 0, 112);
+        assert.equal(from.getRegistry(), "privateregistry.com:5000");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -439,6 +499,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "localhost");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -453,6 +515,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 26, 0, 26);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "localhost");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -467,6 +531,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 26, 0, 29);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "localhost");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -481,6 +547,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "");
         assertRange(from.getImageDigestRange(), 0, 26, 0, 26);
+        assert.equal(from.getRegistry(), "localhost");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -495,6 +563,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 26, 0, 97);
+        assert.equal(from.getRegistry(), "localhost");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -509,6 +579,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "localhost:1234");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -523,6 +595,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 26, 0, 26);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "localhost:1234");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -537,6 +611,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 26, 0, 29);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "localhost:1234");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -551,6 +627,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "");
         assertRange(from.getImageDigestRange(), 0, 26, 0, 26);
+        assert.equal(from.getRegistry(), "localhost:1234");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -565,6 +643,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 26, 0, 97);
+        assert.equal(from.getRegistry(), "localhost:1234");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -579,6 +659,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "localhost:1234");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -593,6 +675,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 31, 0, 31);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "localhost:1234");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -607,6 +691,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 31, 0, 34);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "localhost:1234");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -621,6 +707,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "");
         assertRange(from.getImageDigestRange(), 0, 31, 0, 31);
+        assert.equal(from.getRegistry(), "localhost:1234");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -635,6 +723,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 31, 0, 102);
+        assert.equal(from.getRegistry(), "localhost:1234");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -649,6 +739,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "123.22.33.123");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -663,6 +755,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 30, 0, 30);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "123.22.33.123");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -677,6 +771,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 30, 0, 33);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "123.22.33.123");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -691,6 +787,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "");
         assertRange(from.getImageDigestRange(), 0, 30, 0, 30);
+        assert.equal(from.getRegistry(), "123.22.33.123");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -705,6 +803,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 30, 0, 101);
+        assert.equal(from.getRegistry(), "123.22.33.123");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -719,6 +819,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "123.22.33.123:2345");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -733,6 +835,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 30, 0, 30);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "123.22.33.123:2345");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -747,6 +851,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 30, 0, 33);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "123.22.33.123:2345");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -761,6 +867,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "");
         assertRange(from.getImageDigestRange(), 0, 30, 0, 30);
+        assert.equal(from.getRegistry(), "123.22.33.123:2345");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -789,6 +897,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "123.22.33.123:2345");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -803,6 +913,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 35, 0, 35);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "123.22.33.123:2345");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -817,6 +929,8 @@ describe("FROM", () => {
         assertRange(from.getImageTagRange(), 0, 35, 0, 38);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), "123.22.33.123:2345");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -831,6 +945,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "");
         assertRange(from.getImageDigestRange(), 0, 35, 0, 35);
+        assert.equal(from.getRegistry(), "123.22.33.123:2345");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -845,6 +961,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 35, 0, 106);
+        assert.equal(from.getRegistry(), "123.22.33.123:2345");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -859,6 +977,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
@@ -873,6 +993,8 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), "stage");
     });
 });

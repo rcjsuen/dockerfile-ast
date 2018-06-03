@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
   - `getImageRange()` ([#43](https://github.com/rcjsuen/dockerfile-ast/issues/43))
   - `getImageTag()` ([#43](https://github.com/rcjsuen/dockerfile-ast/issues/43))
   - `getImageDigest()` ([#43](https://github.com/rcjsuen/dockerfile-ast/issues/43))
+  - `getRegistry()` ([#43](https://github.com/rcjsuen/dockerfile-ast/issues/43))
+  - `getRegistryRange()` ([#43](https://github.com/rcjsuen/dockerfile-ast/issues/43))
 
 ### Fixed
 - do not resolve reinitialized ARG variables with ENV instructions at the top of the Dockerfile ([#42](https://github.com/rcjsuen/dockerfile-ast/issues/42))
