@@ -83,19 +83,7 @@ export class From extends Instruction {
         if (range) {
             let content = this.getRangeContent(range);
             if (content.indexOf('@') === -1) {
-                let index = content.lastIndexOf(':');
-                let variables = this.getVariables();
-                for (let i = 0; i < variables.length; i++) {
-                    let position = this.document.positionAt(this.document.offsetAt(range.start) + index);
-                    if (Util.isInsideRange(position, variables[i].getRange())) {
-                        index = content.substring(0, index).lastIndexOf(':');
-                        if (index === -1) {
-                            return null;
-                        }
-                        i = -1;
-                        continue;
-                    }
-                }
+                let index = this.lastIndexOf(this.document.offsetAt(range.start), content, ':');
                 // the colon might be for a private registry's port and not a tag
                 if (index > content.indexOf('/')) {
                     return Range.create(range.start.line, range.start.character + index + 1, range.end.line, range.end.character);
@@ -120,7 +108,7 @@ export class From extends Instruction {
         let range = this.getImageRange();
         if (range) {
             let content = this.getRangeContent(range);
-            let index = content.lastIndexOf('@');
+            let index = this.lastIndexOf(this.document.offsetAt(range.start), content, '@');
             if (index !== -1) {
                 return Range.create(range.start.line, range.start.character + index + 1, range.end.line, range.end.character);
             }
@@ -133,8 +121,29 @@ export class From extends Instruction {
         const variables = this.getVariables();
         for (let i = 0; i < variables.length; i++) {
             const position = this.document.positionAt(documentOffset + index);
+            const variableRange = variables[i].getRange();
+            if (Util.isInsideRange(position, variableRange)) {
+                const offset = this.document.offsetAt(variableRange.end) - documentOffset;
+                const substring = content.substring(offset);
+                const subIndex = substring.indexOf(searchString);
+                if (subIndex === -1) {
+                    return -1;
+                }
+                index = subIndex + offset;
+                i = -1;
+                continue;
+            }
+        }
+        return index;
+    }
+
+    private lastIndexOf(documentOffset: number, content: string, searchString: string): number {
+        let index = content.lastIndexOf(searchString);
+        const variables = this.getVariables();
+        for (let i = 0; i < variables.length; i++) {
+            const position = this.document.positionAt(documentOffset + index);
             if (Util.isInsideRange(position, variables[i].getRange())) {
-                index = content.substring(0, index).indexOf(':');
+                index = content.substring(0, index).lastIndexOf(searchString);
                 if (index === -1) {
                     return -1;
                 }
@@ -163,9 +172,10 @@ export class From extends Instruction {
             }
             const content = this.getRangeContent(range);
             const portIndex = this.indexOf(this.document.offsetAt(range.start), content, ':');
-            const startingSlashIndex = content.indexOf('/');
+            const startingSlashIndex = this.indexOf(this.document.offsetAt(range.start), content, '/');
+            const endingSlashIndex = this.lastIndexOf(this.document.offsetAt(range.start), content, '/');
             // check if two slashes have been detected or if there is a port defined
-            if (startingSlashIndex !== content.lastIndexOf('/') || portIndex !== -1) {
+            if ((startingSlashIndex !== -1 && startingSlashIndex !== endingSlashIndex) || portIndex !== -1) {
                 // registry detected, return its range
                 const rangeStart = this.document.offsetAt(range.start);
                 return Range.create(
