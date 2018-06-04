@@ -136,6 +136,22 @@ describe("FROM", () => {
         assert.equal(from.getBuildStage(), null);
     });
 
+    it("FROM ${image:-'@blah'}:3.6", () => {
+        let dockerfile = DockerfileParser.parse("FROM ${image:-'@blah'}:3.6");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "${image:-'@blah'}:3.6");
+        assertRange(from.getImageRange(), 0, 5, 0, 26);
+        assert.equal(from.getImageName(), "${image:-'@blah'}");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 22);
+        assert.equal(from.getImageTag(), "3.6");
+        assertRange(from.getImageTagRange(), 0, 23, 0, 26);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
     it("FROM custom/no${de:-'//'}", () => {
         let dockerfile = DockerfileParser.parse("FROM custom/no${de:-'//'}");
         let from = dockerfile.getFROMs()[0];

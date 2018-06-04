@@ -81,8 +81,8 @@ export class From extends Instruction {
     public getImageTagRange(): Range | null {
         const range = this.getImageRange();
         if (range) {
-            let content = this.getRangeContent(range);
-            if (content.indexOf('@') === -1) {
+            if (this.getImageDigestRange() === null) {
+                let content = this.getRangeContent(range);
                 let index = this.lastIndexOf(this.document.offsetAt(range.start), content, ':');
                 // the colon might be for a private registry's port and not a tag
                 if (index > content.indexOf('/')) {
@@ -120,9 +120,9 @@ export class From extends Instruction {
         let index = content.indexOf(searchString);
         const variables = this.getVariables();
         for (let i = 0; i < variables.length; i++) {
-            const position = this.document.positionAt(documentOffset + index);
+            const position = documentOffset + index;
             const variableRange = variables[i].getRange();
-            if (Util.isInsideRange(position, variableRange)) {
+            if (this.document.offsetAt(variableRange.start) < position && position < this.document.offsetAt(variableRange.end)) {
                 const offset = this.document.offsetAt(variableRange.end) - documentOffset;
                 const substring = content.substring(offset);
                 const subIndex = substring.indexOf(searchString);
@@ -141,8 +141,9 @@ export class From extends Instruction {
         let index = content.lastIndexOf(searchString);
         const variables = this.getVariables();
         for (let i = 0; i < variables.length; i++) {
-            const position = this.document.positionAt(documentOffset + index);
-            if (Util.isInsideRange(position, variables[i].getRange())) {
+            const position = documentOffset + index;
+            const variableRange = variables[i].getRange();
+            if (this.document.offsetAt(variableRange.start) < position && position < this.document.offsetAt(variableRange.end)) {
                 index = content.substring(0, index).lastIndexOf(searchString);
                 if (index === -1) {
                     return -1;
