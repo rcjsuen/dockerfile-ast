@@ -29,9 +29,9 @@
     "vscode-languageserver-types": "^3.5.0"
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.33",
+    "@types/mocha": "^5.2.0",
     "@types/node": "^6.0.52",
-    "mocha": "^3.2.0",
+    "mocha": "^5.2.0",
     "typescript": "~2.6.1",
     "nyc": "^11.0.2"
   },

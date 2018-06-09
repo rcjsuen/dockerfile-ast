@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
   - `getRegistry()` ([#43](https://github.com/rcjsuen/dockerfile-ast/issues/43))
   - `getRegistryRange()` ([#43](https://github.com/rcjsuen/dockerfile-ast/issues/43))
 
+### Changed
+- [upgraded the dependency of Mocha](https://github.com/mochajs/mocha/issues/2791) from 3.x to 5.x
+  - versions prior to 4.x of Mocha dependended on Growl 1.9.2 which contained a [security vulnerability](https://github.com/tj/node-growl/issues/60)
+  - as Mocha is a `devDependencies` module, there is no reason to believe that the `dockerfile-ast` module itself was affected by this vulnerability
+
 ### Fixed
 - do not resolve reinitialized ARG variables with ENV instructions at the top of the Dockerfile ([#42](https://github.com/rcjsuen/dockerfile-ast/issues/42))
 - improve parsing of FROM instructions that refer to variables ([#39](https://github.com/rcjsuen/dockerfile-ast/issues/39))
