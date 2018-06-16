@@ -455,6 +455,15 @@ describe("Argument", () => {
             assertRange(args[0].getRange(), 3, 4, 3, 8);
             assertRange(args[1].getRange(), 3, 9, 3, 13);
         });
+
+        it("FROM variables should not resolve against initial ENVs", () => {
+            let dockerfile = DockerfileParser.parse("ENV image=alpine\nFROM $image");
+            let args = dockerfile.getInstructions()[1].getExpandedArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "$image");
+            assert.equal(args[0].toString(), "$image");
+            assertRange(args[0].getRange(), 1, 5, 1, 11);
+        });
     });
 
     it("isBefore", () => {

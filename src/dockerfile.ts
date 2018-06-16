@@ -122,7 +122,12 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
         for (let from of this.getFROMs()) {
             let range = from.getRange();
             if (range.start.line <= line && line <= range.end.line) {
-                return this.initialInstructions.resolveVariable(variable, line);
+                // resolve the FROM variable against the initial ARGs
+                let initialARGs = new ImageTemplate();
+                for (let instruction of this.initialInstructions.getARGs()) {
+                    initialARGs.addInstruction(instruction);
+                }
+                return initialARGs.resolveVariable(variable, line);
             }
         }
         let image = this.getContainingImage(Position.create(line, 0));

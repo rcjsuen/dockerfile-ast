@@ -185,5 +185,11 @@ describe("Dockerfile", () => {
             "RUN echo $ver"
         );
         assert.equal(null, dockerfile.resolveVariable("ver", 3));
+
+        dockerfile = DockerfileParser.parse(
+            "ENV image=alpine\n" +
+            "FROM $image"
+        );
+        assert.strictEqual(undefined, dockerfile.resolveVariable("image", 1));
     });
 });
