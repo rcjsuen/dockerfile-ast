@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Undefined
+## [0.0.11] - 2018-06-16
 ### Fixed
 - ignore initial ENVs when resolving variables in FROMs ([#44](https://github.com/rcjsuen/dockerfile-ast/issues/44))
 
