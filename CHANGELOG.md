@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.10] - 2018-06-16
 ### Added
 - `From`
   - `getImageRange()` ([#43](https://github.com/rcjsuen/dockerfile-ast/issues/43))
@@ -131,7 +131,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.9...HEAD
+[0.0.10]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.6...v0.0.7
