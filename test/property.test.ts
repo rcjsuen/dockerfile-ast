@@ -532,6 +532,16 @@ describe("Property", () => {
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 12);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 12);
+
+            dockerfile = DockerfileParser.parse(instruction + " \"aaa\"=\"bbb\"");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            property = propInstruction.getProperties()[0];
+            assert.equal(property.getName(), "aaa");
+            assert.equal(property.getValue(), "bbb");
+            assert.equal(property.getUnescapedValue(), "\"bbb\"");
+            assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 6);
+            assertRange(property.getValueRange(), 0, offset + 7, 0, offset + 12);
+            assertRange(property.getRange(), 0, offset + 1, 0, offset + 12);
         });
 
         it("\"a\\\"b\"" + delimiter + "\"c\\\"d\"", () => {
