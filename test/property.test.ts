@@ -723,6 +723,72 @@ describe("Property", () => {
             assert.equal(properties[0].getValue(), "${value:-\"a b\"");
             assert.equal(properties[1].getName(), "key2");
             assert.equal(properties[1].getValue(), "val}ue2");
+
+            dockerfile = DockerfileParser.parse(instruction + " key=value key2='value2' key3=\"value3\"");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 3);
+            assert.equal(properties[0].getName(), "key");
+            assert.equal(properties[0].getValue(), "value");
+            assert.equal(properties[1].getName(), "key2");
+            assert.equal(properties[1].getValue(), "value2");
+            assert.equal(properties[2].getName(), "key3");
+            assert.equal(properties[2].getValue(), "value3");
+
+            dockerfile = DockerfileParser.parse(instruction + " 'key'=value 'key2'='value2' 'key3'=\"value3\"");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 3);
+            assert.equal(properties[0].getName(), "key");
+            assert.equal(properties[0].getValue(), "value");
+            assert.equal(properties[1].getName(), "key2");
+            assert.equal(properties[1].getValue(), "value2");
+            assert.equal(properties[2].getName(), "key3");
+            assert.equal(properties[2].getValue(), "value3");
+
+            dockerfile = DockerfileParser.parse(instruction + " \"key\"=value \"key2\"='value2' \"key3\"=\"value3\"");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 3);
+            assert.equal(properties[0].getName(), "key");
+            assert.equal(properties[0].getValue(), "value");
+            assert.equal(properties[1].getName(), "key2");
+            assert.equal(properties[1].getValue(), "value2");
+            assert.equal(properties[2].getName(), "key3");
+            assert.equal(properties[2].getValue(), "value3");
+
+            dockerfile = DockerfileParser.parse(instruction + " key=value \\\n key2='value2' \\\n key3=\"value3\"");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 3);
+            assert.equal(properties[0].getName(), "key");
+            assert.equal(properties[0].getValue(), "value");
+            assert.equal(properties[1].getName(), "key2");
+            assert.equal(properties[1].getValue(), "value2");
+            assert.equal(properties[2].getName(), "key3");
+            assert.equal(properties[2].getValue(), "value3");
+
+            dockerfile = DockerfileParser.parse(instruction + " 'key'=value \\\n 'key2'='value2' \\\n 'key3'=\"value3\"");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 3);
+            assert.equal(properties[0].getName(), "key");
+            assert.equal(properties[0].getValue(), "value");
+            assert.equal(properties[1].getName(), "key2");
+            assert.equal(properties[1].getValue(), "value2");
+            assert.equal(properties[2].getName(), "key3");
+            assert.equal(properties[2].getValue(), "value3");
+
+            dockerfile = DockerfileParser.parse(instruction + " \"key\"=value \\\n \"key2\"='value2' \\\n \"key3\"=\"value3\"");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 3);
+            assert.equal(properties[0].getName(), "key");
+            assert.equal(properties[0].getValue(), "value");
+            assert.equal(properties[1].getName(), "key2");
+            assert.equal(properties[1].getValue(), "value2");
+            assert.equal(properties[2].getName(), "key3");
+            assert.equal(properties[2].getValue(), "value3");
         });
     }
 

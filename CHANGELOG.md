@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- handle quoted properties on separate lines properly for `ENV`s and `LABEL`s ([#44](https://github.com/rcjsuen/dockerfile-ast/issues/45))
+
 ## [0.0.11] - 2018-06-16
 ### Fixed
 - ignore initial ENVs when resolving variables in FROMs ([#44](https://github.com/rcjsuen/dockerfile-ast/issues/44))
@@ -135,6 +139,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.11...HEAD
 [0.0.11]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.10...v0.0.11
 [0.0.10]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.8...v0.0.9

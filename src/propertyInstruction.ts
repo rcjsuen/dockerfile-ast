@@ -220,7 +220,11 @@ export abstract class PropertyInstruction extends Instruction {
                 case ' ':
                 case '\t':
                     if (escaped) {
-                        spaced = true;
+                        // consider there to be a space only if an argument
+                        // is not spanning multiple lines
+                        if (argStart !== -1) {
+                            spaced = true;
+                        }
                     } else if (argStart !== -1) {
                         args.push(new Argument(
                             content.substring(argStart, i),
