@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.0.11] - 2018-06-16
 ### Fixed
-- ignore initial ENVs when resolving variables in FROMs ([#44](https://github.com/rcjsuen/dockerfile-ast/issues/44))
+- ignore initial `ENV`s when resolving variables in `FROM`s ([#44](https://github.com/rcjsuen/dockerfile-ast/issues/44))
 
 ## [0.0.10] - 2018-06-16
 ### Added
@@ -24,13 +24,13 @@ All notable changes to this project will be documented in this file.
   - as Mocha is a `devDependencies` module, there is no reason to believe that the `dockerfile-ast` module itself was affected by this vulnerability
 
 ### Fixed
-- do not resolve reinitialized ARG variables with ENV instructions at the top of the Dockerfile ([#42](https://github.com/rcjsuen/dockerfile-ast/issues/42))
-- improve parsing of FROM instructions that refer to variables ([#39](https://github.com/rcjsuen/dockerfile-ast/issues/39))
+- do not resolve reinitialized `ARG` variables with `ENV` instructions at the top of the Dockerfile ([#42](https://github.com/rcjsuen/dockerfile-ast/issues/42))
+- improve parsing of `FROM` instructions that refer to variables ([#39](https://github.com/rcjsuen/dockerfile-ast/issues/39))
 
 ## [0.0.9] - 2018-05-28
 ### Fixed
 - handle comments in the last line of a file properly for `ARG`, `ENV`, and `LABEL` ([#40](https://github.com/rcjsuen/dockerfile-ast/issues/40))
-- parse ARG instructions properly when its value contains an unclosed quote ([#41](https://github.com/rcjsuen/dockerfile-ast/issues/41))
+- parse `ARG` instructions properly when its value contains an unclosed quote ([#41](https://github.com/rcjsuen/dockerfile-ast/issues/41))
 
 ## [0.0.8] - 2018-05-27
 ### Fixed
