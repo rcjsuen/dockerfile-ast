@@ -12,7 +12,7 @@
     "syntax",
     "tree"
   ],
-  "version": "0.0.11",
+  "version": "0.0.12",
   "author": "Remy Suen",
   "license": "MIT",
   "bugs": "https://github.com/rcjsuen/dockerfile-ast/",
