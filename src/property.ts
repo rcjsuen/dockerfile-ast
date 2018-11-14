@@ -71,7 +71,7 @@ export class Property {
      * characters however will not be returned as they are deemed to
      * be uninteresting to clients trying to return a Dockerfile.
      * 
-     * @return the unescaped value of this property or null if thi
+     * @return the unescaped value of this property or null if this
      *         property has no associated value
      */
     public getUnescapedValue(): string | null {
