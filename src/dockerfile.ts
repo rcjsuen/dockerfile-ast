@@ -46,7 +46,7 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
         return this.initialInstructions.getARGs();
     }
 
-    public getContainingImage(position: Position): ImageTemplate {
+    public getContainingImage(position: Position): ImageTemplate | null {
         let range = Range.create(Position.create(0, 0), this.document.positionAt(this.document.getText().length));
         if (!Util.isInsideRange(position, range)) {
             // not inside the document, invalid position

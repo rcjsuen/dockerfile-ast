@@ -55,7 +55,15 @@ export interface Dockerfile extends ImageTemplate {
 
     getComments(): Comment[];
 
-    getContainingImage(position: Position): ImageTemplate;
+    /**
+     * Returns the set of instructions that include the given position.
+     * 
+     * @param position the position to search in
+     * @return the set of instructions that the given position is in,
+     *         or null if the position is invalid and is not contained
+     *         within the Dockerfile
+     */
+    getContainingImage(position: Position): ImageTemplate | null;
 
     getDirective(): ParserDirective | null;
 
