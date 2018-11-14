@@ -74,7 +74,7 @@ export class Property {
      * @return the unescaped value of this property or null if thi
      *         property has no associated value
      */
-    public getUnescapedValue(): string {
+    public getUnescapedValue(): string | null {
         if (this.valueRange === null) {
             return null;
         }

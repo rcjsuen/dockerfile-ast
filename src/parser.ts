@@ -32,7 +32,7 @@ export class Parser {
 
     private escapeChar: string;
 
-    public static createInstruction(document: TextDocument, dockerfile, escapeChar: string, lineRange: Range, instruction: string, instructionRange: Range) {
+    public static createInstruction(document: TextDocument, dockerfile: Dockerfile, escapeChar: string, lineRange: Range, instruction: string, instructionRange: Range) {
         switch (instruction.toUpperCase()) {
             case "ADD":
                 return new Add(document, lineRange, dockerfile, escapeChar, instruction, instructionRange);

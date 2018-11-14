@@ -39,7 +39,7 @@ export class ImageTemplate implements ast.ImageTemplate {
         return this.instructions;
     }
 
-    protected getInstructionAt(line: number): Instruction {
+    protected getInstructionAt(line: number): Instruction | null {
         for (let instruction of this.instructions) {
             if (Util.isInsideRange(Position.create(line, 0), instruction.getRange())) {
                 return instruction;
