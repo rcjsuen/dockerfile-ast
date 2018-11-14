@@ -193,7 +193,7 @@ export class ImageTemplate implements ast.ImageTemplate {
      *         undefined if a variable with the given name has not
      *         been defined
      */
-    public resolveVariable(variable: string, line: number): string {
+    public resolveVariable(variable: string, line: number): string | null | undefined {
         let envs = this.getENVs();
         for (let i = envs.length - 1; i >= 0; i--) {
             if (envs[i].isBefore(line)) {
