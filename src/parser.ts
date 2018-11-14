@@ -27,7 +27,6 @@ import { User } from './instructions/user';
 import { Volume } from './instructions/volume';
 import { Dockerfile } from './dockerfile';
 import { Directive } from './main';
-import { SSL_OP_NETSCAPE_CHALLENGE_BUG } from 'constants';
 
 export class Parser {
 

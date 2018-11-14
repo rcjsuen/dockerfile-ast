@@ -6,7 +6,6 @@ import { Range } from 'vscode-languageserver-types';
 
 export class Flag {
 
-    private readonly content: string;
     private readonly range: Range;
     private readonly name: string;
     private readonly nameRange: Range;
