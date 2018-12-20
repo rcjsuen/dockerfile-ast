@@ -10,8 +10,8 @@ import { ModifiableInstruction } from './modifiableInstruction';
 
 export class JSONInstruction extends ModifiableInstruction {
 
-    private readonly openingBracket: Argument;
-    private readonly closingBracket: Argument;
+    private readonly openingBracket: Argument | null = null;
+    private readonly closingBracket: Argument | null = null;
     private readonly jsonStrings: JSONArgument[] = [];
 
     constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
