@@ -36,7 +36,7 @@ export class Instruction extends Line {
         return value;
     }
 
-    protected getRangeContent(range: Range): string | null {
+    protected getRangeContent(range: Range | null): string | null {
         if (range === null) {
             return null;
         }
