@@ -13,9 +13,9 @@ export class Property {
     private escapeChar: string;
     private readonly range: Range;
     private readonly nameRange: Range;
-    private readonly name: string = null;
-    private readonly valueRange: Range;
-    private readonly value: string = null;
+    private readonly name: string;
+    private readonly valueRange: Range | null = null;
+    private readonly value: string | null = null;
 
     constructor(document: TextDocument, escapeChar: string, arg: Argument, arg2?: Argument) {
         this.document = document;
@@ -34,7 +34,6 @@ export class Property {
                 && this.nameRange.start.character === argRange.start.character
                 && this.nameRange.end.line === argRange.end.line
                 && this.nameRange.end.character === argRange.end.character) {
-                this.valueRange = null;
             } else {
                 this.valueRange = Property.getValueRange(document, arg);
                 value = document.getText().substring(document.offsetAt(this.valueRange.start), document.offsetAt(this.valueRange.end));
@@ -157,7 +156,7 @@ export class Property {
         return arg.getRange();
     }
 
-    private static getValueRange(document: TextDocument, arg: Argument): Range | null {
+    private static getValueRange(document: TextDocument, arg: Argument): Range {
         return Range.create(
             document.positionAt(document.offsetAt(arg.getRange().start) + arg.getValue().indexOf('=') + 1),
             document.positionAt(document.offsetAt(arg.getRange().end))
