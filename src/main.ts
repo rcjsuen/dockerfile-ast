@@ -79,7 +79,8 @@ export interface Dockerfile extends ImageTemplate {
      * @return the value of the variable as defined by an ARG or ENV
      *         instruction, or null if no value has been specified, or
      *         undefined if a variable with the given name has not
-     *         been defined
+     *         been defined or if the document does not contain the
+     *         given line number
      */
     resolveVariable(variable: string, line: number): string | null | undefined;
 

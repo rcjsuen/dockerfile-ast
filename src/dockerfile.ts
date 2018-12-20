@@ -131,6 +131,9 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
             }
         }
         let image = this.getContainingImage(Position.create(line, 0));
+        if (image === null) {
+            return undefined;
+        }
         let resolvedVariable = image.resolveVariable(variable, line);
         if (resolvedVariable === null) {
             // refers to an uninitialized ARG variable,

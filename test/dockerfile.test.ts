@@ -191,5 +191,15 @@ describe("Dockerfile", () => {
             "FROM $image"
         );
         assert.strictEqual(undefined, dockerfile.resolveVariable("image", 1));
+
+        dockerfile = DockerfileParser.parse(
+            "FROM alpine"
+        );
+        assert.strictEqual(undefined, dockerfile.resolveVariable("image", -1));
+
+        dockerfile = DockerfileParser.parse(
+            "FROM alpine"
+        );
+        assert.strictEqual(undefined, dockerfile.resolveVariable("image", 1));
     });
 });

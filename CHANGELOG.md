@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Fixed
+- prevent TypeError from being thrown by `Dockerfile`'s `resolveVariable(string, number)` when an invalid line number is provided ([#48](https://github.com/rcjsuen/dockerfile-ast/issues/48))
 - correct compiler error due to incomplete interface signature ([#46](https://github.com/rcjsuen/dockerfile-ast/issues/46))
 
 ## [0.0.12] - 2018-08-10
