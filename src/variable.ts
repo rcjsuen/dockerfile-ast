@@ -9,15 +9,15 @@ export class Variable {
     private readonly name: string;
     private readonly nameRange: Range;
     private readonly range: Range;
-    private readonly modifier: string;
-    private readonly modifierRange: Range;
-    private readonly substitutionParameter: string;
-    private readonly substitutionRange: Range;
-    private readonly defined: boolean;
+    private readonly modifier: string | null;
+    private readonly modifierRange: Range | null;
+    private readonly substitutionParameter: string | null;
+    private readonly substitutionRange: Range | null;
+    private readonly defined: boolean | undefined;
     private readonly buildVariable: boolean;
     private readonly stringValue: string;
 
-    constructor(name: string, nameRange: Range, range: Range, modifier: string, modifierRange: Range, substitutionParameter: string, substitutionRange: Range, defined: boolean, buildVariable: boolean, stringValue: string) {
+    constructor(name: string, nameRange: Range, range: Range, modifier: string | null, modifierRange: Range | null, substitutionParameter: string | null, substitutionRange: Range | null, defined: boolean | undefined, buildVariable: boolean, stringValue: string) {
         this.name = name;
         this.nameRange = nameRange;
         this.range = range;
@@ -66,11 +66,11 @@ export class Variable {
      *         string if it does not have one, or null if this
      *         variable will not use variable substitution
      */
-    public getModifier(): string {
+    public getModifier(): string | null {
         return this.modifier;
     }
 
-    public getModifierRange(): Range {
+    public getModifierRange(): Range | null {
         return this.modifierRange;
     }
 
@@ -94,7 +94,7 @@ export class Variable {
         return this.substitutionParameter;
     }
 
-    public getSubstitutionRange(): Range {
+    public getSubstitutionRange(): Range | null {
         return this.substitutionRange;
     }
 
