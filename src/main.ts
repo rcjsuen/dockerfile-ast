@@ -124,7 +124,7 @@ export { Volume } from './instructions/volume';
 export { Workdir } from './instructions/workdir';
 
 export enum Keyword {
-    ADD = "ARG",
+    ADD = "ADD",
     ARG = "ARG",
     CMD = "CMD",
     COPY = "COPY",

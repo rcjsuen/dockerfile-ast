@@ -1,6 +1,14 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Changed
+- the enum value for `Keyword.ADD` was incorrectly assigned to `"ARG"`, it is now assigned to `"ADD"` ([#51](https://github.com/rcjsuen/dockerfile-ast/issues/51))
+  - this is a breaking change but presumably no consumers were relying on this incorrect behaviour
+
+### Fixed
+- correct incorrectly assigned string enum value for `Keyword.ADD` ([#51](https://github.com/rcjsuen/dockerfile-ast/issues/51))
+
 ## [0.0.13] - 2018-12-20
 ### Fixed
 - prevent TypeError from being thrown by `Dockerfile`'s `resolveVariable(string, number)` when an invalid line number is provided ([#48](https://github.com/rcjsuen/dockerfile-ast/issues/48))
@@ -144,6 +152,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.13...HEAD
 [0.0.13]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.12...v0.0.13
 [0.0.12]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.11...v0.0.12
 [0.0.11]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.10...v0.0.11
