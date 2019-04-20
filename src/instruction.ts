@@ -338,6 +338,13 @@ export class Instruction extends Line {
                     }
                 }
 
+                const argEnd = this.document.offsetAt(argRange.end);
+                if (argEnd !== offset) {
+                    // if the variable's range doesn't match the argument,
+                    // append the remaining text
+                    expanded += this.document.getText().substring(offset, argEnd);
+                }
+
                 args[i] = new Argument(expanded, argRange);
             }
         }

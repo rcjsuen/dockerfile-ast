@@ -464,6 +464,24 @@ describe("Argument", () => {
             assert.equal(args[0].toString(), "$image");
             assertRange(args[0].getRange(), 1, 5, 1, 11);
         });
+
+        it("Closing quote around variable is not dropped", () => {
+            let dockerfile = DockerfileParser.parse("FROM scratch\nARG ARG_VAR=1234\nEXPOSE \"$ARG_VAR\"");
+            let args = dockerfile.getInstructions()[2].getExpandedArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "\"1234\"");
+            assert.equal(args[0].toString(), "\"1234\"");
+            assertRange(args[0].getRange(), 2, 7, 2, 17);
+        });
+
+        it("Closing apostrophe around variable is not dropped", () => {
+            let dockerfile = DockerfileParser.parse("FROM scratch\nARG ARG_VAR=1234\nEXPOSE '$ARG_VAR'");
+            let args = dockerfile.getInstructions()[2].getExpandedArguments();
+            assert.equal(args.length, 1);
+            assert.equal(args[0].getValue(), "'1234'");
+            assert.equal(args[0].toString(), "'1234'");
+            assertRange(args[0].getRange(), 2, 7, 2, 17);
+        });
     });
 
     it("isBefore", () => {

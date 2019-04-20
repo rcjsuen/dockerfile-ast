@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - correct incorrectly assigned string enum value for `Keyword.ADD` ([#51](https://github.com/rcjsuen/dockerfile-ast/issues/51))
+- ensure quotation marks and apostrophes are included for expanded arguments in `Instruction`'s `getExpandedArguments()` if they surround a variable ([#52](https://github.com/rcjsuen/dockerfile-ast/issues/52))
 
 ## [0.0.13] - 2018-12-20
 ### Fixed
