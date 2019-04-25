@@ -230,9 +230,11 @@ export class ImageTemplate implements ast.ImageTemplate {
     }
 
     public contains(position: Position): boolean {
-        const first = this.instructions[0].getRange();
-        const last = this.instructions[this.instructions.length - 1].getRange();
-        return Util.isInsideRange(position, Range.create(first.start, last.end));
+        const range = this.getRange();
+        if (range === null) {
+            return false;
+        }
+        return Util.isInsideRange(position, range);
     }
 
 }

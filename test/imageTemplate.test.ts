@@ -11,7 +11,28 @@ import { assertRange } from './util';
 describe("ImageTemplate", () => {
     describe("dockerfile", () => {
         it("contains", () => {
-            let dockerfile = DockerfileParser.parse(" FROM node");
+            let dockerfile = DockerfileParser.parse("");
+            assert.equal(dockerfile.contains(Position.create(0, 0)), false);
+
+            dockerfile = DockerfileParser.parse("# escape=`");
+            assert.equal(dockerfile.contains(Position.create(0, 5)), true);
+
+            dockerfile = DockerfileParser.parse("# escape=`\nFROM node");
+            assert.equal(dockerfile.contains(Position.create(0, 5)), true);
+
+            dockerfile = DockerfileParser.parse("# comment");
+            assert.equal(dockerfile.contains(Position.create(0, 5)), true);
+
+            dockerfile = DockerfileParser.parse("# comment\nFROM node");
+            assert.equal(dockerfile.contains(Position.create(0, 5)), true);
+
+            dockerfile = DockerfileParser.parse("FROM node\n# comment");
+            assert.equal(dockerfile.contains(Position.create(0, 5)), true);
+
+            dockerfile = DockerfileParser.parse("FROM node\n# comment\nRUN echo");
+            assert.equal(dockerfile.contains(Position.create(0, 5)), true);
+
+            dockerfile = DockerfileParser.parse(" FROM node");
             assert.equal(dockerfile.contains(Position.create(0, 1)), true);
             assert.equal(dockerfile.contains(Position.create(0, 4)), true);
             assert.equal(dockerfile.contains(Position.create(0, 10)), true);
@@ -23,11 +44,11 @@ describe("ImageTemplate", () => {
             assert.equal(dockerfile.contains(Position.create(1, 0)), true);
             assert.equal(dockerfile.contains(Position.create(2, 0)), true);
             assert.equal(dockerfile.contains(Position.create(3, 0)), true);
-            assert.equal(dockerfile.contains(Position.create(0, 0)), false);
-            assert.equal(dockerfile.contains(Position.create(0, 15)), false);
-            assert.equal(dockerfile.contains(Position.create(0, 1)), false);
-            assert.equal(dockerfile.contains(Position.create(0, 4)), false);
-            assert.equal(dockerfile.contains(Position.create(0, 10)), false);
+            assert.equal(dockerfile.contains(Position.create(0, 0)), true);
+            assert.equal(dockerfile.contains(Position.create(0, 15)), true);
+            assert.equal(dockerfile.contains(Position.create(0, 1)), true);
+            assert.equal(dockerfile.contains(Position.create(0, 4)), true);
+            assert.equal(dockerfile.contains(Position.create(0, 10)), true);
         });
 
         it("getCMDs", () => {

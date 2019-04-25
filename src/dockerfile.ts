@@ -153,4 +153,43 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
         }
     }
 
+    public getRange(): Range {
+        const comments = this.getComments();
+        const instructions = this.getInstructions();
+        let range = null;
+        if (comments.length === 0) {
+            if (instructions.length > 0) {
+                range = Range.create(instructions[0].getRange().start, instructions[instructions.length - 1].getRange().end);
+            }
+        } else if (instructions.length === 0) {
+            range = Range.create(comments[0].getRange().start, comments[comments.length - 1].getRange().end);
+        } else {
+            const commentStart = comments[0].getRange().start;
+            const commentEnd = comments[comments.length - 1].getRange().end;
+            const instructionStart = instructions[0].getRange().start;
+            const instructionEnd = instructions[instructions.length - 1].getRange().end;
+    
+            if (commentStart.line < instructionStart.line) {
+                if (commentEnd.line < instructionEnd.line) {
+                    range = Range.create(commentStart, instructionEnd);
+                }
+                range = Range.create(commentStart, commentEnd);
+            } else if (commentEnd.line < instructionEnd.line) {
+                range = Range.create(instructionStart, instructionEnd);
+            } else {
+                range = Range.create(instructionStart, commentEnd);
+            }
+        }
+
+        if (range === null) {
+            if (this.directive === null) {
+                return null;
+            }
+            return this.directive.getRange();
+        } else if (this.directive === null) {
+            return range;
+        }
+        return Range.create(this.directive.getRange().start, range.end);
+    }
+
 }
