@@ -217,7 +217,7 @@ export class ImageTemplate implements ast.ImageTemplate {
         return undefined;
     }
 
-    public getRange(): Range {
+    public getRange(): Range | null {
         const instructions = this.getInstructions();
         if (instructions.length === 0) {
             // all templates should have instructions, this only happens for

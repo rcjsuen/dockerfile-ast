@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- `ImageTemplate`
+  - `getRange()` ([#53](https://github.com/rcjsuen/dockerfile-ast/issues/53))
+
 ### Changed
 - the enum value for `Keyword.ADD` was incorrectly assigned to `"ARG"`, it is now assigned to `"ADD"` ([#51](https://github.com/rcjsuen/dockerfile-ast/issues/51))
   - this is a breaking change but presumably no consumers were relying on this incorrect behaviour

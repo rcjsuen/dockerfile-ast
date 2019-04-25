@@ -153,7 +153,7 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
         }
     }
 
-    public getRange(): Range {
+    public getRange(): Range | null {
         const comments = this.getComments();
         const instructions = this.getInstructions();
         let range = null;

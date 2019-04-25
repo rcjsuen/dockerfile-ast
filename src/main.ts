@@ -2,7 +2,7 @@
  * Copyright (c) Remy Suen. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
-import { Position } from 'vscode-languageserver-types';
+import { Position, Range } from 'vscode-languageserver-types';
 
 export { Argument } from './argument';
 export { JSONArgument } from './jsonArgument';
@@ -45,6 +45,8 @@ export interface ImageTemplate {
      *         instruction at the specified line
      */
     getAvailableVariables(line: number): string[];
+
+    getRange(): Range | null;
 }
 
 export interface Dockerfile extends ImageTemplate {

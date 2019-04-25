@@ -182,6 +182,44 @@ describe("ImageTemplate", () => {
             image = dockerfile.getContainingImage({ line: 2, character: 1 });
             assert.equal(image.getComments().length, 0);
         });
+
+        it("getRange", () => {
+            let dockerfile = DockerfileParser.parse("FROM node");
+            assertRange(dockerfile.getRange(), 0, 0, 0, 9);
+            let image = dockerfile.getContainingImage(Position.create(0, 0));
+            assertRange(image.getRange(), 0, 0, 0, 9);
+
+            dockerfile = DockerfileParser.parse("FROM node\nFROM alpine");
+            assertRange(dockerfile.getRange(), 0, 0, 1, 11);
+            image = dockerfile.getContainingImage(Position.create(0, 0));
+            assertRange(image.getRange(), 0, 0, 0, 9);
+            image = dockerfile.getContainingImage(Position.create(1, 9));
+            assertRange(image.getRange(), 1, 0, 1, 11);
+
+            dockerfile = DockerfileParser.parse("FROM node\n# comment\nFROM alpine");
+            assertRange(dockerfile.getRange(), 0, 0, 2, 11);
+            image = dockerfile.getContainingImage(Position.create(0, 0));
+            assertRange(image.getRange(), 0, 0, 0, 9);
+            image = dockerfile.getContainingImage(Position.create(1, 5));
+            assertRange(image.getRange(), 0, 0, 2, 11);
+            image = dockerfile.getContainingImage(Position.create(2, 9));
+            assertRange(image.getRange(), 2, 0, 2, 11);
+
+            dockerfile = DockerfileParser.parse("#escape=`");
+            assertRange(dockerfile.getRange(), 0, 0, 0, 9);
+            image = dockerfile.getContainingImage(Position.create(0, 1));
+            assertRange(image.getRange(), 0, 0, 0, 9);
+
+            dockerfile = DockerfileParser.parse(" #escape=`");
+            assertRange(dockerfile.getRange(), 0, 1, 0, 10);
+            image = dockerfile.getContainingImage(Position.create(0, 2));
+            assertRange(image.getRange(), 0, 1, 0, 10);
+
+            dockerfile = DockerfileParser.parse("# comment");
+            assertRange(dockerfile.getRange(), 0, 0, 0, 9);
+            image = dockerfile.getContainingImage(Position.create(0, 1));
+            assertRange(image.getRange(), 0, 0, 0, 9);
+        });
     });
 
     describe("build stage", () => {
