@@ -374,6 +374,8 @@ export class Parser {
             }
         }
 
+        dockerfile.organizeComments();
+
         return dockerfile;
     }
 

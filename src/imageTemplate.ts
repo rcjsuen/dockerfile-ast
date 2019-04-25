@@ -217,6 +217,18 @@ export class ImageTemplate implements ast.ImageTemplate {
         return undefined;
     }
 
+    public getRange(): Range {
+        const instructions = this.getInstructions();
+        if (instructions.length === 0) {
+            // all templates should have instructions, this only happens for
+            // the initial set of instruction
+            return Range.create(0, 0, 0, 0);
+        }
+        const instructionStart = instructions[0].getRange().start;
+        const instructionEnd = instructions[instructions.length - 1].getRange().end;
+        return Range.create(instructionStart, instructionEnd);
+    }
+
     public contains(position: Position): boolean {
         const first = this.instructions[0].getRange();
         const last = this.instructions[this.instructions.length - 1].getRange();

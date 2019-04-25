@@ -52,46 +52,17 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
             // not inside the document, invalid position
             return null;
         }
+        if (this.initialInstructions.getComments().length > 0 || this.initialInstructions.getInstructions().length > 0) {
+            if (Util.isInsideRange(position, this.initialInstructions.getRange())) {
+                return this.initialInstructions;
+            }
+        }
 
-        for (let buildStage of this.buildStages) {
-            if (buildStage.contains(position)) {
+        for (const buildStage of this.buildStages) {
+            if (Util.isInsideRange(position, buildStage.getRange())) {
                 return buildStage;
             }
         }
-
-        let instructions = this.initialInstructions.getInstructions();
-        if (instructions.length > 0 && 
-                (this.initialInstructions.contains(position) || instructions[instructions.length - 1].getRange().end.line >= position.line)) {
-            return this.initialInstructions;
-        }
-
-        if (this.buildStages.length > 0) {
-            if (this.buildStages[0].getInstructions()[0].getRange().start.line > position.line) {
-                let instructions = this.initialInstructions.getInstructions();
-                if (instructions.length > 0) {
-                    return this.buildStages[0];
-                }
-            }
-
-            let instructions = this.buildStages[this.buildStages.length - 1].getInstructions();
-            if (instructions[instructions.length - 1].getRange().end.line < position.line) {
-                return this;
-            }
-
-            for (let i = 0; i < this.buildStages.length - 1; i++) {
-                let stageInstructions = this.buildStages[i].getInstructions();
-                let stageInstructions2 = this.buildStages[i + 1].getInstructions();
-                let between = Range.create(
-                    stageInstructions[stageInstructions.length - 1].getRange().end,
-                    stageInstructions2[0].getRange().start
-                );
-
-                if (Util.isInsideRange(position, between)) {
-                    return this.buildStages[i + 1];
-                }
-            }
-        }
-
         return this;
     }
 
@@ -161,6 +132,25 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
 
         let image = this.getContainingImage(Position.create(currentLine, 0));
         return image ? image.getAvailableVariables(currentLine) : [];
+    }
+
+    /**
+     * Internally reorganize the comments in the Dockerfile and allocate
+     * them to the relevant build stages that they belong to.
+     */
+    public organizeComments(): void {
+        const comments = this.getComments();
+        for (let i = 0; i < comments.length; i++) {
+            if (Util.isInsideRange(comments[i].getRange().end, this.initialInstructions.getRange())) {
+                this.initialInstructions.addComment(comments[i]);
+            } else {
+                for (const buildStage of this.buildStages) {
+                    if (Util.isInsideRange(comments[i].getRange().start, buildStage.getRange())) {
+                        buildStage.addComment(comments[i]);
+                    }
+                }
+            }
+        }
     }
 
 }

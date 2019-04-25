@@ -143,9 +143,39 @@ describe("ImageTemplate", () => {
             variables = dockerfile.getAvailableVariables(1);
             assert.equal(variables.length, 0);
         });
+
+        it("getComments", () => {
+            let dockerfile = DockerfileParser.parse("FROM scratch\n# comment\nRUN echo \"$VAR\"");
+            let image = dockerfile.getContainingImage({ line: 2, character: 1 });
+            assert.equal(image.getComments().length, 1);
+
+            dockerfile = DockerfileParser.parse("# comment\nFROM scratch");
+            image = dockerfile.getContainingImage({ line: 1, character: 1 });
+            assert.equal(image.getComments().length, 0);
+
+            dockerfile = DockerfileParser.parse("# comment\nARG image=test\nFROM scratch");
+            image = dockerfile.getContainingImage({ line: 0, character: 1 });
+            assert.equal(image.getComments().length, 1);
+            image = dockerfile.getContainingImage({ line: 1, character: 1 });
+            assert.equal(image.getComments().length, 0);
+            image = dockerfile.getContainingImage({ line: 2, character: 1 });
+            assert.equal(image.getComments().length, 0);
+        });
     });
 
     describe("build stage", () => {
+        it("getComments", () => {
+            let dockerfile = DockerfileParser.parse("FROM scratch\nFROM scratch\n# comment\nRUN echo \"$VAR\"");
+            let image = dockerfile.getContainingImage({ line: 3, character: 1 });
+            assert.equal(image.getComments().length, 1);
+
+            dockerfile = DockerfileParser.parse("FROM scratch\n# comment\nRUN echo\nFROM scratch\n# comment\nRUN echo");
+            image = dockerfile.getContainingImage({ line: 0, character: 1 });
+            assert.equal(image.getComments().length, 1);
+            image = dockerfile.getContainingImage({ line: 3, character: 1 });
+            assert.equal(image.getComments().length, 1);
+        });
+
         it("getCMDs", () => {
             let dockerfile = DockerfileParser.parse("FROM node\nCMD ls\nFROM alpine\nCMD ls\nCMD pwd");
             assert.equal(dockerfile.getCMDs().length, 3);

@@ -5,10 +5,15 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - the enum value for `Keyword.ADD` was incorrectly assigned to `"ARG"`, it is now assigned to `"ADD"` ([#51](https://github.com/rcjsuen/dockerfile-ast/issues/51))
   - this is a breaking change but presumably no consumers were relying on this incorrect behaviour
+- `Dockerfile`'s `getContainingImage()` has been changed for comments immediately before a build stage
+  - previously, they would return the build stage that came after the comment, now they will simply return the entire Dockerfile
+  - this is because the comment is actually ambiguous as it may be a commented out instruction for the build stage that came before the comment
 
 ### Fixed
 - correct incorrectly assigned string enum value for `Keyword.ADD` ([#51](https://github.com/rcjsuen/dockerfile-ast/issues/51))
 - ensure quotation marks and apostrophes are included for expanded arguments in `Instruction`'s `getExpandedArguments()` if they surround a variable ([#52](https://github.com/rcjsuen/dockerfile-ast/issues/52))
+- fixed `getComments()` for build stages so that they will not simply return empty arrays ([#54](https://github.com/rcjsuen/dockerfile-ast/issues/54))
+  - the returned comments will only be from comments contained within the `FROM` instruction and the last instruction of that build stage
 
 ## [0.0.13] - 2018-12-20
 ### Fixed

@@ -76,7 +76,15 @@ describe("Dockerfile", () => {
         image = dockerfile.getContainingImage(Position.create(0, 3));
         assert.equal(image, null);
 
+        dockerfile = DockerfileParser.parse("#\nFROM busybox");
+        image = dockerfile.getContainingImage(Position.create(0, 0));
+        assert.equal(image, dockerfile);
+        image = dockerfile.getContainingImage(Position.create(0, 1));
+        assert.equal(image, dockerfile);
+
         dockerfile = DockerfileParser.parse("# comment\nFROM busybox");
+        image = dockerfile.getContainingImage(Position.create(0, 0));
+        assert.equal(image, dockerfile);
         image = dockerfile.getContainingImage(Position.create(0, 1));
         assert.equal(image, dockerfile);
 
@@ -89,12 +97,14 @@ describe("Dockerfile", () => {
         dockerfile = DockerfileParser.parse("FROM busybox\n# comment\nFROM alpine");
         image = dockerfile.getContainingImage(Position.create(1, 1));
         image2 = dockerfile.getContainingImage(Position.create(2, 1));
-        assert.equal(image2, image);
+        assert.notEqual(image2, image);
+        assert.equal(image, dockerfile);
 
         dockerfile = DockerfileParser.parse("FROM busybox\nFROM alpine\n# comment\nFROM node");
         image = dockerfile.getContainingImage(Position.create(2, 1));
         image2 = dockerfile.getContainingImage(Position.create(3, 1));
-        assert.equal(image2, image);
+        assert.notEqual(image2, image);
+        assert.equal(image, dockerfile);
 
         dockerfile = DockerfileParser.parse("ARG version=latest\n# comment");
         image = dockerfile.getContainingImage(Position.create(0, 1));
@@ -107,12 +117,14 @@ describe("Dockerfile", () => {
         assert.notEqual(image2, image);
         image = dockerfile.getContainingImage(Position.create(1, 1));
         image2 = dockerfile.getContainingImage(Position.create(2, 1));
-        assert.equal(image2, image);
+        assert.notEqual(image2, image);
+        assert.equal(image, dockerfile);
 
         dockerfile = DockerfileParser.parse("# comment\nARG version=latest");
         image = dockerfile.getContainingImage(Position.create(0, 1));
         image2 = dockerfile.getContainingImage(Position.create(1, 1));
-        assert.equal(image2, image);
+        assert.notEqual(image2, image);
+        assert.equal(image, dockerfile);
 
         dockerfile = DockerfileParser.parse("ARG version=latest\n# comment");
         image = dockerfile.getContainingImage(Position.create(0, 1));
@@ -131,6 +143,9 @@ describe("Dockerfile", () => {
         assert.equal(dockerfile.getComments().length, 0);
 
         dockerfile = DockerfileParser.parse("# escape");
+        assert.equal(dockerfile.getComments().length, 1);
+
+        dockerfile = DockerfileParser.parse("FROM scratch\n# comment\nRUN echo \"$VAR\"");
         assert.equal(dockerfile.getComments().length, 1);
     });
 
