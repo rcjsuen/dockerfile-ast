@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.14] - 2019-04-28
 ### Added
 - `ImageTemplate`
   - `getRange()` ([#53](https://github.com/rcjsuen/dockerfile-ast/issues/53))
