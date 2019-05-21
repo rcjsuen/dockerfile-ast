@@ -639,6 +639,21 @@ describe("Variable", () => {
         assert.equal(variable.toString(), "$var");
     });
 
+    it("defined ARG variable to use in FROM", () => {
+        let dockerfile = DockerfileParser.parse("ARG image=node\nFROM $image");
+        let variable = dockerfile.getInstructions()[1].getVariables()[0];
+        assert.equal(variable.getName(), "image");
+        assertRange(variable.getNameRange(), 1, 6, 1, 11);
+        assertRange(variable.getRange(), 1, 5, 1, 11);
+        assert.equal(variable.getModifier(), null);
+        assert.equal(variable.getModifierRange(), null);
+        assert.equal(variable.getSubstitutionParameter(), null);
+        assert.equal(variable.getSubstitutionRange(), null);
+        assert.equal(variable.isDefined(), true);
+        assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$image");
+    });
+
     describe("default variables", () => {
         for (let defaultVariable of DefaultVariables) {
             let simple = "$" + defaultVariable;

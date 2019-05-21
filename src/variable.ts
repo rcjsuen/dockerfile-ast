@@ -104,7 +104,7 @@ export class Variable {
      * @return true if this variable has been defined, false otherwise
      */
     public isDefined(): boolean {
-        return this.buildVariable !== undefined;
+        return this.defined;
     }
 
     public isBuildVariable(): boolean {
