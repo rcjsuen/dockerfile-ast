@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.15] - 2019-05-21
 ### Fixed
 - variables in `FROM` should return `true` for `isDefined()` if it is defined in the `ARG` instructions above it ([#56](https://github.com/rcjsuen/dockerfile-ast/issues/56))
 - variables in `FROM` should return `true` for `isBuildVariable()` if it is defined in the `ARG` instructions above it ([#57](https://github.com/rcjsuen/dockerfile-ast/issues/57))
@@ -167,7 +167,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.14...HEAD
+[0.0.15]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.14...v0.0.15
 [0.0.14]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.13...v0.0.14
 [0.0.13]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.12...v0.0.13
 [0.0.12]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.11...v0.0.12
