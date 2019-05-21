@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Fixed
 - variables in `FROM` should return `true` for `isDefined()` if it is defined in the `ARG` instructions above it ([#56](https://github.com/rcjsuen/dockerfile-ast/issues/56))
+- variables in `FROM` should return `true` for `isBuildVariable()` if it is defined in the `ARG` instructions above it ([#57](https://github.com/rcjsuen/dockerfile-ast/issues/57))
 
 ## [0.0.14] - 2019-04-28
 ### Added

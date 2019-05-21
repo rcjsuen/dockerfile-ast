@@ -8,6 +8,8 @@ import { Dockerfile } from './dockerfile';
 import { Line } from './line';
 import { Argument } from './argument';
 import { Variable } from './variable';
+import { Keyword } from './main';
+import { Arg } from './instructions/arg';
 
 export class Instruction extends Line {
 
@@ -569,6 +571,16 @@ export class Instruction extends Line {
     }
 
     private isBuildVariable(variable: string, line: number): boolean | undefined {
+        if (this.getKeyword() === Keyword.FROM) {
+            for (const initialArg of this.dockerfile.getInitialARGs()) {
+                const arg = initialArg as Arg;
+                const property = arg.getProperty();
+                if (property && variable === property.getName()) {
+                    return true;
+                }
+            }
+            return undefined;
+        }
         let image = this.dockerfile.getContainingImage(Position.create(line, 0));
         let envs = image.getENVs();
         for (let i = envs.length - 1; i >= 0; i--) {
