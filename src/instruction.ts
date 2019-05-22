@@ -548,6 +548,23 @@ export class Instruction extends Line {
                                     ));
                                     break variableLoop;
                             }
+                            if (char.match(/^[a-z0-9_]+$/i) === null) {
+                                let varStart = this.document.positionAt(offset + i);
+                                variables.push(new Variable(
+                                    escapedName,
+                                    Range.create(this.document.positionAt(offset + i + 1), this.document.positionAt(offset + j)),
+                                    Range.create(varStart, this.document.positionAt(offset + j)),
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    this.dockerfile.resolveVariable(escapedName, varStart.line) !== undefined,
+                                    this.isBuildVariable(escapedName, varStart.line),
+                                    '$' + escapedName
+                                ));
+                                i = j - 1;
+                                continue variableLoop;
+                            }
                             escapedName += char;
                         }
                         let start = this.document.positionAt(offset + i);

@@ -25,6 +25,38 @@ describe("Variable", () => {
         assert.equal(variable.toString(), "$image");
     });
 
+    it("FROM $image:2", () => {
+        let dockerfile = DockerfileParser.parse("FROM $image:2");
+        let variable = dockerfile.getInstructions()[0].getVariables()[0];
+        assert.equal(variable.getName(), "image");
+        assertRange(variable.getNameRange(), 0, 6, 0, 11);
+        assertRange(variable.getRange(), 0, 5, 0, 11);
+        assert.equal(variable.getModifier(), null);
+        assert.equal(variable.getModifierRange(), null);
+        assert.equal(variable.getSubstitutionParameter(), null);
+        assert.equal(variable.getSubstitutionRange(), null);
+        assert.equal(variable.isDefined(), false);
+        assert.equal(variable.isBuildVariable(), false);
+        assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$image");
+    });
+
+    it("FROM $image_:2", () => {
+        let dockerfile = DockerfileParser.parse("FROM $image_:2");
+        let variable = dockerfile.getInstructions()[0].getVariables()[0];
+        assert.equal(variable.getName(), "image_");
+        assertRange(variable.getNameRange(), 0, 6, 0, 12);
+        assertRange(variable.getRange(), 0, 5, 0, 12);
+        assert.equal(variable.getModifier(), null);
+        assert.equal(variable.getModifierRange(), null);
+        assert.equal(variable.getSubstitutionParameter(), null);
+        assert.equal(variable.getSubstitutionRange(), null);
+        assert.equal(variable.isDefined(), false);
+        assert.equal(variable.isBuildVariable(), false);
+        assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$image_");
+    });
+
     it("FROM $image\\ ", () => {
         let dockerfile = DockerfileParser.parse("FROM $image\\ ");
         let variable = dockerfile.getInstructions()[0].getVariables()[0];

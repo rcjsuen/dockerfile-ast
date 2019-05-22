@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- only allow alphanumeric and underscore characters in variable names ([#58](https://github.com/rcjsuen/dockerfile-ast/issues/58))
+
 ## [0.0.15] - 2019-05-21
 ### Fixed
 - variables in `FROM` should return `true` for `isDefined()` if it is defined in the `ARG` instructions above it ([#56](https://github.com/rcjsuen/dockerfile-ast/issues/56))
