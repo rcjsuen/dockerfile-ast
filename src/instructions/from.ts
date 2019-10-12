@@ -5,7 +5,6 @@
 import { TextDocument, Range } from 'vscode-languageserver-types';
 import { Dockerfile } from '../dockerfile';
 import { Instruction } from '../instruction';
-import { Util } from '../util';
 
 export class From extends Instruction {
 
