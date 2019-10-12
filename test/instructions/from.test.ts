@@ -616,6 +616,86 @@ describe("FROM", () => {
         assert.equal(from.getBuildStage(), null);
     });
 
+    it("FROM store/base/image", () => {
+        let dockerfile = DockerfileParser.parse("FROM store/base/image");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "store/base/image");
+        assertRange(from.getImageRange(), 0, 5, 0, 21);
+        assert.equal(from.getImageName(), "store/base/image");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 21);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
+    it("FROM store/base/image:", () => {
+        let dockerfile = DockerfileParser.parse("FROM store/base/image:");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "store/base/image:");
+        assertRange(from.getImageRange(), 0, 5, 0, 22);
+        assert.equal(from.getImageName(), "store/base/image");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 21);
+        assert.equal(from.getImageTag(), "");
+        assertRange(from.getImageTagRange(), 0, 22, 0, 22);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
+    it("FROM store/base/image:tag", () => {
+        let dockerfile = DockerfileParser.parse("FROM store/base/image:tag");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "store/base/image:tag");
+        assertRange(from.getImageRange(), 0, 5, 0, 25);
+        assert.equal(from.getImageName(), "store/base/image");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 21);
+        assert.equal(from.getImageTag(), "tag");
+        assertRange(from.getImageTagRange(), 0, 22, 0, 25);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
+    it("FROM store/base/image@", () => {
+        let dockerfile = DockerfileParser.parse("FROM store/base/image@");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "store/base/image@");
+        assertRange(from.getImageRange(), 0, 5, 0, 22);
+        assert.equal(from.getImageName(), "store/base/image");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 21);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), "");
+        assertRange(from.getImageDigestRange(), 0, 22, 0, 22);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
+    it("FROM store/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
+        let dockerfile = DockerfileParser.parse("FROM store/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "store/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        assertRange(from.getImageRange(), 0, 5, 0, 93);
+        assert.equal(from.getImageName(), "store/base/image");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 21);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        assertRange(from.getImageDigestRange(), 0, 22, 0, 93);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
     it("FROM localhost/base/image", () => {
         let dockerfile = DockerfileParser.parse("FROM localhost/base/image");
         let from = dockerfile.getFROMs()[0];
@@ -1094,13 +1174,61 @@ describe("FROM", () => {
         assert.equal(from.getBuildStage(), null);
     });
 
-    it("FROM localhost/custom/no${de:-'//'}", () => {
-        let dockerfile = DockerfileParser.parse("FROM localhost/custom/no${de:-'//'}");
+    it("FROM store/custom/no${de:-'//'}", () => {
+        let dockerfile = DockerfileParser.parse("FROM store/custom/no${de:-'//'}");
         let from = dockerfile.getFROMs()[0];
-        assert.equal(from.getImage(), "localhost/custom/no${de:-'//'}");
-        assertRange(from.getImageRange(), 0, 5, 0, 35);
-        assert.equal(from.getImageName(), "custom/no${de:-'//'}");
-        assertRange(from.getImageNameRange(), 0, 15, 0, 35);
+        assert.equal(from.getImage(), "store/custom/no${de:-'//'}");
+        assertRange(from.getImageRange(), 0, 5, 0, 31);
+        assert.equal(from.getImageName(), "store/custom/no${de:-'//'}");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 31);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
+    it("FROM store/custom/no${a:-${c:-//}}", () => {
+        let dockerfile = DockerfileParser.parse("FROM store/custom/no${a:-${c:-//}}");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "store/custom/no${a:-${c:-//}}");
+        assertRange(from.getImageRange(), 0, 5, 0, 34);
+        assert.equal(from.getImageName(), "store/custom/no${a:-${c:-//}}");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 34);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
+    it("FROM store/cust${de:-'//'}om/no", () => {
+        let dockerfile = DockerfileParser.parse("FROM store/cust${de:-'//'}om/no");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "store/cust${de:-'//'}om/no");
+        assertRange(from.getImageRange(), 0, 5, 0, 31);
+        assert.equal(from.getImageName(), "store/cust${de:-'//'}om/no");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 31);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+    });
+
+    it("FROM localhost/cust${a:-${c:-//}}om/no", () => {
+        let dockerfile = DockerfileParser.parse("FROM localhost/cust${a:-${c:-//}}om/no");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "localhost/cust${a:-${c:-//}}om/no");
+        assertRange(from.getImageRange(), 0, 5, 0, 38);
+        assert.equal(from.getImageName(), "cust${a:-${c:-//}}om/no");
+        assertRange(from.getImageNameRange(), 0, 15, 0, 38);
         assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
@@ -1158,35 +1286,35 @@ describe("FROM", () => {
         assert.equal(from.getBuildStage(), null);
     });
 
-    it("FROM local${de:-'//'}host/custom/no", () => {
-        let dockerfile = DockerfileParser.parse("FROM local${de:-'//'}host/custom/no");
+    it("FROM sto${de:-'//'}re/custom/no", () => {
+        let dockerfile = DockerfileParser.parse("FROM sto${de:-'//'}re/custom/no");
         let from = dockerfile.getFROMs()[0];
-        assert.equal(from.getImage(), "local${de:-'//'}host/custom/no");
-        assertRange(from.getImageRange(), 0, 5, 0, 35);
-        assert.equal(from.getImageName(), "custom/no");
-        assertRange(from.getImageNameRange(), 0, 26, 0, 35);
+        assert.equal(from.getImage(), "sto${de:-'//'}re/custom/no");
+        assertRange(from.getImageRange(), 0, 5, 0, 31);
+        assert.equal(from.getImageName(), "sto${de:-'//'}re/custom/no");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 31);
         assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
-        assert.equal(from.getRegistry(), "local${de:-'//'}host");
-        assertRange(from.getRegistryRange(), 0, 5, 0, 25);
+        assert.equal(from.getRegistry(),null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 
-    it("FROM local${a:-${c:-//}}host/custom/no", () => {
-        let dockerfile = DockerfileParser.parse("FROM local${a:-${c:-//}}host/custom/no");
+    it("FROM sto${a:-${c:-//}}re/custom/no", () => {
+        let dockerfile = DockerfileParser.parse("FROM sto${a:-${c:-//}}re/custom/no");
         let from = dockerfile.getFROMs()[0];
-        assert.equal(from.getImage(), "local${a:-${c:-//}}host/custom/no");
-        assertRange(from.getImageRange(), 0, 5, 0, 38);
-        assert.equal(from.getImageName(), "custom/no");
-        assertRange(from.getImageNameRange(), 0, 29, 0, 38);
+        assert.equal(from.getImage(), "sto${a:-${c:-//}}re/custom/no");
+        assertRange(from.getImageRange(), 0, 5, 0, 34);
+        assert.equal(from.getImageName(), "sto${a:-${c:-//}}re/custom/no");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 34);
         assert.equal(from.getImageTag(), null);
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
-        assert.equal(from.getRegistry(), "local${a:-${c:-//}}host");
-        assertRange(from.getRegistryRange(), 0, 5, 0, 28);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
     });
 

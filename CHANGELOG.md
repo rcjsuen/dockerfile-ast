@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- correct parsing of image names that were incorrectly identified as a Docker registry ([#59](https://github.com/rcjsuen/dockerfile-ast/issues/59))
+
 ## [0.0.16] - 2019-05-22
 ### Fixed
 - only allow alphanumeric and underscore characters in variable names ([#58](https://github.com/rcjsuen/dockerfile-ast/issues/58))
@@ -171,6 +175,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.16...HEAD
 [0.0.16]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.15...v0.0.16
 [0.0.15]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.14...v0.0.15
 [0.0.14]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.13...v0.0.14

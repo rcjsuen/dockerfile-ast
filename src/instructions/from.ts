@@ -171,13 +171,20 @@ export class From extends Instruction {
                 range.end = this.document.positionAt(this.document.offsetAt(tagRange.start) - 1);
             }
             const content = this.getRangeContent(range);
-            const portIndex = this.indexOf(this.document.offsetAt(range.start), content, ':');
-            const startingSlashIndex = this.indexOf(this.document.offsetAt(range.start), content, '/');
-            const endingSlashIndex = this.lastIndexOf(this.document.offsetAt(range.start), content, '/');
-            // check if two slashes have been detected or if there is a port defined
-            if ((startingSlashIndex !== -1 && startingSlashIndex !== endingSlashIndex) || portIndex !== -1) {
-                // registry detected, return its range
-                const rangeStart = this.document.offsetAt(range.start);
+            const rangeStart = this.document.offsetAt(range.start);
+            const portIndex = this.indexOf(rangeStart, content, ':');
+            const dotIndex = this.indexOf(rangeStart, content, '.');
+            const startingSlashIndex = this.indexOf(rangeStart, content, '/');
+            // hostname detected
+            if (portIndex !== -1 || dotIndex !== -1) {
+                return Range.create(
+                    range.start,
+                    this.document.positionAt(rangeStart + startingSlashIndex),
+                );
+            }
+            const registry = content.substring(0, startingSlashIndex);
+            // localhost registry detected
+            if (registry === 'localhost') {
                 return Range.create(
                     range.start,
                     this.document.positionAt(rangeStart + startingSlashIndex),
