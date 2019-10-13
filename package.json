@@ -32,8 +32,8 @@
     "@types/mocha": "^5.2.0",
     "@types/node": "^6.0.52",
     "mocha": "^5.2.0",
-    "typescript": "~2.6.1",
-    "nyc": "^11.0.2"
+    "nyc": "^14.1.1",
+    "typescript": "~2.6.1"
   },
   "scripts": {
     "build": "tsc -p .",
