@@ -90,7 +90,6 @@ export interface Dockerfile extends ImageTemplate {
 
 import { Parser } from './parser';
 export { Flag } from './flag';
-import { ImageTemplate } from './imageTemplate';
 import { Instruction } from './instruction';
 export { Instruction };
 export { Line } from './line';
