@@ -4,7 +4,6 @@
  * ------------------------------------------------------------------------------------------ */
 import * as assert from "assert";
 
-import { Range } from 'vscode-languageserver-types';
 import { assertRange } from './util';
 import { DockerfileParser } from '../src/main';
 

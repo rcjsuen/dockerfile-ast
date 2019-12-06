@@ -3,7 +3,6 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 import * as assert from 'assert';
-import { Position } from 'vscode-languageserver-types';
 
 import { assertRange } from './util';
 import { DockerfileParser } from '../src/main';

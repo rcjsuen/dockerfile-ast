@@ -4,7 +4,6 @@
  * ------------------------------------------------------------------------------------------ */
 import * as assert from "assert";
 
-import { Position, Range } from 'vscode-languageserver-types';
 import { DockerfileParser, ModifiableInstruction } from '../src/main';
 
 describe("Modifiable Instruction", () => {

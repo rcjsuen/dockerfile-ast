@@ -8,7 +8,6 @@ export { Argument } from './argument';
 export { JSONArgument } from './jsonArgument';
 import { Comment } from './comment';
 export { Comment };
-import * as dockerfile from './dockerfile';
 
 export interface ImageTemplate {
 

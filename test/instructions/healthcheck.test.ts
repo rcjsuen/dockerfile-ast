@@ -5,7 +5,7 @@
 import * as assert from "assert";
 
 import { assertRange } from '../util';
-import { DockerfileParser, Healthcheck } from '../../src/main';
+import { DockerfileParser } from '../../src/main';
 
 describe("HEALTHCHECK", () => {
     it("getSubcommand", () => {

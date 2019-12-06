@@ -4,7 +4,7 @@
  * ------------------------------------------------------------------------------------------ */
 import * as assert from "assert";
 
-import { Position, Range } from 'vscode-languageserver-types';
+import { Position } from 'vscode-languageserver-types';
 import { DockerfileParser } from '../src/main';
 
 describe("Dockerfile", () => {

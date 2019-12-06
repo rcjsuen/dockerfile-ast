@@ -4,7 +4,6 @@
  * ------------------------------------------------------------------------------------------ */
 import * as assert from "assert";
 
-import { assertRange } from '../util';
 import { DockerfileParser, Add } from '../../src/main';
 
 describe("ADD", () => {
