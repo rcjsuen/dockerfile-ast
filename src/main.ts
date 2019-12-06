@@ -49,7 +49,7 @@ export interface ImageTemplate {
     getRange(): Range | null;
 }
 
-export interface Dockerfile extends ImageTemplate {
+export interface Dockerfile extends ImageTemplateImpl {
 
     getEscapeCharacter(): string;
 
@@ -90,7 +90,7 @@ export interface Dockerfile extends ImageTemplate {
 
 import { Parser } from './parser';
 export { Flag } from './flag';
-import { ImageTemplate } from './imageTemplate';
+import { ImageTemplate as ImageTemplateImpl } from './imageTemplate';
 import { Instruction } from './instruction';
 export { Instruction };
 export { Line } from './line';
