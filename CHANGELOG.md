@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.18] - 2019-12-07
 ### Added
 - `Dockerfile`
   - `getDirectives()` ([#64](https://github.com/rcjsuen/dockerfile-ast/issues/64))
@@ -187,7 +187,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.17...HEAD
+[0.0.18]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.17...v0.0.18
 [0.0.17]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.16...v0.0.17
 [0.0.16]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.15...v0.0.16
 [0.0.15]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.14...v0.0.15
