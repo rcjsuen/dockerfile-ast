@@ -30,7 +30,7 @@ import { Directive } from './main';
 
 export class Parser {
 
-    private escapeChar: string;
+    private escapeChar: string = null;
 
     public static createInstruction(document: TextDocument, dockerfile: Dockerfile, escapeChar: string, lineRange: Range, instruction: string, instructionRange: Range) {
         switch (instruction.toUpperCase()) {
