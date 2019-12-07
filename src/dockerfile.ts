@@ -90,7 +90,7 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
     }
 
     public getDirectives(): ParserDirective[] {
-        return [ this.directive ];
+        return this.directive === null ? [] : [ this.directive ];
     }
 
     public resolveVariable(variable: string, line: number): string | null | undefined {

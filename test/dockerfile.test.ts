@@ -159,6 +159,23 @@ describe("Dockerfile", () => {
         assert.ok(directive !== null);
     });
 
+    it("getDirectives", () => {
+        let dockerfile = DockerfileParser.parse("# escape=`");
+        let directives = dockerfile.getDirectives();
+        assert.ok(directives !== null);
+        assert.equal(directives.length, 1);
+
+        dockerfile = DockerfileParser.parse("# test=`");
+        directives = dockerfile.getDirectives();
+        assert.ok(directives !== null);
+        assert.equal(directives.length, 1);
+
+        dockerfile = DockerfileParser.parse("FROM scratch");
+        directives = dockerfile.getDirectives();
+        assert.ok(directives !== null);
+        assert.equal(directives.length, 0);
+    });
+
     it("resolveVariable", () => {
         let dockerfile = DockerfileParser.parse(
             "ARG ver=latest\n" +
