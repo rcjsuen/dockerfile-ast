@@ -12,7 +12,7 @@ export class Flag {
     private readonly value: string;
     private readonly valueRange: Range;
 
-    constructor(range: Range, name: string, nameRange: Range, value: string, valueRange: Range) {
+    constructor(range: Range, name: string, nameRange: Range, value: string | null, valueRange: Range | null) {
         this.range = range;
         this.name = name;
         this.nameRange = nameRange;

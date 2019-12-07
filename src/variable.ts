@@ -13,11 +13,11 @@ export class Variable {
     private readonly modifierRange: Range | null;
     private readonly substitutionParameter: string | null;
     private readonly substitutionRange: Range | null;
-    private readonly defined: boolean | undefined;
+    private readonly defined: boolean;
     private readonly buildVariable: boolean;
     private readonly stringValue: string;
 
-    constructor(name: string, nameRange: Range, range: Range, modifier: string | null, modifierRange: Range | null, substitutionParameter: string | null, substitutionRange: Range | null, defined: boolean | undefined, buildVariable: boolean, stringValue: string) {
+    constructor(name: string, nameRange: Range, range: Range, modifier: string | null, modifierRange: Range | null, substitutionParameter: string | null, substitutionRange: Range | null, defined: boolean, buildVariable: boolean, stringValue: string) {
         this.name = name;
         this.nameRange = nameRange;
         this.range = range;
