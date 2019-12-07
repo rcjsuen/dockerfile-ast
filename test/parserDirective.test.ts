@@ -11,7 +11,9 @@ describe("Parser Directive", () => {
     describe("escape", () => {
         it("# escape=`", () => {
             let dockerfile = DockerfileParser.parse("# escape=`");
-            let directive = dockerfile.getDirective();
+            const directives = dockerfile.getDirectives();
+            assert.equal(directives.length, 1);
+            const directive = directives[0];
             assert.equal(directive.getName(), "escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "`");
@@ -22,7 +24,9 @@ describe("Parser Directive", () => {
 
         it("# Escape=`", () => {
             let dockerfile = DockerfileParser.parse("# Escape=`");
-            let directive = dockerfile.getDirective();
+            const directives = dockerfile.getDirectives();
+            assert.equal(directives.length, 1);
+            const directive = directives[0];
             assert.equal(directive.getName(), "Escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "`");
@@ -33,7 +37,9 @@ describe("Parser Directive", () => {
 
         it("# escape= \\t\\r\\n", () => {
             let dockerfile = DockerfileParser.parse("# escape= \t\r\n");
-            let directive = dockerfile.getDirective();
+            const directives = dockerfile.getDirectives();
+            assert.equal(directives.length, 1);
+            const directive = directives[0];
             assert.equal(directive.getName(), "escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), " \t");
@@ -44,7 +50,9 @@ describe("Parser Directive", () => {
 
         it("# escape=`\\r\\n", () => {
             let dockerfile = DockerfileParser.parse("# escape=`\r\n");
-            let directive = dockerfile.getDirective();
+            const directives = dockerfile.getDirectives();
+            assert.equal(directives.length, 1);
+            const directive = directives[0];
             assert.equal(directive.getName(), "escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "`");
@@ -55,7 +63,9 @@ describe("Parser Directive", () => {
 
         it("#\\t\\tEscape   =`", () => {
             let dockerfile = DockerfileParser.parse("#\t\tEscape   =`");
-            let directive = dockerfile.getDirective();
+            const directives = dockerfile.getDirectives();
+            assert.equal(directives.length, 1);
+            const directive = directives[0];
             assert.equal(directive.getName(), "Escape");
             assertRange(directive.getNameRange(), 0, 3, 0, 9);
             assert.equal(directive.getValue(), "`");
@@ -66,7 +76,9 @@ describe("Parser Directive", () => {
 
         it("# Escape=aaa", () => {
             let dockerfile = DockerfileParser.parse("# Escape=aaa");
-            let directive = dockerfile.getDirective();
+            const directives = dockerfile.getDirectives();
+            assert.equal(directives.length, 1);
+            const directive = directives[0];
             assert.equal(directive.getName(), "Escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "aaa");
@@ -77,7 +89,9 @@ describe("Parser Directive", () => {
 
         it("# escape=asdf asdf", () => {
             let dockerfile = DockerfileParser.parse("# escape=asdf asdf");
-            let directive = dockerfile.getDirective();
+            const directives = dockerfile.getDirectives();
+            assert.equal(directives.length, 1);
+            const directive = directives[0];
             assert.equal(directive.getName(), "escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "asdf");
@@ -88,7 +102,9 @@ describe("Parser Directive", () => {
 
         it("# escape=", () => {
             let dockerfile = DockerfileParser.parse("# escape=");
-            let directive = dockerfile.getDirective();
+            const directives = dockerfile.getDirectives();
+            assert.equal(directives.length, 1);
+            const directive = directives[0];
             assert.equal(directive.getName(), "escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "");

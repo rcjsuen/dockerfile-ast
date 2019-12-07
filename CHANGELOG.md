@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- `Dockerfile`
+  - `getDirectives()` ([#64](https://github.com/rcjsuen/dockerfile-ast/issues/64))
+
+### Changed
+- `getDirective()` of `Dockerfile` has been deprecated and will be replaced by `getDirectives()` in the future ([#64](https://github.com/rcjsuen/dockerfile-ast/issues/64))
+  - note that this is purely a cosmetic API change to facilitate migration at the moment, proper support for returning an array will follow in the future
+
 ### Fixed
 - add support for TypeScript 3.7 by fixing TS2440 compiler error ([#61](https://github.com/rcjsuen/dockerfile-ast/issues/61))
 

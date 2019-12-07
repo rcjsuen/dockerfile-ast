@@ -89,6 +89,10 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
         return this.directive;
     }
 
+    public getDirectives(): ParserDirective[] {
+        return [ this.directive ];
+    }
+
     public resolveVariable(variable: string, line: number): string | null | undefined {
         for (let from of this.getFROMs()) {
             let range = from.getRange();

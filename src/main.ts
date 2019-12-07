@@ -66,7 +66,22 @@ export interface Dockerfile extends ImageTemplate {
      */
     getContainingImage(position: Position): ImageTemplate | null;
 
+    /**
+     * @deprecated As of 0.0.18, replaced by getDirectives()
+     */
     getDirective(): ParserDirective | null;
+
+    /**
+     * Retrieves the list of parser directives that have been defined
+     * in this Dockerfile. It will be in the order it was defined in
+     * the file with the first line of the file being the first
+     * directive in the returned array.
+     * 
+     * @return the ordered list of parser directives defined in this
+     *         Dockerfile
+     * @since 0.0.18
+     */
+    getDirectives(): ParserDirective[];
 
     /**
      * Resolves a variable with the given name at the specified line
