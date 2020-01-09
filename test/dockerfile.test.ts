@@ -18,6 +18,12 @@ describe("Dockerfile", () => {
         dockerfile = DockerfileParser.parse("# escape=`");
         assert.equal(dockerfile.getEscapeCharacter(), "`");
 
+        dockerfile = DockerfileParser.parse("# escape=`\n#directive=value");
+        assert.equal(dockerfile.getEscapeCharacter(), "`");
+
+        dockerfile = DockerfileParser.parse("#directive=value\n# escape=`");
+        assert.equal(dockerfile.getEscapeCharacter(), "`");
+
         // invalid escape directive
         dockerfile = DockerfileParser.parse("# escape=a");
         assert.equal(dockerfile.getEscapeCharacter(), "\\");
@@ -159,21 +165,69 @@ describe("Dockerfile", () => {
         assert.ok(directive !== null);
     });
 
-    it("getDirectives", () => {
-        let dockerfile = DockerfileParser.parse("# escape=`");
-        let directives = dockerfile.getDirectives();
-        assert.ok(directives !== null);
-        assert.equal(directives.length, 1);
+    describe("getDirectives", () => {
+        it("# escape=`", () => {
+            let dockerfile = DockerfileParser.parse("# escape=`");
+            let directives = dockerfile.getDirectives();
+            assert.ok(directives !== null);
+            assert.equal(directives.length, 1);
+            assert.equal(dockerfile.getComments().length, 0);
+            assert.equal(dockerfile.getInstructions().length, 0);
+        });
 
-        dockerfile = DockerfileParser.parse("# test=`");
-        directives = dockerfile.getDirectives();
-        assert.ok(directives !== null);
-        assert.equal(directives.length, 1);
+        it("# test=`", () => {
+            let dockerfile = DockerfileParser.parse("# test=`");
+            let directives = dockerfile.getDirectives();
+            assert.ok(directives !== null);
+            assert.equal(directives.length, 1);
+            assert.equal(dockerfile.getComments().length, 0);
+            assert.equal(dockerfile.getInstructions().length, 0);
+        });
 
-        dockerfile = DockerfileParser.parse("FROM scratch");
-        directives = dockerfile.getDirectives();
-        assert.ok(directives !== null);
-        assert.equal(directives.length, 0);
+        it("FROM scratch", () => {
+            let dockerfile = DockerfileParser.parse("FROM scratch");
+            let directives = dockerfile.getDirectives();
+            assert.ok(directives !== null);
+            assert.equal(directives.length, 0);
+            assert.equal(dockerfile.getComments().length, 0);
+            assert.equal(dockerfile.getInstructions().length, 1);
+        });
+
+        it("one directive with comment", () => {
+            let dockerfile = DockerfileParser.parse("#d1=v2\n#d2");
+            let directives = dockerfile.getDirectives();
+            assert.ok(directives !== null);
+            assert.equal(directives.length, 1);
+            assert.equal(dockerfile.getComments().length, 1);
+            assert.equal(dockerfile.getInstructions().length, 0);
+        });
+
+        it("one directive with newline", () => {
+            let dockerfile = DockerfileParser.parse("#d1=v2\n\n#d2=v2");
+            let directives = dockerfile.getDirectives();
+            assert.ok(directives !== null);
+            assert.equal(directives.length, 1);
+            assert.equal(dockerfile.getComments().length, 1);
+            assert.equal(dockerfile.getInstructions().length, 0);
+        });
+
+        it("two directives newline", () => {
+            let dockerfile = DockerfileParser.parse("#d1=v2\n#d2=v2");
+            let directives = dockerfile.getDirectives();
+            assert.ok(directives !== null);
+            assert.equal(directives.length, 2);
+            assert.equal(dockerfile.getComments().length, 0);
+            assert.equal(dockerfile.getInstructions().length, 0);
+        });
+
+        it("two directives Windows newline", () => {
+            let dockerfile = DockerfileParser.parse("#d1=v2\r\n#d2=v2");
+            let directives = dockerfile.getDirectives();
+            assert.ok(directives !== null);
+            assert.equal(directives.length, 2);
+            assert.equal(dockerfile.getComments().length, 0);
+            assert.equal(dockerfile.getInstructions().length, 0);
+        });
     });
 
     it("resolveVariable", () => {

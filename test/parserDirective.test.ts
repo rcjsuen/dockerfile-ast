@@ -14,6 +14,7 @@ describe("Parser Directive", () => {
             const directives = dockerfile.getDirectives();
             assert.equal(directives.length, 1);
             const directive = directives[0];
+            assertRange(directive.getRange(), 0, 0, 0, 10);
             assert.equal(directive.getName(), "escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "`");
@@ -27,6 +28,7 @@ describe("Parser Directive", () => {
             const directives = dockerfile.getDirectives();
             assert.equal(directives.length, 1);
             const directive = directives[0];
+            assertRange(directive.getRange(), 0, 0, 0, 10);
             assert.equal(directive.getName(), "Escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "`");
@@ -40,6 +42,7 @@ describe("Parser Directive", () => {
             const directives = dockerfile.getDirectives();
             assert.equal(directives.length, 1);
             const directive = directives[0];
+            assertRange(directive.getRange(), 0, 0, 0, 11);
             assert.equal(directive.getName(), "escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), " \t");
@@ -53,6 +56,7 @@ describe("Parser Directive", () => {
             const directives = dockerfile.getDirectives();
             assert.equal(directives.length, 1);
             const directive = directives[0];
+            assertRange(directive.getRange(), 0, 0, 0, 10);
             assert.equal(directive.getName(), "escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "`");
@@ -66,6 +70,7 @@ describe("Parser Directive", () => {
             const directives = dockerfile.getDirectives();
             assert.equal(directives.length, 1);
             const directive = directives[0];
+            assertRange(directive.getRange(), 0, 0, 0, 14);
             assert.equal(directive.getName(), "Escape");
             assertRange(directive.getNameRange(), 0, 3, 0, 9);
             assert.equal(directive.getValue(), "`");
@@ -79,6 +84,7 @@ describe("Parser Directive", () => {
             const directives = dockerfile.getDirectives();
             assert.equal(directives.length, 1);
             const directive = directives[0];
+            assertRange(directive.getRange(), 0, 0, 0, 12);
             assert.equal(directive.getName(), "Escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "aaa");
@@ -92,6 +98,7 @@ describe("Parser Directive", () => {
             const directives = dockerfile.getDirectives();
             assert.equal(directives.length, 1);
             const directive = directives[0];
+            assertRange(directive.getRange(), 0, 0, 0, 18);
             assert.equal(directive.getName(), "escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "asdf");
@@ -105,6 +112,7 @@ describe("Parser Directive", () => {
             const directives = dockerfile.getDirectives();
             assert.equal(directives.length, 1);
             const directive = directives[0];
+            assertRange(directive.getRange(), 0, 0, 0, 9);
             assert.equal(directive.getName(), "escape");
             assertRange(directive.getNameRange(), 0, 2, 0, 8);
             assert.equal(directive.getValue(), "");
@@ -115,7 +123,10 @@ describe("Parser Directive", () => {
 
         it("# unknown=value", () => {
             let dockerfile = DockerfileParser.parse("# unknown=value");
-            let directive = dockerfile.getDirective();
+            const directives = dockerfile.getDirectives();
+            assert.equal(directives.length, 1);
+            const directive = directives[0];
+            assertRange(directive.getRange(), 0, 0, 0, 15);
             assert.equal(directive.getName(), "unknown");
             assertRange(directive.getNameRange(), 0, 2, 0, 9);
             assert.equal(directive.getValue(), "value");

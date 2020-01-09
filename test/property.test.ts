@@ -170,6 +170,16 @@ describe("Property", () => {
             assertRange(property.getValueRange(), 1, offset + 3, 1, offset + 6);
             assertRange(property.getRange(), 1, offset + 1, 1, offset + 6);
 
+            dockerfile = DockerfileParser.parse("#directive=value\n#escape=`\n" + instruction + " x" + delimiter + "y`z");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            property = propInstruction.getProperties()[0];
+            assert.equal(property.getName(), "x");
+            assert.equal(property.getValue(), "yz");
+            assert.equal(property.getUnescapedValue(), "y`z");
+            assertRange(property.getNameRange(), 2, offset + 1, 2, offset + 2);
+            assertRange(property.getValueRange(), 2, offset + 3, 2, offset + 6);
+            assertRange(property.getRange(), 2, offset + 1, 2, offset + 6);
+
             dockerfile = DockerfileParser.parse(instruction + " x" + delimiter + "\\y");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
             property = propInstruction.getProperties()[0];

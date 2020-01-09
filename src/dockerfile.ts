@@ -12,7 +12,7 @@ import { Instruction } from './instruction';
 import { Arg } from './instructions/arg';
 import { From } from './instructions/from';
 import { Util } from './util';
-import { Directive, Keyword } from './main';
+import { Keyword } from './main';
 
 export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
 
@@ -20,7 +20,7 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
     private readonly initialInstructions = new ImageTemplate();
     private readonly buildStages: ImageTemplate[] = [];
     private currentBuildStage: ImageTemplate;
-    private directive: ParserDirective | null = null;
+    private directives: ParserDirective[] = [];
 
     /**
      * Whether a FROM instruction has been added to this Dockerfile or not.
@@ -33,10 +33,12 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
     }
 
     public getEscapeCharacter(): string {
-        if (this.directive !== null && this.directive.getDirective() === Directive.escape) {
-            let value = this.directive.getValue();
-            if (value === '\\' || value === '`') {
-                return value;
+        if (this.directives.length > 0) {
+            for (const directive of this.directives) {
+                const value = directive.getValue();
+                if (value === '\\' || value === '`') {
+                    return value;
+                }
             }
         }
         return '\\';
@@ -81,16 +83,16 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
         super.addInstruction(instruction);
     }
 
-    public setDirective(directive: ParserDirective): void {
-        this.directive = directive;
+    public setDirectives(directives: ParserDirective[]): void {
+        this.directives = directives;
     }
 
     public getDirective(): ParserDirective | null {
-        return this.directive;
+        return this.directives.length === 0 ? null : this.directives[0];
     }
 
     public getDirectives(): ParserDirective[] {
-        return this.directive === null ? [] : [ this.directive ];
+        return this.directives;
     }
 
     public resolveVariable(variable: string, line: number): string | null | undefined {
@@ -186,14 +188,14 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
         }
 
         if (range === null) {
-            if (this.directive === null) {
+            if (this.directives.length === 0) {
                 return null;
             }
-            return this.directive.getRange();
-        } else if (this.directive === null) {
+            return this.directives[0].getRange();
+        } else if (this.directives.length === 0) {
             return range;
         }
-        return Range.create(this.directive.getRange().start, range.end);
+        return Range.create(this.directives[0].getRange().start, range.end);
     }
 
 }

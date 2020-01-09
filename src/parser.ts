@@ -8,7 +8,6 @@ import { TextDocument, Range, Position } from 'vscode-languageserver-types';
 import { Comment } from './comment';
 import { ParserDirective } from './parserDirective';
 import { Instruction } from './instruction';
-import { Line } from './line';
 import { JSONInstruction } from './jsonInstruction';
 import { Add } from './instructions/add';
 import { Arg } from './instructions/arg';
@@ -70,8 +69,9 @@ export class Parser {
         return new Instruction(document, lineRange, dockerfile, escapeChar, instruction, instructionRange);
     }
 
-    private getDirectiveSymbol(document: TextDocument, buffer: string): Line | null {
+    private getParserDirectives(document: TextDocument, buffer: string): ParserDirective[] {
         // reset the escape directive in between runs
+        const directives = [];
         this.escapeChar = '';
         directiveCheck: for (let i = 0; i < buffer.length; i++) {
             switch (buffer.charAt(i)) {
@@ -80,7 +80,7 @@ export class Parser {
                     break;
                 case '\r':
                 case '\n':
-                    // parser directives must be at the top of the Dockerfile
+                    // blank lines stop the parsing of directives immediately
                     break directiveCheck;
                 case '#':
                     let commentStart = i;
@@ -97,7 +97,7 @@ export class Parser {
                                 break;
                             case '\r':
                             case '\n':
-                                return new Comment(document, Range.create(document.positionAt(commentStart), document.positionAt(j)));
+                                break directiveCheck;
                             case '=':
                                 let valueStart = -1;
                                 let valueEnd = -1;
@@ -134,7 +134,7 @@ export class Parser {
                                 let lineRange = Range.create(document.positionAt(commentStart), document.positionAt(lineEnd));
                                 if (directiveStart === -1) {
                                     // no directive, it's a regular comment
-                                    return new Comment(document, lineRange);
+                                    break directiveCheck;
                                 }
 
                                 if (valueStart === -1) {
@@ -148,7 +148,15 @@ export class Parser {
 
                                 let nameRange = Range.create(document.positionAt(directiveStart), document.positionAt(directiveEnd));
                                 let valueRange = Range.create(document.positionAt(valueStart), document.positionAt(valueEnd));
-                                return new ParserDirective(document, lineRange, nameRange, valueRange);
+                                directives.push(new ParserDirective(document, lineRange, nameRange, valueRange));
+                                directiveStart = -1;
+                                if (buffer.charAt(valueEnd) === '\r') {
+                                    // skip over the \r
+                                    i = valueEnd + 1;
+                                } else {
+                                    i = valueEnd;
+                                }
+                                continue directiveCheck;
                             default:
                                 if (directiveStart === -1) {
                                     directiveStart = j;
@@ -161,29 +169,20 @@ export class Parser {
                     break directiveCheck;
             }
         }
-        return null;
+        return directives;
     }
 
     public parse(buffer: string): Dockerfile {
         let document = TextDocument.create("", "", 0, buffer);
         let dockerfile = new Dockerfile(document);
-        let line: any = this.getDirectiveSymbol(document, buffer);
+        let directives = this.getParserDirectives(document, buffer);
         let offset = 0;
         this.escapeChar = '\\';
-        if (line instanceof ParserDirective) {
-            let directive = line as ParserDirective;
-            dockerfile.setDirective(directive);
-            if (Directive.escape === directive.getDirective()) {
-                let value = directive.getValue();
-                if (value === '`' || value === '\\') {
-                    this.escapeChar = value;
-                }
-            }
-            offset = document.offsetAt(line.getRange().end);
-        } else if (line instanceof Comment) {
-            dockerfile.addComment(line);
-            // skip the first line
-            offset = document.offsetAt(Position.create(1, 0));
+        if (directives.length > 0) {
+            dockerfile.setDirectives(directives);
+            this.escapeChar = dockerfile.getEscapeCharacter();
+            // start parsing after the directives
+            offset = document.offsetAt(Position.create(directives.length, 0));
         }
 
         lineCheck: for (let i = offset; i < buffer.length; i++) {

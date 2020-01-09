@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Added
+- `Dockerfile`
+  - `getDirectives()` ([#62](https://github.com/rcjsuen/dockerfile-ast/issues/62))
+    - originally introduced in 0.0.18 to support compatibility in the future, the function is now fully implemented and will return an ordered list of all the parser directives defined at the top of the Dockerfile
+
 ## [0.0.19] - 2020-01-27
 ### Added
 - `From`
