@@ -22,6 +22,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM node", () => {
@@ -38,6 +41,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM no${de:-de}", () => {
@@ -54,6 +60,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM no${de:-d@e}", () => {
@@ -70,6 +79,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM no${de:-':'}", () => {
@@ -86,6 +98,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM no${a:-${c:-x}}", () => {
@@ -102,6 +117,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM no${de:-'//'}", () => {
@@ -118,6 +136,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM no${a:-${c:-//}}", () => {
@@ -134,6 +155,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM ${image:-'@blah'}:3.6", () => {
@@ -150,6 +174,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM custom/no${de:-'//'}", () => {
@@ -166,6 +193,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM custom/no${a:-${c:-//}}", () => {
@@ -182,6 +212,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM node:", () => {
@@ -198,6 +231,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM node:alpine", () => {
@@ -214,6 +250,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM node:${tag:-latest}", () => {
@@ -230,6 +269,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM node@", () => {
@@ -246,6 +288,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
@@ -262,6 +307,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM node@${digest:-sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700}", () => {
@@ -278,6 +326,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM custom/node", () => {
@@ -294,6 +345,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM custom/node:", () => {
@@ -310,6 +364,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM custom/node:alpine", () => {
@@ -326,6 +383,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM custom/node@", () => {
@@ -342,6 +402,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM custom/node@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
@@ -358,6 +421,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com/base/image", () => {
@@ -374,6 +440,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com");
         assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com/base/image:", () => {
@@ -390,6 +459,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com");
         assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com/base/image:tag", () => {
@@ -406,6 +478,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com");
         assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com/base/image@", () => {
@@ -422,6 +497,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com");
         assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
@@ -438,6 +516,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com");
         assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/image", () => {
@@ -454,6 +535,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/image:", () => {
@@ -470,6 +554,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/image:tag", () => {
@@ -486,6 +573,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/image:tag", () => {
@@ -502,6 +592,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/image@", () => {
@@ -518,6 +611,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/image@", () => {
@@ -534,6 +630,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/base/image", () => {
@@ -550,6 +649,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/base/image:", () => {
@@ -566,6 +668,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/base/image:tag", () => {
@@ -582,6 +687,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/base/image@", () => {
@@ -598,6 +706,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
@@ -614,6 +725,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM store/base/image", () => {
@@ -630,6 +744,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM store/base/image:", () => {
@@ -646,6 +763,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM store/base/image:tag", () => {
@@ -662,6 +782,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM store/base/image@", () => {
@@ -678,6 +801,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM store/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
@@ -694,6 +820,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost/base/image", () => {
@@ -710,6 +839,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost/base/image:", () => {
@@ -726,6 +858,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost/base/image:tag", () => {
@@ -742,6 +877,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost/base/image@", () => {
@@ -758,6 +896,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
@@ -774,6 +915,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost:1234/image", () => {
@@ -790,6 +934,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost:1234/image:", () => {
@@ -806,6 +953,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost:1234/image:tag", () => {
@@ -822,6 +972,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost:1234/image@", () => {
@@ -838,6 +991,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost:1234/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
@@ -854,6 +1010,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost:1234/base/image", () => {
@@ -870,6 +1029,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost:1234/base/image:", () => {
@@ -886,6 +1048,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost:1234/base/image:tag", () => {
@@ -902,6 +1067,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost:1234/base/image@", () => {
@@ -918,6 +1086,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost:1234/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
@@ -934,6 +1105,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123/base/image", () => {
@@ -950,6 +1124,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123");
         assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123/base/image:", () => {
@@ -966,6 +1143,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123");
         assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123/base/image:tag", () => {
@@ -982,6 +1162,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123");
         assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123/base/image@", () => {
@@ -998,6 +1181,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123");
         assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
@@ -1014,6 +1200,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123");
         assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123:2345/image", () => {
@@ -1030,6 +1219,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123:2345/image:", () => {
@@ -1046,6 +1238,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123:2345/image:tag", () => {
@@ -1062,6 +1257,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123:2345/image@", () => {
@@ -1078,6 +1276,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123:2345/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
@@ -1092,6 +1293,9 @@ describe("FROM", () => {
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 30, 0, 101);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123:2345/base/image", () => {
@@ -1108,6 +1312,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123:2345/base/image:", () => {
@@ -1124,6 +1331,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123:2345/base/image:tag", () => {
@@ -1140,6 +1350,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123:2345/base/image@", () => {
@@ -1156,6 +1369,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM 123.22.33.123:2345/base/image@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
@@ -1172,6 +1388,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM store/custom/no${de:-'//'}", () => {
@@ -1188,6 +1407,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM store/custom/no${a:-${c:-//}}", () => {
@@ -1204,6 +1426,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM store/cust${de:-'//'}om/no", () => {
@@ -1220,6 +1445,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost/cust${a:-${c:-//}}om/no", () => {
@@ -1236,6 +1464,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost/custom/no${a:-${c:-//}}", () => {
@@ -1252,6 +1483,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost/cust${de:-'//'}om/no", () => {
@@ -1268,6 +1502,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM localhost/cust${a:-${c:-//}}om/no", () => {
@@ -1284,6 +1521,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM sto${de:-'//'}re/custom/no", () => {
@@ -1300,6 +1540,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(),null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM sto${a:-${c:-//}}re/custom/no", () => {
@@ -1316,6 +1559,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM node AS", () => {
@@ -1332,6 +1578,9 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
     });
 
     it("FROM node AS stage", () => {
@@ -1348,5 +1597,84 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), "stage");
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
+    });
+
+    it("FROM --platform=linux/amd64 base", () => {
+        let dockerfile = DockerfileParser.parse("FROM --platform=linux/amd64 base");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "base");
+        assertRange(from.getImageRange(), 0, 28, 0, 32);
+        assert.equal(from.getImageName(), "base");
+        assertRange(from.getImageNameRange(), 0, 28, 0, 32);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
+
+        let flag = from.getPlatformFlag();
+        assert.equal(flag.getName(), "platform");
+        assertRange(flag.getNameRange(), 0, 7, 0, 15);
+        assert.equal(flag.getValue(), "linux/amd64");
+        assertRange(flag.getValueRange(), 0, 16, 0, 27);
+        assertRange(flag.getRange(), 0, 5, 0, 27);
+    });
+
+    it("FROM --platform=linux/amd64 base AS", () => {
+        let dockerfile = DockerfileParser.parse("FROM --platform=linux/amd64 base AS");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "base");
+        assertRange(from.getImageRange(), 0, 28, 0, 32);
+        assert.equal(from.getImageName(), "base");
+        assertRange(from.getImageNameRange(), 0, 28, 0, 32);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
+
+        assert.equal(from.getFlags().length, 1);
+        let flag = from.getPlatformFlag();
+        assert.equal(from.getFlags()[0], flag);
+        assert.equal(flag.getName(), "platform");
+        assertRange(flag.getNameRange(), 0, 7, 0, 15);
+        assert.equal(flag.getValue(), "linux/amd64");
+        assertRange(flag.getValueRange(), 0, 16, 0, 27);
+        assertRange(flag.getRange(), 0, 5, 0, 27);
+    });
+
+    it("FROM --platform=linux/amd64 base AS setup", () => {
+        let dockerfile = DockerfileParser.parse("FROM --platform=linux/amd64 base AS setup");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "base");
+        assertRange(from.getImageRange(), 0, 28, 0, 32);
+        assert.equal(from.getImageName(), "base");
+        assertRange(from.getImageNameRange(), 0, 28, 0, 32);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), "setup");
+        assertRange(from.getBuildStageRange(), 0, 36, 0, 41);
+
+        assert.equal(from.getFlags().length, 1);
+        let flag = from.getPlatformFlag();
+        assert.equal(from.getFlags()[0], flag);
+        assert.equal(flag.getName(), "platform");
+        assertRange(flag.getNameRange(), 0, 7, 0, 15);
+        assert.equal(flag.getValue(), "linux/amd64");
+        assertRange(flag.getValueRange(), 0, 16, 0, 27);
+        assertRange(flag.getRange(), 0, 5, 0, 27);
     });
 });

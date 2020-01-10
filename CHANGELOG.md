@@ -1,6 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Added
+- `From`
+  - `getPlatformFlag()` ([#65](https://github.com/rcjsuen/dockerfile-ast/issues/65))
+
+### Changed
+- `From`
+  - this class now subclasses `ModifiableInstruction` instead of `Instruction` ([#65](https://github.com/rcjsuen/dockerfile-ast/issues/65))
+    - this was changed to support the `--platform` flag introduced in Docker CE 18.04
+    - as `ModifiableInstruction` extends `Instruction`, this should not impact anyone at an API level from a compilation standpoint
+    - note that this will break users that previously used `getArguments()` to parse and retrieve the `--platform` flag manually, please replace such usages with the new `getPlatformFlag()` API
+
 ## [0.0.18] - 2019-12-07
 ### Added
 - `Dockerfile`

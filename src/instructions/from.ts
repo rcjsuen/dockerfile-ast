@@ -4,12 +4,17 @@
  * ------------------------------------------------------------------------------------------ */
 import { TextDocument, Range } from 'vscode-languageserver-types';
 import { Dockerfile } from '../dockerfile';
-import { Instruction } from '../instruction';
+import { Flag } from '../flag';
+import { ModifiableInstruction } from '../modifiableInstruction';
 
-export class From extends Instruction {
+export class From extends ModifiableInstruction {
 
     constructor(document: TextDocument, range: Range, dockerfile: Dockerfile, escapeChar: string, instruction: string, instructionRange: Range) {
         super(document, range, dockerfile, escapeChar, instruction, instructionRange);
+    }
+
+    protected stopSearchingForFlags(argument: string): boolean {
+        return argument.indexOf("--") === -1;
     }
 
     public getImage(): string | null {
@@ -205,5 +210,10 @@ export class From extends Instruction {
             return args[2].getRange();
         }
         return null;
+    }
+
+    public getPlatformFlag(): Flag | null {
+        let flags = super.getFlags();
+        return flags.length === 1 && flags[0].getName() === "platform" ? flags[0] : null;
     }
 }
