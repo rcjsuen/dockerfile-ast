@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.19] - 2020-01-27
 ### Added
 - `From`
   - `getPlatformFlag()` ([#65](https://github.com/rcjsuen/dockerfile-ast/issues/65))
@@ -199,6 +199,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
+[0.0.19]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.18...v0.0.19
 [0.0.18]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.17...v0.0.18
 [0.0.17]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.16...v0.0.17
 [0.0.16]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.15...v0.0.16
