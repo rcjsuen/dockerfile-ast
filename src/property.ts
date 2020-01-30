@@ -152,7 +152,7 @@ export class Property {
                 return Range.create(arg.getRange().start, document.positionAt(document.offsetAt(arg.getRange().start) + index));
             }
         }
-        // no '=' found, just defined the ARG's name
+        // no '=' found, just defined the property's name
         return arg.getRange();
     }
 
@@ -164,15 +164,14 @@ export class Property {
     }
 
     /**
-     * Returns the actual value of this instruction's declared
-     * variable. The value will have its escape characters removed if
-     * applicable. If the value spans multiple lines and there are
-     * comments nested within the lines, they too will be removed.
+     * Returns the actual value of this key-value pair. The value will
+     * have its escape characters removed if applicable. If the value
+     * spans multiple lines and there are comments nested within the
+     * lines, they too will be removed.
      * 
-     * @return the value that this ARG instruction's declared
-     *         variable will resolve to, may be null if no value is
-     *         defined, may be the empty string if the value only
-     *         consists of whitespace
+     * @return the value that this key-value pair will actually be, may
+     *         be null if no value is defined, may be the empty string
+     *         if the value only consists of whitespace
      */
     private static getValue(value: string, escapeChar: string): string {
         let escaped = false;
