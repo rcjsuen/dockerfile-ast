@@ -217,6 +217,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.19...HEAD
 [0.0.19]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.18...v0.0.19
 [0.0.18]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.17...v0.0.18
 [0.0.17]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.16...v0.0.17
