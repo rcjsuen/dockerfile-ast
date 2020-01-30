@@ -7,6 +7,18 @@ All notable changes to this project will be documented in this file.
   - `getDirectives()` ([#62](https://github.com/rcjsuen/dockerfile-ast/issues/62))
     - originally introduced in 0.0.18 to support compatibility in the future, the function is now fully implemented and will return an ordered list of all the parser directives defined at the top of the Dockerfile
 
+- `Directive`
+  - `syntax` ([#63](https://github.com/rcjsuen/dockerfile-ast/issues/63))
+    - this enum can be used for identifying the `syntax` parser directive used by BuildKit
+
+### Changed
+- `ParserDirective`
+  - `getDirective()` ([#63](https://github.com/rcjsuen/dockerfile-ast/issues/63))
+    - this function originally stated that it would return a `Directive`
+    - `undefined` would be returned if the name of the parser directive was not recognized
+    - the function now returns `Directive | null`
+    - the function will return `null` if the parser directive is not recognized instead of `undefined`
+
 ## [0.0.19] - 2020-01-27
 ### Added
 - `From`

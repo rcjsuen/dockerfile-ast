@@ -38,7 +38,8 @@ export class ParserDirective extends Line {
         return this.document.getText().substring(this.document.offsetAt(this.valueRange.start), this.document.offsetAt(this.valueRange.end));
     }
 
-    public getDirective(): Directive {
-        return Directive[this.getName().toLowerCase()];
+    public getDirective(): Directive | null {
+        const directive = Directive[this.getName().toLowerCase()];
+        return directive === undefined ? null : directive;
     }
 }

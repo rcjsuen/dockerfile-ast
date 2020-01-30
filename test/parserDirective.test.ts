@@ -121,6 +121,19 @@ describe("Parser Directive", () => {
             assert.equal(directive.toString(), "# escape=");
         });
 
+        it("# syntax=docker/dockerfile", () => {
+            let dockerfile = DockerfileParser.parse("# syntax=docker/dockerfile");
+            const directives = dockerfile.getDirectives();
+            assert.equal(directives.length, 1);
+            const directive = directives[0];
+            assert.equal(directive.getName(), "syntax");
+            assertRange(directive.getNameRange(), 0, 2, 0, 8);
+            assert.equal(directive.getValue(), "docker/dockerfile");
+            assertRange(directive.getValueRange(), 0, 9, 0, 26);
+            assert.equal(directive.getDirective(), Directive.syntax);
+            assert.equal(directive.toString(), "# syntax=docker/dockerfile");
+        });
+
         it("# unknown=value", () => {
             let dockerfile = DockerfileParser.parse("# unknown=value");
             const directives = dockerfile.getDirectives();
@@ -131,7 +144,7 @@ describe("Parser Directive", () => {
             assertRange(directive.getNameRange(), 0, 2, 0, 9);
             assert.equal(directive.getValue(), "value");
             assertRange(directive.getValueRange(), 0, 10, 0, 15);
-            assert.equal(directive.getDirective(), undefined);
+            assert.strictEqual(directive.getDirective(), null);
             assert.equal(directive.toString(), "# unknown=value");
         });
     });

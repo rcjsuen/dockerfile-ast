@@ -162,7 +162,8 @@ export enum Keyword {
 }
 
 export enum Directive {
-    escape = "escape"
+    escape = "escape",
+    syntax = "syntax"
 }
 
 export const DefaultVariables = [
