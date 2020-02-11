@@ -148,7 +148,13 @@ export class Instruction extends Line {
                 }
             }
         }
-        ranges.push(Range.create(startPosition, this.document.positionAt(offset + end + 1)));
+        if (startPosition === null) {
+            // should only happen if the last argument is on its own line with
+            // no leading whitespace
+            ranges.push(Range.create(this.document.positionAt(offset + end), this.document.positionAt(offset + end + 1)));
+        } else {
+            ranges.push(Range.create(startPosition, this.document.positionAt(offset + end + 1)));
+        }
         return ranges;
     }
 

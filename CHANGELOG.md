@@ -19,6 +19,9 @@ All notable changes to this project will be documented in this file.
     - the function now returns `Directive | null`
     - the function will return `null` if the parser directive is not recognized instead of `undefined`
 
+### Fixed
+- `Instruction`'s `getArgumentsRanges()` will no longer throw an error if the instruction has its last argument on its own line with no leading whitespace and the length of that argument is one ([#66](https://github.com/rcjsuen/dockerfile-ast/issues/66))
+
 ## [0.0.19] - 2020-01-27
 ### Added
 - `From`

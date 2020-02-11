@@ -904,6 +904,70 @@ describe("Instruction", () => {
         assert.equal(instruction.toString(), "FROM $");
     });
 
+    it("RUN \\\" \\\\nx", () => {
+        let dockerfile = DockerfileParser.parse("RUN \\\" \\\nx");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "RUN");
+        assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
+        assertRange(instruction.getArgumentsRange(), 0, 4, 1, 1);
+        assert.equal(instruction.getArgumentsContent(), "\\\" x");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 2);
+        assertRange(ranges[0], 0, 4, 0, 7);
+        assertRange(ranges[1], 1, 0, 1, 1);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "RUN \" x");
+    });
+
+    it("RUN \\\" \\\\r\\nx", () => {
+        let dockerfile = DockerfileParser.parse("RUN \\\" \\\r\nx");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "RUN");
+        assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
+        assertRange(instruction.getArgumentsRange(), 0, 4, 1, 1);
+        assert.equal(instruction.getArgumentsContent(), "\\\" x");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 2);
+        assertRange(ranges[0], 0, 4, 0, 7);
+        assertRange(ranges[1], 1, 0, 1, 1);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "RUN \" x");
+    });
+
+    it("RUN x\\\\ny", () => {
+        let dockerfile = DockerfileParser.parse("RUN x\\\ny");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "RUN");
+        assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
+        assertRange(instruction.getArgumentsRange(), 0, 4, 1, 1);
+        assert.equal(instruction.getArgumentsContent(), "xy");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 2);
+        assertRange(ranges[0], 0, 4, 0, 5);
+        assertRange(ranges[1], 1, 0, 1, 1);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "RUN xy");
+    });
+
+    it("RUN x\\\\r\\ny", () => {
+        let dockerfile = DockerfileParser.parse("RUN x\\\r\ny");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "RUN");
+        assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
+        assertRange(instruction.getArgumentsRange(), 0, 4, 1, 1);
+        assert.equal(instruction.getArgumentsContent(), "xy");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 2);
+        assertRange(ranges[0], 0, 4, 0, 5);
+        assertRange(ranges[1], 1, 0, 1, 1);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "RUN xy");
+    });
+
     it("isAfter", () => {
         let dockerfile = DockerfileParser.parse("FROM alpine\nFROM busybox");
         let instructions = dockerfile.getInstructions();
