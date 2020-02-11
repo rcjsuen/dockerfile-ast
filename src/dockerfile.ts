@@ -35,9 +35,11 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
     public getEscapeCharacter(): string {
         if (this.directives.length > 0) {
             for (const directive of this.directives) {
-                const value = directive.getValue();
-                if (value === '\\' || value === '`') {
-                    return value;
+                if (directive.getDirective() === ast.Directive.escape) {
+                    const value = directive.getValue();
+                    if (value === '\\' || value === '`') {
+                        return value;
+                    }
                 }
             }
         }

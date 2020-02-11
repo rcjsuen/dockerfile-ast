@@ -24,6 +24,9 @@ describe("Dockerfile", () => {
         dockerfile = DockerfileParser.parse("#directive=value\n# escape=`");
         assert.equal(dockerfile.getEscapeCharacter(), "`");
 
+        dockerfile = DockerfileParser.parse("#directive=`\n# escape=\\");
+        assert.equal(dockerfile.getEscapeCharacter(), "\\");
+
         // invalid escape directive
         dockerfile = DockerfileParser.parse("# escape=a");
         assert.equal(dockerfile.getEscapeCharacter(), "\\");
