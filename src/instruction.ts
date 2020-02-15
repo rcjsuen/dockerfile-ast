@@ -79,7 +79,7 @@ export class Instruction extends Line {
         let end = -1;
         let startPosition = args[0].getRange().start;
         let range = this.getInstructionRange();
-        let extra = this.document.offsetAt(range.end) - this.document.offsetAt(range.start);
+        let extra = this.document.offsetAt(startPosition) - this.document.offsetAt(range.start);
         let content = this.getTextContent();
         let fullArgs = content.substring(extra, this.document.offsetAt(args[args.length - 1].getRange().end) - this.document.offsetAt(range.start));
         let offset = this.document.offsetAt(range.start) + extra;
@@ -109,13 +109,17 @@ export class Instruction extends Line {
                         }
                     }
                 } else if (next === '\r') {
-                    ranges.push(Range.create(startPosition, this.document.positionAt(offset + end + 1)));
-                    startPosition = null;
+                    if (startPosition !== null) {
+                        ranges.push(Range.create(startPosition, this.document.positionAt(offset + end + 1)));
+                        startPosition = null;
+                    }
                     start = true;
                     comment = false;
                     i += 2;
                 } else if (next === '\n') {
-                    ranges.push(Range.create(startPosition, this.document.positionAt(offset + end + 1)));
+                    if (startPosition !== null) {
+                        ranges.push(Range.create(startPosition, this.document.positionAt(offset + end + 1)));
+                    }
                     startPosition = null;
                     start = true;
                     comment = false;

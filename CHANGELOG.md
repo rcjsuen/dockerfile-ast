@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- `Instruction`'s `getArgumentsRanges()` will no longer throw an error if an instruction spans multiple lines and has escaped newlines at the beginning of a line ([#67](https://github.com/rcjsuen/dockerfile-ast/issues/67))
+
 ## [0.0.20] - 2020-02-11
 ### Added
 - `Dockerfile`
@@ -220,6 +224,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.20...HEAD
 [0.0.20]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.19...v0.0.20
 [0.0.19]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.18...v0.0.19
 [0.0.18]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.17...v0.0.18
