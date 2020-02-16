@@ -166,6 +166,10 @@ describe("Dockerfile", () => {
         dockerfile = DockerfileParser.parse("# test=`");
         directive = dockerfile.getDirective();
         assert.ok(directive !== null);
+
+        dockerfile = DockerfileParser.parse("#");
+        directive = dockerfile.getDirective();
+        assert.strictEqual(directive, null);
     });
 
     describe("getDirectives", () => {
