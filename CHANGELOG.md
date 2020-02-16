@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Fixed
 - `Instruction`'s `getArgumentsRanges()` will no longer throw an error if an instruction spans multiple lines and has escaped newlines at the beginning of a line ([#67](https://github.com/rcjsuen/dockerfile-ast/issues/67))
+- `ModifiableInstruction`'s `toString()` will now include the instruction's flags ([#68](https://github.com/rcjsuen/dockerfile-ast/issues/68))
 
 ## [0.0.20] - 2020-02-11
 ### Added

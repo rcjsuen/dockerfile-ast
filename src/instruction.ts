@@ -31,7 +31,7 @@ export class Instruction extends Line {
 
     public toString(): string {
         let value = this.getKeyword();
-        for (let arg of this.getArguments()) {
+        for (let arg of this.getRawArguments()) {
             value += ' ';
             value += arg.getValue();
         }
@@ -187,6 +187,10 @@ export class Instruction extends Line {
     }
 
     public getArguments(): Argument[] {
+        return this.getRawArguments();
+    }
+
+    private getRawArguments(): Argument[] {
         let args = [];
         let range = this.getInstructionRange();
         let extra = this.document.offsetAt(range.end) - this.document.offsetAt(range.start);
