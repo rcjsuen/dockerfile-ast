@@ -542,6 +542,38 @@ describe("Variable", () => {
         assert.equal(variable.toString(), "${:::abc}");
     });
 
+    it("HEALTHCHECK --interval=$var CMD ls", () => {
+        let dockerfile = DockerfileParser.parse("HEALTHCHECK --interval=$var CMD ls");
+        let variable = dockerfile.getInstructions()[0].getVariables()[0];
+        assert.equal(variable.getName(), "var");
+        assertRange(variable.getNameRange(), 0, 24, 0, 27);
+        assertRange(variable.getRange(), 0, 23, 0, 27);
+        assert.strictEqual(variable.getModifier(), null);
+        assert.strictEqual(variable.getModifierRange(), null);
+        assert.strictEqual(variable.getSubstitutionParameter(), null);
+        assert.strictEqual(variable.getSubstitutionRange(), null);
+        assert.equal(variable.isDefined(), false);
+        assert.equal(variable.isBuildVariable(), false);
+        assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "$var");
+    });
+
+    it("HEALTHCHECK --interval=${var} CMD ls", () => {
+        let dockerfile = DockerfileParser.parse("HEALTHCHECK --interval=${var} CMD ls");
+        let variable = dockerfile.getInstructions()[0].getVariables()[0];
+        assert.equal(variable.getName(), "var");
+        assertRange(variable.getNameRange(), 0, 25, 0, 28);
+        assertRange(variable.getRange(), 0, 23, 0, 29);
+        assert.strictEqual(variable.getModifier(), null);
+        assert.strictEqual(variable.getModifierRange(), null);
+        assert.strictEqual(variable.getSubstitutionParameter(), null);
+        assert.strictEqual(variable.getSubstitutionRange(), null);
+        assert.equal(variable.isDefined(), false);
+        assert.equal(variable.isBuildVariable(), false);
+        assert.equal(variable.isEnvironmentVariable(), false);
+        assert.equal(variable.toString(), "${var}");
+    });
+
     it("ARG aaa=${bbb:\\\\n\\n-\\\\nimage\\\\n}", () => {
         let dockerfile = DockerfileParser.parse("ARG aaa=${bbb:\\\n\n-\\\nimage\\\n}");
         let variable = dockerfile.getInstructions()[0].getVariables()[0];

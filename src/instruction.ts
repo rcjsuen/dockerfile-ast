@@ -369,7 +369,7 @@ export class Instruction extends Line {
 
     public getVariables(): Variable[] {
         const variables = [];
-        const args = this.getArguments();
+        const args = this.getRawArguments();
         for (const arg of args) {
             let range = arg.getRange();
             let rawValue = this.document.getText().substring(this.document.offsetAt(range.start), this.document.offsetAt(range.end));
