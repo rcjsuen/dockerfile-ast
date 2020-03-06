@@ -218,10 +218,12 @@ export class Parser {
                     let instructionEnd = -1;
                     let lineRange: Range | null = null;
                     let instructionRange: Range | null = null;
+                    let escapedInstruction = false;
                     instructionCheck: for (let j = i + 1; j < buffer.length; j++) {
                         char = buffer.charAt(j);
                         switch (char) {
                             case this.escapeChar:
+                                escapedInstruction = true;
                                 char = buffer.charAt(j + 1);
                                 if (char === '\r') {
                                     // skip two for \r\n
@@ -258,6 +260,26 @@ export class Parser {
                                 break;
                             case ' ':
                             case '\t':
+                                if (escapedInstruction) {
+                                    // on an escaped newline, need to search for non-whitespace
+                                    escapeCheck: for (let k = j + 1; k < buffer.length; k++) {
+                                        switch (buffer.charAt(k)) {
+                                            case ' ':
+                                            case '\t':
+                                                break;
+                                            case '\r':
+                                                // skip another for \r\n
+                                                j = k + 1;
+                                                continue instructionCheck;
+                                            case '\n':
+                                                j = k;
+                                                continue instructionCheck;
+                                            default:
+                                                break escapeCheck;
+                                        }
+                                    }
+                                    escapedInstruction = false;
+                                }
                                 if (instructionEnd === -1) {
                                     instructionEnd = j;
                                 }
@@ -350,6 +372,9 @@ export class Parser {
                                 // skip for \r\n
                                 j++;
                             case '\n':
+                                if (escapedInstruction) {
+                                    continue;
+                                }
                                 if (instructionEnd === -1) {
                                     instructionEnd = j;
                                 }

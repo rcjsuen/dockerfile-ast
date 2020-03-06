@@ -241,6 +241,96 @@ describe("Instruction", () => {
         assert.equal(instruction.toString(), "FROM alpine");
     });
 
+    it("FR\\\\n\\nOM alpine", () => {
+        let dockerfile = DockerfileParser.parse("FR\\\n\nOM alpine");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "FROM");
+        assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
+        assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
+        assert.equal(instruction.getArgumentsContent(), "alpine");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 1);
+        assertRange(ranges[0], 2, 3, 2, 9);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "FROM alpine");
+    });
+
+    it("FR\\\\n \\t\\nOM alpine", () => {
+        let dockerfile = DockerfileParser.parse("FR\\\n \t\nOM alpine");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "FROM");
+        assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
+        assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
+        assert.equal(instruction.getArgumentsContent(), "alpine");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 1);
+        assertRange(ranges[0], 2, 3, 2, 9);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "FROM alpine");
+    });
+
+    it("FR\\\\n\\t \\nOM alpine", () => {
+        let dockerfile = DockerfileParser.parse("FR\\\n\t \nOM alpine");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "FROM");
+        assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
+        assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
+        assert.equal(instruction.getArgumentsContent(), "alpine");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 1);
+        assertRange(ranges[0], 2, 3, 2, 9);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "FROM alpine");
+    });
+
+    it("FR\\\\r\\n\\r\\nOM alpine", () => {
+        let dockerfile = DockerfileParser.parse("FR\\\r\n\r\nOM alpine");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "FROM");
+        assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
+        assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
+        assert.equal(instruction.getArgumentsContent(), "alpine");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 1);
+        assertRange(ranges[0], 2, 3, 2, 9);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "FROM alpine");
+    });
+
+    it("FR\\\\r\\n \\t\\r\\nOM alpine", () => {
+        let dockerfile = DockerfileParser.parse("FR\\\r\n \t\r\nOM alpine");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "FROM");
+        assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
+        assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
+        assert.equal(instruction.getArgumentsContent(), "alpine");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 1);
+        assertRange(ranges[0], 2, 3, 2, 9);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "FROM alpine");
+    });
+
+    it("FR\\\\r\\n\\t \\r\\nOM alpine", () => {
+        let dockerfile = DockerfileParser.parse("FR\\\r\n\t \r\nOM alpine");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "FROM");
+        assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
+        assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
+        assert.equal(instruction.getArgumentsContent(), "alpine");
+        let ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 1);
+        assertRange(ranges[0], 2, 3, 2, 9);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "FROM alpine");
+    });
+
     it("FR\\\\r\\nOM alpine", () => {
         let dockerfile = DockerfileParser.parse("FR\\\r\nOM alpine");
         let instruction = dockerfile.getInstructions()[0];
