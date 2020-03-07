@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Fixed
 - instructions will no longer be cut off prematurely due to empty continuation lines embedded in the keyword itself ([#70](https://github.com/rcjsuen/dockerfile-ast/issues/70))
+- `Instruction`'s `getArguments()` will now correctly account for multiple embedded comments instead of considering them as an argument ([#71](https://github.com/rcjsuen/dockerfile-ast/issues/71))
 
 ## [0.0.21] - 2020-02-27
 ### Fixed

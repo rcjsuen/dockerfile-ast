@@ -219,6 +219,7 @@ export class Instruction extends Line {
                         if (comment) {
                             // reached a newline, no longer in a comment
                             comment = false;
+                            start = true;
                         }
                     }
                     continue;
