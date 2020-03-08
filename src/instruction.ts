@@ -294,7 +294,6 @@ export class Instruction extends Line {
                 }
             } else if (!comment) {
                 if (start && char === '#') {
-                    start = false;
                     comment = true;
                 } else {
                     if (escapedWhitespaceDetected && escapeMarker !== -1) {
@@ -310,6 +309,8 @@ export class Instruction extends Line {
                         found = i;
                     }
                 }
+                // non-whitespace character detected, reset
+                start = false;
             }
         }
 

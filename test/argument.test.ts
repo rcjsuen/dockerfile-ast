@@ -277,6 +277,66 @@ describe("Argument", () => {
             assertRange(args[1].getRange(), 4, 0, 4, 3);
         });
 
+        it("RUN a \\\\nb #c \\\\nd", () => {
+            let dockerfile = DockerfileParser.parse("RUN a \\\nb #c \\\nd");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 4);
+            assert.equal(args[0].getValue(), "a");
+            assert.equal(args[1].getValue(), "b");
+            assert.equal(args[2].getValue(), "#c");
+            assert.equal(args[3].getValue(), "d");
+            assert.equal(args[0].toString(), "a");
+            assert.equal(args[1].toString(), "b");
+            assert.equal(args[2].toString(), "#c");
+            assert.equal(args[3].toString(), "d");
+            assertRange(args[0].getRange(), 0, 4, 0, 5);
+            assertRange(args[1].getRange(), 1, 0, 1, 1);
+            assertRange(args[2].getRange(), 1, 2, 1, 4);
+            assertRange(args[3].getRange(), 2, 0, 2, 1);
+        });
+
+        it("RUN a \\\\n# comment\\nb #c \\\\nd", () => {
+            let dockerfile = DockerfileParser.parse("RUN a \\\n# comment\nb #c \\\nd");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 4);
+            assert.equal(args[0].getValue(), "a");
+            assert.equal(args[1].getValue(), "b");
+            assert.equal(args[2].getValue(), "#c");
+            assert.equal(args[3].getValue(), "d");
+            assert.equal(args[0].toString(), "a");
+            assert.equal(args[1].toString(), "b");
+            assert.equal(args[2].toString(), "#c");
+            assert.equal(args[3].toString(), "d");
+            assertRange(args[0].getRange(), 0, 4, 0, 5);
+            assertRange(args[1].getRange(), 2, 0, 2, 1);
+            assertRange(args[2].getRange(), 2, 2, 2, 4);
+            assertRange(args[3].getRange(), 3, 0, 3, 1);
+        });
+
+        it("RUN ls && \\\\n# Install\\nls && #abc \\\\nls", () => {
+            let dockerfile = DockerfileParser.parse("RUN ls && \\\n# Install\nls && #abc \\\nls");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 6);
+            assert.equal(args[0].getValue(), "ls");
+            assert.equal(args[1].getValue(), "&&");
+            assert.equal(args[2].getValue(), "ls");
+            assert.equal(args[3].getValue(), "&&");
+            assert.equal(args[4].getValue(), "#abc");
+            assert.equal(args[5].getValue(), "ls");
+            assert.equal(args[0].toString(), "ls");
+            assert.equal(args[1].toString(), "&&");
+            assert.equal(args[2].toString(), "ls");
+            assert.equal(args[3].toString(), "&&");
+            assert.equal(args[4].toString(), "#abc");
+            assert.equal(args[5].toString(), "ls");
+            assertRange(args[0].getRange(), 0, 4, 0, 6);
+            assertRange(args[1].getRange(), 0, 7, 0, 9);
+            assertRange(args[2].getRange(), 2, 0, 2, 2);
+            assertRange(args[3].getRange(), 2, 3, 2, 5);
+            assertRange(args[4].getRange(), 2, 6, 2, 10);
+            assertRange(args[5].getRange(), 3, 0, 3, 2);
+        });
+
         it("ARG a=a\\\\n b", () => {
             let dockerfile = DockerfileParser.parse("ARG a=a\\\n b");
             let args = dockerfile.getInstructions()[0].getArguments();
