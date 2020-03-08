@@ -245,6 +245,7 @@ export class Instruction extends Line {
                             case '\r':
                                 j++;
                             case '\n':
+                                comment = false;
                                 escaping = true;
                                 start = true;
                                 if (found !== -1) {
@@ -261,6 +262,7 @@ export class Instruction extends Line {
                         }
                     }
                 } else if (next === '\r') {
+                    comment = false;
                     escaping = true;
                     start = true;
                     if (found !== -1) {
@@ -268,6 +270,7 @@ export class Instruction extends Line {
                     }
                     i += 2;
                 } else if (next === '\n') {
+                    comment = false;
                     escaping = true;
                     start = true;
                     if (found !== -1) {

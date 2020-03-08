@@ -229,6 +229,54 @@ describe("Argument", () => {
             assertRange(args[2].getRange(), 2, 4, 2, 9);
         });
 
+        it("RUN echo \\\\n# comment\\\\nabc", () => {
+            let dockerfile = DockerfileParser.parse("RUN echo \\\n# comment\\\nabc");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "abc");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "abc");
+            assertRange(args[0].getRange(), 0, 4, 0, 8);
+            assertRange(args[1].getRange(), 2, 0, 2, 3);
+        });
+
+        it("RUN echo \\\\n# comment\\ \\nabc", () => {
+            let dockerfile = DockerfileParser.parse("RUN echo \\\n# comment\\ \nabc");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "abc");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "abc");
+            assertRange(args[0].getRange(), 0, 4, 0, 8);
+            assertRange(args[1].getRange(), 2, 0, 2, 3);
+        });
+
+        it("RUN echo \\\\r\\n# comment\\\\r\\nabc", () => {
+            let dockerfile = DockerfileParser.parse("RUN echo \\\r\n# comment\\\r\nabc");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "abc");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "abc");
+            assertRange(args[0].getRange(), 0, 4, 0, 8);
+            assertRange(args[1].getRange(), 2, 0, 2, 3);
+        });
+
+        it("RUN echo \\\\r\\n# comment \\\\r\\nabc", () => {
+            let dockerfile = DockerfileParser.parse("RUN echo \\\r\n# comment \\\r\nabc");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.equal(args.length, 2);
+            assert.equal(args[0].getValue(), "echo");
+            assert.equal(args[1].getValue(), "abc");
+            assert.equal(args[0].toString(), "echo");
+            assert.equal(args[1].toString(), "abc");
+            assertRange(args[0].getRange(), 0, 4, 0, 8);
+            assertRange(args[1].getRange(), 2, 0, 2, 3);
+        });
+
         it("RUN echo \\\\n\\n# comment\\nabc", () => {
             let dockerfile = DockerfileParser.parse("RUN echo \\\n\n# comment\nabc");
             let args = dockerfile.getInstructions()[0].getArguments();
