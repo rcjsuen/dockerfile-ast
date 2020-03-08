@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.23] - 2020-03-08
 ### Fixed
 - `Instruction`'s `getArguments()` will no longer incorrectly exclude arguments because they look like comments ([#72](https://github.com/rcjsuen/dockerfile-ast/issues/72))
 
@@ -235,7 +235,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.22...HEAD
+[0.0.23]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.22...v0.0.23
 [0.0.22]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.21...v0.0.22
 [0.0.21]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.20...v0.0.21
 [0.0.20]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.19...v0.0.20
