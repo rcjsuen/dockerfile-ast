@@ -206,7 +206,7 @@ export class From extends ModifiableInstruction {
 
     public getBuildStageRange(): Range | null {
         let args = this.getArguments();
-        if (args.length === 3 && args[1].getValue().toUpperCase() === "AS") {
+        if (args.length > 2 && args[1].getValue().toUpperCase() === "AS") {
             return args[2].getRange();
         }
         return null;

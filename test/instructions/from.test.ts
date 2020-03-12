@@ -1617,7 +1617,7 @@ describe("FROM", () => {
         assert.equal(from.getImageTagRange(), null);
         assert.equal(from.getImageDigest(), null);
         assert.equal(from.getImageDigestRange(), null);
-        assert.equal(from.getRegistry(),null);
+        assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
         assert.equal(from.getBuildStageRange(), null);
@@ -1666,8 +1666,68 @@ describe("FROM", () => {
         assert.equal(from.getPlatformFlag(), null);
     });
 
+    it("FROM node abc", () => {
+        let dockerfile = DockerfileParser.parse("FROM node abc");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "node");
+        assertRange(from.getImageRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageName(), "node");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
+    });
+
+    it("FROM node abc def", () => {
+        let dockerfile = DockerfileParser.parse("FROM node abc def");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "node");
+        assertRange(from.getImageRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageName(), "node");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
+    });
+
     it("FROM node AS stage", () => {
         let dockerfile = DockerfileParser.parse("FROM node AS stage");
+        let from = dockerfile.getFROMs()[0];
+        assert.equal(from.getImage(), "node");
+        assertRange(from.getImageRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageName(), "node");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 9);
+        assert.equal(from.getImageTag(), null);
+        assert.equal(from.getImageTagRange(), null);
+        assert.equal(from.getImageDigest(), null);
+        assert.equal(from.getImageDigestRange(), null);
+        assert.equal(from.getRegistry(), null);
+        assert.equal(from.getRegistryRange(), null);
+        assert.equal(from.getBuildStage(), "stage");
+        assertRange(from.getBuildStageRange(), 0, 13, 0, 18);
+        assert.notEqual(from.getFlags(), null);
+        assert.equal(from.getFlags().length, 0);
+        assert.equal(from.getPlatformFlag(), null);
+    });
+
+    it("FROM node AS stage abc", () => {
+        let dockerfile = DockerfileParser.parse("FROM node AS stage abc");
         let from = dockerfile.getFROMs()[0];
         assert.equal(from.getImage(), "node");
         assertRange(from.getImageRange(), 0, 5, 0, 9);

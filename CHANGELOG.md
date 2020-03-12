@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- allow `From`'s `getBuildStage()` and `getBuildStageRange()` to return non-`null` values even if the instruction has more than three arguments as long as parts of it is valid ([#74](https://github.com/rcjsuen/dockerfile-ast/issues/74))
+
 ## [0.0.24] - 2020-03-08
 ### Fixed
 - `Instruction`'s `getArguments()` will no longer exclude arguments that follow an embedded comment that ends with the escape character ([#73](https://github.com/rcjsuen/dockerfile-ast/issues/73))
@@ -239,6 +243,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.24...HEAD
 [0.0.24]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.23...v0.0.24
 [0.0.23]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.22...v0.0.23
 [0.0.22]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.21...v0.0.22
