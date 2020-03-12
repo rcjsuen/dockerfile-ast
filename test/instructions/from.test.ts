@@ -22,6 +22,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -41,6 +42,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -60,6 +62,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -79,6 +82,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -98,6 +102,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -117,6 +122,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -136,6 +142,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -155,6 +162,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -174,6 +182,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -193,6 +202,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -212,6 +222,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -231,6 +242,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -250,6 +262,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -269,6 +282,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -288,6 +302,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -307,6 +322,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -326,6 +342,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -345,6 +362,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -364,6 +382,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -383,6 +402,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -402,6 +422,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -421,6 +442,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -440,6 +462,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com");
         assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -459,6 +482,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com");
         assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -478,6 +502,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com");
         assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -497,6 +522,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com");
         assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -516,6 +542,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com");
         assertRange(from.getRegistryRange(), 0, 5, 0, 24);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -535,6 +562,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -554,6 +582,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -573,6 +602,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -592,6 +622,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -611,6 +642,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -630,6 +662,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -649,6 +682,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -668,6 +702,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -687,6 +722,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -706,6 +742,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -725,6 +762,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "privateregistry.com:5000");
         assertRange(from.getRegistryRange(), 0, 5, 0, 29);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -744,6 +782,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -763,6 +802,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -782,6 +822,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -801,6 +842,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -820,6 +862,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -839,6 +882,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -858,6 +902,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -877,6 +922,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -896,6 +942,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -915,6 +962,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -934,6 +982,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -953,6 +1002,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -972,6 +1022,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -991,6 +1042,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1010,6 +1062,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1029,6 +1082,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1048,6 +1102,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1067,6 +1122,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1086,6 +1142,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1105,6 +1162,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost:1234");
         assertRange(from.getRegistryRange(), 0, 5, 0, 19);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1124,6 +1182,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123");
         assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1143,6 +1202,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123");
         assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1162,6 +1222,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123");
         assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1181,6 +1242,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123");
         assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1200,6 +1262,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123");
         assertRange(from.getRegistryRange(), 0, 5, 0, 18);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1219,6 +1282,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1238,6 +1302,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1257,6 +1322,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1276,6 +1342,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1293,6 +1360,7 @@ describe("FROM", () => {
         assert.equal(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
         assertRange(from.getImageDigestRange(), 0, 30, 0, 101);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1312,6 +1380,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1331,6 +1400,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1350,6 +1420,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1369,6 +1440,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1388,6 +1460,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "123.22.33.123:2345");
         assertRange(from.getRegistryRange(), 0, 5, 0, 23);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1407,6 +1480,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1426,6 +1500,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1445,6 +1520,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1464,6 +1540,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1483,6 +1560,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1502,6 +1580,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1521,6 +1600,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), "localhost");
         assertRange(from.getRegistryRange(), 0, 5, 0, 14);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1540,6 +1620,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(),null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1559,6 +1640,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1578,6 +1660,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), null);
+        assert.equal(from.getBuildStageRange(), null);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
@@ -1597,6 +1680,7 @@ describe("FROM", () => {
         assert.equal(from.getRegistry(), null);
         assert.equal(from.getRegistryRange(), null);
         assert.equal(from.getBuildStage(), "stage");
+        assertRange(from.getBuildStageRange(), 0, 13, 0, 18);
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
