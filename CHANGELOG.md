@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- `Flag`
+  - `getOptions()` ([#75](https://github.com/rcjsuen/dockerfile-ast/issues/75))
+  - `getOption(string)` ([#75](https://github.com/rcjsuen/dockerfile-ast/issues/75))
+  - `hasOptions()` ([#75](https://github.com/rcjsuen/dockerfile-ast/issues/75))
+- `FlagOption` ([#75](https://github.com/rcjsuen/dockerfile-ast/issues/75))
+
 ### Fixed
 - allow `From`'s `getBuildStage()` and `getBuildStageRange()` to return non-`null` values even if the instruction has more than three arguments as long as parts of it is valid ([#74](https://github.com/rcjsuen/dockerfile-ast/issues/74))
 
