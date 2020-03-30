@@ -61,6 +61,7 @@ export abstract class ModifiableInstruction extends Instruction {
                     let nameStart = this.document.positionAt(this.document.offsetAt(range.start) + startIndex);
                     if (index === -1) {
                         this.flags.push(new Flag(
+                            this.document,
                             range,
                             value.substring(2),
                             Range.create(nameStart, range.end),
@@ -70,6 +71,7 @@ export abstract class ModifiableInstruction extends Instruction {
                     } else if (index === value.length - 1) {
                         let nameEnd = this.document.positionAt(this.document.offsetAt(range.start) + index);
                         this.flags.push(new Flag(
+                            this.document,
                             range,
                             value.substring(2, index),
                             Range.create(nameStart, nameEnd),
@@ -79,6 +81,7 @@ export abstract class ModifiableInstruction extends Instruction {
                     } else {
                         let nameEnd = this.document.positionAt(this.document.offsetAt(range.start) + index);
                         this.flags.push(new Flag(
+                            this.document,
                             range,
                             value.substring(2, nameIndex),
                             Range.create(nameStart, nameEnd),

@@ -2,7 +2,8 @@
  * Copyright (c) Remy Suen. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
-import { Range } from 'vscode-languageserver-types';
+import { Range, TextDocument } from 'vscode-languageserver-types';
+import { FlagOption } from './flagOption';
 
 export class Flag {
 
@@ -11,13 +12,57 @@ export class Flag {
     private readonly nameRange: Range;
     private readonly value: string;
     private readonly valueRange: Range;
+    private readonly options: FlagOption[] = [];
 
-    constructor(range: Range, name: string, nameRange: Range, value: string | null, valueRange: Range | null) {
+    constructor(document: TextDocument, range: Range, name: string, nameRange: Range, value: string | null, valueRange: Range | null) {
         this.range = range;
         this.name = name;
         this.nameRange = nameRange;
         this.value = value;
         this.valueRange = valueRange;
+
+        if (this.value !== null) {
+            let offset = document.offsetAt(valueRange.start);
+            let nameStart = 0;
+            let valueStart = -1;
+            for (let i = 0; i < value.length; i++) {
+                switch (value.charAt(i)) {
+                    case '=':
+                        if (valueStart === -1) {
+                            valueStart = i + 1;
+                            break;
+                        }
+                        break;
+                    case ',':
+                        this.options.push(
+                            this.createFlagOption(
+                                document, value, offset, nameStart, valueStart, i
+                            )
+                        );
+                        nameStart = i + 1;
+                        valueStart = -1;
+                        break;
+                }
+            }
+
+            if (valueStart !== -1) {
+                this.options.push(
+                    this.createFlagOption(
+                        document, value, offset, nameStart, valueStart, value.length
+                    )
+                );
+            }
+        }
+    }
+
+    private createFlagOption(document: TextDocument, content: string, documentOffset: number, nameStart: number, valueStart: number, valueEnd: number): FlagOption {
+        return new FlagOption(
+            Range.create(document.positionAt(documentOffset + nameStart), document.positionAt(documentOffset + valueEnd)),
+            content.substring(nameStart, valueStart - 1),
+            Range.create(document.positionAt(documentOffset + nameStart), document.positionAt(documentOffset + valueStart - 1)),
+            content.substring(valueStart, valueEnd),
+            Range.create(document.positionAt(documentOffset + valueStart), document.positionAt(documentOffset + valueEnd))
+        );
     }
 
     public toString(): string {
@@ -79,5 +124,22 @@ export class Flag {
      */
     public getValueRange(): Range | null {
         return this.valueRange;
+    }
+
+    public getOption(name: string): FlagOption | null {
+        for (const option of this.options) {
+            if (option.getName() === name) {
+                return option;
+            }
+        }
+        return null;
+    }
+
+    public getOptions(): FlagOption[] {
+        return this.options;
+    }
+
+    public hasOptions(): boolean {
+        return this.options.length > 0;
     }
 }
