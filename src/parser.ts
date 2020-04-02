@@ -25,7 +25,6 @@ import { Workdir } from './instructions/workdir';
 import { User } from './instructions/user';
 import { Volume } from './instructions/volume';
 import { Dockerfile } from './dockerfile';
-import { Directive } from './main';
 
 export class Parser {
 
