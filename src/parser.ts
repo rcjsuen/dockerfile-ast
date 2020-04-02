@@ -8,7 +8,6 @@ import { TextDocument, Range, Position } from 'vscode-languageserver-types';
 import { Comment } from './comment';
 import { ParserDirective } from './parserDirective';
 import { Instruction } from './instruction';
-import { JSONInstruction } from './jsonInstruction';
 import { Add } from './instructions/add';
 import { Arg } from './instructions/arg';
 import { Cmd } from './instructions/cmd';
@@ -19,6 +18,7 @@ import { From } from './instructions/from';
 import { Healthcheck } from './instructions/healthcheck';
 import { Label } from './instructions/label';
 import { Onbuild } from './instructions/onbuild';
+import { Run } from './instructions/run';
 import { Shell } from './instructions/shell';
 import { Stopsignal } from './instructions/stopsignal';
 import { Workdir } from './instructions/workdir';
@@ -54,7 +54,7 @@ export class Parser {
             case "ONBUILD":
                 return new Onbuild(document, lineRange, dockerfile, escapeChar, instruction, instructionRange);
             case "RUN":
-                return new JSONInstruction(document, lineRange, dockerfile, escapeChar, instruction, instructionRange);
+                return new Run(document, lineRange, dockerfile, escapeChar, instruction, instructionRange);
             case "SHELL":
                 return new Shell(document, lineRange, dockerfile, escapeChar, instruction, instructionRange);
             case "STOPSIGNAL":

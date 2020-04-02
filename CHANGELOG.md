@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
   - `getOption(string)` ([#75](https://github.com/rcjsuen/dockerfile-ast/issues/75))
   - `hasOptions()` ([#75](https://github.com/rcjsuen/dockerfile-ast/issues/75))
 - `FlagOption` ([#75](https://github.com/rcjsuen/dockerfile-ast/issues/75))
+- `Run` ([#75](https://github.com/rcjsuen/dockerfile-ast/issues/76))
+  - `RUN` instructions will now of type `Run` instead of `JSONInstruction`
+  - `Run` extends `JSONInstruction` so this is not be a breaking change
 
 ### Fixed
 - allow `From`'s `getBuildStage()` and `getBuildStageRange()` to return non-`null` values even if the instruction has more than three arguments as long as parts of it is valid ([#74](https://github.com/rcjsuen/dockerfile-ast/issues/74))
