@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- correct range of multiline arguments that end with an escaped quote ([#78](https://github.com/rcjsuen/dockerfile-ast/issues/78))
+
 ## [0.0.25] - 2020-04-01
 ### Added
 - `Flag`
@@ -253,6 +257,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.25...HEAD
 [0.0.25]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.24...v0.0.25
 [0.0.24]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.23...v0.0.24
 [0.0.23]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.22...v0.0.23

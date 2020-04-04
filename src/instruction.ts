@@ -283,6 +283,7 @@ export class Instruction extends Line {
                         escapedArg = "";
                         found = -1;
                     }
+                    escapeMarker = -1;
                     escapedWhitespaceDetected = false;
                     escaping = false;
                     if (next === '$') {
