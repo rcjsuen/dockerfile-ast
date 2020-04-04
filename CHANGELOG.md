@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Fixed
 - correct range of multiline arguments that end with a character preceded by an escape character ([#78](https://github.com/rcjsuen/dockerfile-ast/issues/78))
+- correct range of arguments that are split on multiple lines with escaped whitespace lines in between ([#77](https://github.com/rcjsuen/dockerfile-ast/issues/77))
 
 ## [0.0.25] - 2020-04-01
 ### Added

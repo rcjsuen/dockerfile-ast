@@ -265,7 +265,7 @@ export class Instruction extends Line {
                     comment = false;
                     escaping = true;
                     start = true;
-                    if (found !== -1) {
+                    if (found !== -1 && escapeMarker === -1) {
                         escapeMarker = i;
                     }
                     i += 2;
@@ -273,7 +273,7 @@ export class Instruction extends Line {
                     comment = false;
                     escaping = true;
                     start = true;
-                    if (found !== -1) {
+                    if (found !== -1 && escapeMarker === -1) {
                         escapeMarker = i;
                     }
                     i++;
