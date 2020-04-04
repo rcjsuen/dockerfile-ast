@@ -54,6 +54,32 @@ describe("FlagOption", () => {
         assertRange(option.getValueRange(), 0, 25, 0, 30);
     });
 
+    it("HEALTHCHECK --meal=drink=water,food", () => {
+        let dockerfile = DockerfileParser.parse("HEALTHCHECK --meal=drink=water,food");
+        let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
+        let flag = instruction.getFlags()[0];
+
+        let option = flag.getOption("drink");
+        assert.strictEqual(option, flag.getOptions()[0]);
+        assert.notStrictEqual(option, undefined);
+        assert.notStrictEqual(option, null);
+        assertRange(option.getRange(), 0, 19, 0, 30);
+        assert.strictEqual(option.getName(), "drink");
+        assertRange(option.getNameRange(), 0, 19, 0, 24);
+        assert.strictEqual(option.getValue(), "water");
+        assertRange(option.getValueRange(), 0, 25, 0, 30);
+
+        option = flag.getOption("food");
+        assert.strictEqual(option, flag.getOptions()[1]);
+        assert.notStrictEqual(option, undefined);
+        assert.notStrictEqual(option, null);
+        assertRange(option.getRange(), 0, 31, 0, 35);
+        assert.strictEqual(option.getName(), "food");
+        assertRange(option.getNameRange(), 0, 31, 0, 35);
+        assert.strictEqual(option.getValue(), null);
+        assert.strictEqual(option.getValueRange(), null);
+    });
+
     it("HEALTHCHECK --meal=drink=water,food=pasta", () => {
         let dockerfile = DockerfileParser.parse("HEALTHCHECK --meal=drink=water,food=pasta");
         let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;

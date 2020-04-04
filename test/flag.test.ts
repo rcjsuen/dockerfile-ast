@@ -185,6 +185,23 @@ describe("Flag", () => {
             assert.strictEqual(option, flag.getOptions()[0]);
         });
 
+        it("HEALTHCHECK --meal=drink=water,food", () => {
+            let dockerfile = DockerfileParser.parse("HEALTHCHECK --meal=drink=water,food");
+            let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
+            let flag = instruction.getFlags()[0];
+            assert.equal(flag.getName(), "meal");
+            assertRange(flag.getNameRange(), 0, 14, 0, 18);
+            assert.equal(flag.getValue(), "drink=water,food");
+            assertRange(flag.getValueRange(), 0, 19, 0, 35);
+            assert.equal(flag.toString(), "--meal=drink=water,food");
+            assertRange(flag.getRange(), 0, 12, 0, 35);
+            assert.equal(2, flag.getOptions().length);
+            let option = flag.getOption("drink");
+            assert.strictEqual(option, flag.getOptions()[0]);
+            option = flag.getOption("food");
+            assert.strictEqual(option, flag.getOptions()[1]);
+        });
+
         it("HEALTHCHECK --meal=drink=,food=pasta", () => {
             let dockerfile = DockerfileParser.parse("HEALTHCHECK --meal=drink=,food=pasta");
             let instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;

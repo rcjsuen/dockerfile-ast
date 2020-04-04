@@ -23,11 +23,13 @@ export class Flag {
 
         if (this.value !== null) {
             let offset = document.offsetAt(valueRange.start);
-            let nameStart = 0;
+            let nameStart = -1;
             let valueStart = -1;
+            let hasOptions = false;
             for (let i = 0; i < value.length; i++) {
                 switch (value.charAt(i)) {
                     case '=':
+                        hasOptions = true;
                         if (valueStart === -1) {
                             valueStart = i + 1;
                             break;
@@ -39,13 +41,18 @@ export class Flag {
                                 document, value, offset, nameStart, valueStart, i
                             )
                         );
-                        nameStart = i + 1;
+                        nameStart = -1;
                         valueStart = -1;
+                        break;
+                    default:
+                        if (nameStart === -1) {
+                            nameStart = i;
+                        }
                         break;
                 }
             }
 
-            if (valueStart !== -1) {
+            if (hasOptions && nameStart !== -1) {
                 this.options.push(
                     this.createFlagOption(
                         document, value, offset, nameStart, valueStart, value.length
@@ -55,9 +62,22 @@ export class Flag {
         }
     }
 
-    private createFlagOption(document: TextDocument, content: string, documentOffset: number, nameStart: number, valueStart: number, valueEnd: number): FlagOption {
+    private createFlagOption(document: TextDocument, content: string, documentOffset: number, nameStart: number, valueStart: number = -1, valueEnd: number = -1): FlagOption {
+        const optionRange = Range.create(
+            document.positionAt(documentOffset + nameStart),
+            document.positionAt(documentOffset + valueEnd)
+        );
+        if (valueStart === -1) {
+            return new FlagOption(
+                optionRange,
+                content.substring(nameStart, valueEnd),
+                optionRange,
+                null,
+                null
+            );
+        }
         return new FlagOption(
-            Range.create(document.positionAt(documentOffset + nameStart), document.positionAt(documentOffset + valueEnd)),
+            optionRange,
             content.substring(nameStart, valueStart - 1),
             Range.create(document.positionAt(documentOffset + nameStart), document.positionAt(documentOffset + valueStart - 1)),
             content.substring(valueStart, valueEnd),
