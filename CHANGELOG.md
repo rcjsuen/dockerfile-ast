@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.27] - 2020-06-17
 ### Fixed
 - allow comments to immediately follow the declaration of an ARG or ENV instruction ([#80](https://github.com/rcjsuen/dockerfile-ast/issues/80))
 
@@ -263,7 +263,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.26...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.27...HEAD
+[0.0.27]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.26...v0.0.27
 [0.0.26]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.25...v0.0.26
 [0.0.25]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.24...v0.0.25
 [0.0.24]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.23...v0.0.24
