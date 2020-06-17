@@ -15,7 +15,9 @@ describe("Property", () => {
         it("single, delimiter (" + delimiter + ")", () => {
             let dockerfile = DockerfileParser.parse(instruction + " key");
             let propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            let property = propInstruction.getProperties()[0];
+            let properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            let property = properties[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), null);
             assert.equal(property.getUnescapedValue(), null);
@@ -25,7 +27,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " key" + delimiter);
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "key");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             if (delimiter === " ") {
@@ -42,7 +46,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " key" + delimiter + "value");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
             assert.equal(property.getUnescapedValue(), "value");
@@ -52,7 +58,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " key" + delimiter + "value\\\n");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
             assert.equal(property.getUnescapedValue(), "value");
@@ -62,7 +70,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " key" + delimiter + "value\\\r\n");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
             assert.equal(property.getUnescapedValue(), "value");
@@ -72,7 +82,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " key" + delimiter + "value\\\n\n\n");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
             assert.equal(property.getUnescapedValue(), "value");
@@ -82,7 +94,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " key" + delimiter + "value\\\r\n\r\n\r\n");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
             assert.equal(property.getUnescapedValue(), "value");
@@ -92,7 +106,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " key" + delimiter + "value\\ \t\r\n");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
             assert.equal(property.getUnescapedValue(), "value");
@@ -102,7 +118,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " key" + delimiter + "value\\");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
             assert.equal(property.getUnescapedValue(), "value");
@@ -112,7 +130,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " key" + delimiter + "value\\\n# comment");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
             assert.equal(property.getUnescapedValue(), "value");
@@ -122,7 +142,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " key" + delimiter + "value\\\r\n\\\n# comment");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "key");
             assert.equal(property.getValue(), "value");
             assert.equal(property.getUnescapedValue(), "value");
@@ -132,7 +154,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " x" + delimiter + "y\\ z");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "y z");
             assert.equal(property.getUnescapedValue(), "y\\ z");
@@ -142,7 +166,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " x" + delimiter + "#");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "#");
             assert.equal(property.getUnescapedValue(), "#");
@@ -152,7 +178,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " x" + delimiter + "y\\z");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "yz");
             assert.equal(property.getUnescapedValue(), "y\\z");
@@ -162,7 +190,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse("#escape=`\n" + instruction + " x" + delimiter + "y`z");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "yz");
             assert.equal(property.getUnescapedValue(), "y`z");
@@ -172,7 +202,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse("#directive=value\n#escape=`\n" + instruction + " x" + delimiter + "y`z");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "yz");
             assert.equal(property.getUnescapedValue(), "y`z");
@@ -182,7 +214,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " x" + delimiter + "\\y");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "y");
             assert.equal(property.getUnescapedValue(), "\\y");
@@ -192,7 +226,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse("#escape=`\n" + instruction + " x" + delimiter + "`y");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "y");
             assert.equal(property.getUnescapedValue(), "`y");
@@ -202,7 +238,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " x" + delimiter + "y\\\\z");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "y\\z");
             assert.equal(property.getUnescapedValue(), "y\\\\z");
@@ -212,7 +250,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse("#escape=`\n" + instruction + " x" + delimiter + "y``z");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "y`z");
             assert.equal(property.getUnescapedValue(), "y``z");
@@ -222,7 +262,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " abc" + delimiter + "d\\ \t \n \t \r\n\n\r\nef");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "def");
             assert.equal(property.getUnescapedValue(), "def");
@@ -232,7 +274,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " abc" + delimiter + "d\\ \t \r\n# comment\r\nef");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "def");
             assert.equal(property.getUnescapedValue(), "def");
@@ -242,7 +286,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " abc" + delimiter + "d\\\n \t \r\n\n# comment\r\nef");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "def");
             assert.equal(property.getUnescapedValue(), "def");
@@ -252,7 +298,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " abc" + delimiter + "d\\\n \t \r\n\n# comment\r\ne#f");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "de#f");
             assert.equal(property.getUnescapedValue(), "de#f");
@@ -262,7 +310,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " abc" + delimiter + "d\\\r\n \t# comment\r\nef");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "def");
             assert.equal(property.getUnescapedValue(), "def");
@@ -272,7 +322,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " abc" + delimiter + "d\\\r\n \t# comment");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "abc");
             assert.equal(property.getValue(), "d");
             assert.equal(property.getUnescapedValue(), "d");
@@ -282,7 +334,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " x" + delimiter + "a\\ b\\ \\ c");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "x");
             assert.equal(property.getValue(), "a b  c");
             assert.equal(property.getUnescapedValue(), "a\\ b\\ \\ c");
@@ -292,7 +346,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " BUNDLE_WITHOUT" + delimiter + "${bundle_without:-'development test'}");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "BUNDLE_WITHOUT");
             assert.equal(property.getValue(), "${bundle_without:-'development test'}");
             assert.equal(property.getUnescapedValue(), "${bundle_without:-'development test'}");
@@ -302,7 +358,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " BUNDLE_WITHOUT" + delimiter + "${bundle_without:-\"development test\"}");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "BUNDLE_WITHOUT");
             assert.equal(property.getValue(), "${bundle_without:-\"development test\"}");
             assert.equal(property.getUnescapedValue(), "${bundle_without:-\"development test\"}");
@@ -312,7 +370,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " aaab=${bbb:-\"ccc dddd' y=z");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "aaab");
             assert.equal(property.getValue(), "${bbb:-\"ccc dddd' y=z");
             assert.equal(property.getUnescapedValue(), "${bbb:-\"ccc dddd' y=z");
@@ -322,7 +382,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " aaa=${bbb:-\"ccc   \\\nddd\"");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "aaa");
             assert.equal(property.getValue(), "${bbb:-\"ccc   ddd\"");
             assert.equal(property.getUnescapedValue(), "${bbb:-\"ccc   ddd\"");
@@ -332,7 +394,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " aaa=${bbb:-\"ccc   \\\n\r\n\nddd\"");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "aaa");
             assert.equal(property.getValue(), "${bbb:-\"ccc   ddd\"");
             assert.equal(property.getUnescapedValue(), "${bbb:-\"ccc   ddd\"");
@@ -342,7 +406,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " aaa=${bbb:-\"ccc  \\ \t\r\nddd\"");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "aaa");
             assert.equal(property.getValue(), "${bbb:-\"ccc  ddd\"");
             assert.equal(property.getUnescapedValue(), "${bbb:-\"ccc  ddd\"");
@@ -352,7 +418,9 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " aaa=${bbb:-\"c''c\"}");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "aaa");
             assert.equal(property.getValue(), "${bbb:-\"c''c\"}");
             assert.equal(property.getUnescapedValue(), "${bbb:-\"c''c\"}");
@@ -362,13 +430,47 @@ describe("Property", () => {
 
             dockerfile = DockerfileParser.parse(instruction + " aaa=${bbb:-'c\"\"c'}");
             propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
-            property = propInstruction.getProperties()[0];
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
             assert.equal(property.getName(), "aaa");
             assert.equal(property.getValue(), "${bbb:-'c\"\"c'}");
             assert.equal(property.getUnescapedValue(), "${bbb:-'c\"\"c'}");
             assertRange(property.getNameRange(), 0, offset + 1, 0, offset + 4);
             assertRange(property.getValueRange(), 0, offset + 5, 0, offset + 19);
             assertRange(property.getRange(), 0, offset + 1, 0, offset + 19);
+
+            dockerfile = DockerfileParser.parse(instruction + " \\\n#");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            assert.equal(propInstruction.getProperties().length, 0);
+
+            dockerfile = DockerfileParser.parse(instruction + " \\\n# comment");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            assert.equal(propInstruction.getProperties().length, 0);
+
+            dockerfile = DockerfileParser.parse(instruction + " \\\n# comment\nkey" + delimiter + "value");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
+            assert.equal(property.getName(), "key");
+            assert.equal(property.getValue(), "value");
+            assert.equal(property.getUnescapedValue(), "value");
+            assertRange(property.getNameRange(), 2, 0, 2, 3);
+            assertRange(property.getValueRange(), 2, 4, 2, 9);
+            assertRange(property.getRange(), 2, 0, 2, 9);
+
+            dockerfile = DockerfileParser.parse(instruction + " \\\n# comment\n key" + delimiter + "value");
+            propInstruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+            properties = propInstruction.getProperties();
+            assert.equal(properties.length, 1);
+            property = properties[0];
+            assert.equal(property.getName(), "key");
+            assert.equal(property.getValue(), "value");
+            assert.equal(property.getUnescapedValue(), "value");
+            assertRange(property.getNameRange(), 2, 1, 2, 4);
+            assertRange(property.getValueRange(), 2, 5, 2, 10);
+            assertRange(property.getRange(), 2, 1, 2, 10);
         });
     }
 

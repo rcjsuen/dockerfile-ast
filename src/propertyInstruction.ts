@@ -109,15 +109,18 @@ export abstract class PropertyInstruction extends Instruction {
             return [];
         }
 
-        // records whether the parser has just processed an escaped newline or not
-        let escaped = false;
+        const startPosition = this.document.positionAt(instructionNameEndOffset + start)
+        // records whether the parser has just processed an escaped newline or not,
+        // if our starting position is not on the same line as the instruction then
+        // the start of the content is already on an escaped line
+        let escaped = range.start.line !== startPosition.line;
         // flag to track if the last character was an escape character
         let endingEscape = false;
         // position before the first escape character was hit
         let mark = -1;
         let end = this.findTrailingNonWhitespace(fullArgs);
         content = fullArgs.substring(start, end + 1);
-        let argStart = 0;
+        let argStart = escaped ? -1 : 0;
         let spaced = false;
         argumentLoop: for (let i = 0; i < content.length; i++) {
             let char = content.charAt(i);
