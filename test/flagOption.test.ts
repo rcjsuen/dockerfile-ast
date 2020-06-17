@@ -21,6 +21,7 @@ describe("FlagOption", () => {
         assertRange(option.getNameRange(), 0, 20, 0, 25);
         assert.strictEqual(option.getValue(), "orange");
         assertRange(option.getValueRange(), 0, 26, 0, 32);
+        assert.strictEqual(option.toString(), "fruit=orange");
     });
 
     it("HEALTHCHECK --juice=fruit=", () => {
@@ -36,6 +37,7 @@ describe("FlagOption", () => {
         assertRange(option.getNameRange(), 0, 20, 0, 25);
         assert.strictEqual(option.getValue(), "");
         assertRange(option.getValueRange(), 0, 26, 0, 26);
+        assert.strictEqual(option.toString(), "fruit=");
     });
 
     it("HEALTHCHECK --meal=drink=water,", () => {
@@ -52,6 +54,7 @@ describe("FlagOption", () => {
         assertRange(option.getNameRange(), 0, 19, 0, 24);
         assert.strictEqual(option.getValue(), "water");
         assertRange(option.getValueRange(), 0, 25, 0, 30);
+        assert.strictEqual(option.toString(), "drink=water");
     });
 
     it("HEALTHCHECK --meal=drink=water,food", () => {
@@ -68,6 +71,7 @@ describe("FlagOption", () => {
         assertRange(option.getNameRange(), 0, 19, 0, 24);
         assert.strictEqual(option.getValue(), "water");
         assertRange(option.getValueRange(), 0, 25, 0, 30);
+        assert.strictEqual(option.toString(), "drink=water");
 
         option = flag.getOption("food");
         assert.strictEqual(option, flag.getOptions()[1]);
@@ -78,6 +82,7 @@ describe("FlagOption", () => {
         assertRange(option.getNameRange(), 0, 31, 0, 35);
         assert.strictEqual(option.getValue(), null);
         assert.strictEqual(option.getValueRange(), null);
+        assert.strictEqual(option.toString(), "food");
     });
 
     it("HEALTHCHECK --meal=drink=water,food=pasta", () => {
@@ -94,6 +99,7 @@ describe("FlagOption", () => {
         assertRange(option.getNameRange(), 0, 19, 0, 24);
         assert.strictEqual(option.getValue(), "water");
         assertRange(option.getValueRange(), 0, 25, 0, 30);
+        assert.strictEqual(option.toString(), "drink=water");
 
         option = flag.getOption("food");
         assert.strictEqual(option, flag.getOptions()[1]);
@@ -104,6 +110,8 @@ describe("FlagOption", () => {
         assertRange(option.getNameRange(), 0, 31, 0, 35);
         assert.strictEqual(option.getValue(), "pasta");
         assertRange(option.getValueRange(), 0, 36, 0, 41);
+        assert.strictEqual(option.toString(), "food=pasta");
+
     });
 
     it("HEALTHCHECK --meal=drink=water,food=", () => {
@@ -120,6 +128,7 @@ describe("FlagOption", () => {
         assertRange(option.getNameRange(), 0, 19, 0, 24);
         assert.strictEqual(option.getValue(), "water");
         assertRange(option.getValueRange(), 0, 25, 0, 30);
+        assert.strictEqual(option.toString(), "drink=water");
 
         option = flag.getOption("food");
         assert.strictEqual(option, flag.getOptions()[1]);
@@ -130,5 +139,6 @@ describe("FlagOption", () => {
         assertRange(option.getNameRange(), 0, 31, 0, 35);
         assert.strictEqual(option.getValue(), "");
         assertRange(option.getValueRange(), 0, 36, 0, 36);
+        assert.strictEqual(option.toString(), "food=");
     });
 });
