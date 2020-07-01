@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- improve handling of trailing whitespace that is not a newline character after an escape character ([#81](https://github.com/rcjsuen/dockerfile-ast/issues/81))
+
 ## [0.0.27] - 2020-06-17
 ### Fixed
 - allow comments to immediately follow the declaration of an ARG or ENV instruction ([#80](https://github.com/rcjsuen/dockerfile-ast/issues/80))

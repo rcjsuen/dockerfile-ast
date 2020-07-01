@@ -98,7 +98,9 @@ export class Instruction extends Line {
                             case '\r':
                                 j++;
                             case '\n':
-                                ranges.push(Range.create(startPosition, this.document.positionAt(offset + end + 1)));
+                                if (startPosition !== null) {
+                                    ranges.push(Range.create(startPosition, this.document.positionAt(offset + end + 1)));
+                                }
                                 startPosition = null;
                                 start = true;
                                 comment = false;

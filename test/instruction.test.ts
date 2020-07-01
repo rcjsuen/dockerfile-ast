@@ -1154,6 +1154,38 @@ describe("Instruction", () => {
         assert.equal(instruction.toString(), "RUN a a");
     });
 
+    it("COPY a b \\\\n\\ \\nc", () => {
+        const dockerfile = DockerfileParser.parse("COPY a b \\\n\\ \nc");
+        const instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "COPY");
+        assert.equal(instruction.getKeyword(), "COPY");
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
+        assertRange(instruction.getArgumentsRange(), 0, 5, 2, 1);
+        assert.equal(instruction.getArgumentsContent(), "a b c");
+        const ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 2);
+        assertRange(ranges[0], 0, 5, 0, 9);
+        assertRange(ranges[1], 2, 0, 2, 1);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "COPY a b c");
+    });
+
+    it("#escape=`\\nCOPY a b `\\n` \\nc", () => {
+        const dockerfile = DockerfileParser.parse("#escape=`\nCOPY a b `\n` \nc");
+        const instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "COPY");
+        assert.equal(instruction.getKeyword(), "COPY");
+        assertRange(instruction.getInstructionRange(), 1, 0, 1, 4);
+        assertRange(instruction.getArgumentsRange(), 1, 5, 3, 1);
+        assert.equal(instruction.getArgumentsContent(), "a b c");
+        const ranges = instruction.getArgumentsRanges();
+        assert.equal(ranges.length, 2);
+        assertRange(ranges[0], 1, 5, 1, 9);
+        assertRange(ranges[1], 3, 0, 3, 1);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "COPY a b c");
+    });
+
     it("isAfter", () => {
         let dockerfile = DockerfileParser.parse("FROM alpine\nFROM busybox");
         let instructions = dockerfile.getInstructions();
