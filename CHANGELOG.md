@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.28] - 2020-07-11
 ### Fixed
 - improve handling of trailing whitespace that is not a newline character after an escape character ([#81](https://github.com/rcjsuen/dockerfile-ast/issues/81))
 
@@ -267,7 +267,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.27...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.28...HEAD
+[0.0.27]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.27...v0.0.28
 [0.0.27]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.26...v0.0.27
 [0.0.26]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.25...v0.0.26
 [0.0.25]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.24...v0.0.25
