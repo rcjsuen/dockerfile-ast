@@ -268,7 +268,7 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - provides variable lookup and resolution
 
 [Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.28...HEAD
-[0.0.27]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.27...v0.0.28
+[0.0.28]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.27...v0.0.28
 [0.0.27]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.26...v0.0.27
 [0.0.26]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.25...v0.0.26
 [0.0.25]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.24...v0.0.25
