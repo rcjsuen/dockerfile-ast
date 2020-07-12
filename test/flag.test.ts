@@ -235,5 +235,18 @@ describe("Flag", () => {
             option = flag.getOption("food");
             assert.strictEqual(option, flag.getOptions()[1]);
         });
+
+        it("RUN --mount===", () => {
+            const dockerfile = DockerfileParser.parse("RUN --mount===");
+            const instruction = dockerfile.getInstructions()[0] as ModifiableInstruction;
+            let flag = instruction.getFlags()[0];
+            assert.equal(flag.getName(), "mount");
+            assertRange(flag.getNameRange(), 0, 6, 0, 11);
+            assert.equal(flag.getValue(), "==");
+            assertRange(flag.getValueRange(), 0, 12, 0, 14);
+            assert.equal(flag.toString(), "--mount===");
+            assertRange(flag.getRange(), 0, 4, 0, 14);
+            assert.equal(0, flag.getOptions().length);
+        });
     });
 });
