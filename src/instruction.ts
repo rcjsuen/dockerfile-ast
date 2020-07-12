@@ -131,9 +131,6 @@ export class Instruction extends Line {
                 }
             } else if (Util.isNewline(char)) {
                 if (comment) {
-                    if (startPosition) {
-                        ranges.push(Range.create(startPosition, this.document.positionAt(offset + end)));
-                    }
                     startPosition = null;
                     start = true;
                     comment = false;

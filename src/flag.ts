@@ -62,7 +62,7 @@ export class Flag {
         }
     }
 
-    private createFlagOption(document: TextDocument, content: string, documentOffset: number, nameStart: number, valueStart: number = -1, valueEnd: number = -1): FlagOption {
+    private createFlagOption(document: TextDocument, content: string, documentOffset: number, nameStart: number, valueStart: number, valueEnd: number): FlagOption {
         const optionRange = Range.create(
             document.positionAt(documentOffset + nameStart),
             document.positionAt(documentOffset + valueEnd)
