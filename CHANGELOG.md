@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.29] - 2020-07-12
 ### Fixed
 - ignore leading whitespace before a comment in escaped newlines for `getArgumentsContent()` and `getArgumentsRanges()` of `Instruction` ([#82](https://github.com/rcjsuen/dockerfile-ast/issues/82))
 
@@ -271,7 +271,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.28...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.29...HEAD
+[0.0.29]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.28...v0.0.29
 [0.0.28]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.27...v0.0.28
 [0.0.27]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.26...v0.0.27
 [0.0.26]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.25...v0.0.26
