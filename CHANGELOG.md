@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- ignore leading whitespace before a comment in escaped newlines for `getArgumentsContent()` and `getArgumentsRanges()` of `Instruction` ([#82](https://github.com/rcjsuen/dockerfile-ast/issues/82))
+
 ## [0.0.28] - 2020-07-11
 ### Fixed
 - improve handling of trailing whitespace that is not a newline character after an escape character ([#81](https://github.com/rcjsuen/dockerfile-ast/issues/81))

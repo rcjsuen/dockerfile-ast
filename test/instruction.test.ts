@@ -603,12 +603,11 @@ describe("Instruction", () => {
         assert.equal(instruction.getKeyword(), "FROM");
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 2, 9);
-        assert.equal(instruction.getArgumentsContent(), "alpine   AS stage");
+        assert.equal(instruction.getArgumentsContent(), "alpine  AS stage");
         let ranges = instruction.getArgumentsRanges();
-        assert.equal(ranges.length, 3);
+        assert.equal(ranges.length, 2);
         assertRange(ranges[0], 0, 5, 0, 12);
-        assertRange(ranges[1], 1, 0, 1, 1);
-        assertRange(ranges[2], 2, 0, 2, 9);
+        assertRange(ranges[1], 2, 0, 2, 9);
         assert.equal(instruction.getVariables().length, 0);
         assert.equal(instruction.toString(), "FROM alpine AS stage");
     });

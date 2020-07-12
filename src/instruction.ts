@@ -143,6 +143,7 @@ export class Instruction extends Line {
                     if (startPosition === null) {
                         if (char === '#') {
                             comment = true;
+                            continue;
                         }
 
                         let position = this.document.positionAt(offset + i);
