@@ -38,7 +38,8 @@ export class Util {
                                 break escapeCheck;
                         }
                     }
-                    return i;
+                    // found an escape character and then reached EOF
+                    return -1;
                 default:
                     return i;
             }

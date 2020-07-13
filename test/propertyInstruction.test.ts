@@ -121,12 +121,14 @@ describe("PropertyInstruction", () => {
                 const dockerfile = DockerfileParser.parse(`${keyword} \\`);
                 const instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
                 assert.equal(instruction.getArguments().length, 0);
+                assert.equal(instruction.getProperties().length, 0);
             });
 
             it("escape character `", () => {
                 const dockerfile = DockerfileParser.parse(`#escape=\`\n${keyword} \``);
                 const instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
                 assert.equal(instruction.getArguments().length, 0);
+                assert.equal(instruction.getProperties().length, 0);
             });
         });
     }
