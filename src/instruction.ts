@@ -288,6 +288,9 @@ export class Instruction extends Line {
                     escaping = false;
                     if (next === '$') {
                         escapedArg = escapedArg + char + next;
+                    } else if (next === '') {
+                        // reached EOF, stop processing
+                        break;
                     } else {
                         escapedArg = escapedArg + next;
                     }

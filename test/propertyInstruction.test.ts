@@ -115,8 +115,25 @@ describe("PropertyInstruction", () => {
         });
     }
 
+    function createEscapeCharacterEndingTests(keyword: string) {
+        describe("ends with escape character", () => {
+            it("escape character \\", () => {
+                const dockerfile = DockerfileParser.parse(`${keyword} \\`);
+                const instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+                assert.equal(instruction.getArguments().length, 0);
+            });
+
+            it("escape character `", () => {
+                const dockerfile = DockerfileParser.parse(`#escape=\`\n${keyword} \``);
+                const instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+                assert.equal(instruction.getArguments().length, 0);
+            });
+        });
+    }
+
     describe("ARG", () => {
         createSinglePropertyTests("ARG", "=");
+        createEscapeCharacterEndingTests("ARG");
     });
 
     describe("ENV", () => {
@@ -124,6 +141,7 @@ describe("PropertyInstruction", () => {
         createSinglePropertyTests("ENV", " ");
         createSingleLongPropertyTests("ENV");
         createMultiplePropertyTests("ENV");
+        createEscapeCharacterEndingTests("ENV");
     });
 
     describe("LABEL", () => {
@@ -131,5 +149,6 @@ describe("PropertyInstruction", () => {
         createSinglePropertyTests("LABEL", " ");
         createSingleLongPropertyTests("LABEL");
         createMultiplePropertyTests("LABEL");
+        createEscapeCharacterEndingTests("LABEL");
     });
 });

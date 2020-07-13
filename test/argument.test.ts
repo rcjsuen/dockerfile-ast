@@ -564,6 +564,26 @@ describe("Argument", () => {
             assertRange(args[0].getRange(), 0, 4, 0, 5);
             assertRange(args[1].getRange(), 2, 0, 2, 2);
         });
+
+        describe("ends with escape character", () => {
+            function createEscapeCharacterEndingTests(instruction: string) {
+                it("escape character \\", () => {
+                    const dockerfile = DockerfileParser.parse(`${instruction} \\`);
+                    const args = dockerfile.getInstructions()[0].getArguments();
+                    assert.equal(args.length, 0);
+                });
+
+                it("escape character `", () => {
+                    const dockerfile = DockerfileParser.parse(`#escape=\`\n${instruction} \``);
+                    const args = dockerfile.getInstructions()[0].getArguments();
+                    assert.equal(args.length, 0);
+                });
+            }
+
+            createEscapeCharacterEndingTests("FROM");
+            createEscapeCharacterEndingTests("HEALTHCHECK");
+            createEscapeCharacterEndingTests("RUN");
+        });
     });
 
     describe("expanded", () => {
