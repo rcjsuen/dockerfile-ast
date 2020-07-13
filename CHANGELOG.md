@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Fixed
 - do not consider a single escape character as being an argument for the instruction ([#83](https://github.com/rcjsuen/dockerfile-ast/issues/83))
+- do not consider a single escape character as being a property for an instruction ([#84](https://github.com/rcjsuen/dockerfile-ast/issues/84))
 
 ## [0.0.29] - 2020-07-12
 ### Fixed
