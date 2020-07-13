@@ -568,14 +568,38 @@ describe("Argument", () => {
         describe("ends with escape character", () => {
             function createEscapeCharacterEndingTests(instruction: string) {
                 it("escape character \\", () => {
-                    const dockerfile = DockerfileParser.parse(`${instruction} \\`);
-                    const args = dockerfile.getInstructions()[0].getArguments();
+                    let dockerfile = DockerfileParser.parse(`${instruction} \\`);
+                    let args = dockerfile.getInstructions()[0].getArguments();
+                    assert.equal(args.length, 0);
+
+                    dockerfile = DockerfileParser.parse(`${instruction} \\\n\\`);
+                    args = dockerfile.getInstructions()[0].getArguments();
+                    assert.equal(args.length, 0);
+
+                    dockerfile = DockerfileParser.parse(`${instruction} \\\n# comment`);
+                    args = dockerfile.getInstructions()[0].getArguments();
+                    assert.equal(args.length, 0);
+
+                    dockerfile = DockerfileParser.parse(`${instruction} \\\n# comment\n\\`);
+                    args = dockerfile.getInstructions()[0].getArguments();
                     assert.equal(args.length, 0);
                 });
 
                 it("escape character `", () => {
-                    const dockerfile = DockerfileParser.parse(`#escape=\`\n${instruction} \``);
-                    const args = dockerfile.getInstructions()[0].getArguments();
+                    let dockerfile = DockerfileParser.parse(`#escape=\`\n${instruction} \``);
+                    let args = dockerfile.getInstructions()[0].getArguments();
+                    assert.equal(args.length, 0);
+
+                    dockerfile = DockerfileParser.parse(`#escape=\`\n${instruction} \`\n\``);
+                    args = dockerfile.getInstructions()[0].getArguments();
+                    assert.equal(args.length, 0);
+
+                    dockerfile = DockerfileParser.parse(`#escape=\`\n${instruction} \`\n# comment`);
+                    args = dockerfile.getInstructions()[0].getArguments();
+                    assert.equal(args.length, 0);
+
+                    dockerfile = DockerfileParser.parse(`#escape=\`\n${instruction} \`\n# comment\n\``);
+                    args = dockerfile.getInstructions()[0].getArguments();
                     assert.equal(args.length, 0);
                 });
             }

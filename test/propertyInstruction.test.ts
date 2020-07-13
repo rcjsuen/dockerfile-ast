@@ -118,15 +118,45 @@ describe("PropertyInstruction", () => {
     function createEscapeCharacterEndingTests(keyword: string) {
         describe("ends with escape character", () => {
             it("escape character \\", () => {
-                const dockerfile = DockerfileParser.parse(`${keyword} \\`);
-                const instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+                let dockerfile = DockerfileParser.parse(`${keyword} \\`);
+                let instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+                assert.equal(instruction.getArguments().length, 0);
+                assert.equal(instruction.getProperties().length, 0);
+
+                dockerfile = DockerfileParser.parse(`${keyword} \\\n\\`);
+                instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+                assert.equal(instruction.getArguments().length, 0);
+                assert.equal(instruction.getProperties().length, 0);
+
+                dockerfile = DockerfileParser.parse(`${keyword} \\\n# comment`);
+                instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+                assert.equal(instruction.getArguments().length, 0);
+                assert.equal(instruction.getProperties().length, 0);
+
+                dockerfile = DockerfileParser.parse(`${keyword} \\\n# comment\n\\`);
+                instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
                 assert.equal(instruction.getArguments().length, 0);
                 assert.equal(instruction.getProperties().length, 0);
             });
 
             it("escape character `", () => {
-                const dockerfile = DockerfileParser.parse(`#escape=\`\n${keyword} \``);
-                const instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+                let dockerfile = DockerfileParser.parse(`#escape=\`\n${keyword} \``);
+                let instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+                assert.equal(instruction.getArguments().length, 0);
+                assert.equal(instruction.getProperties().length, 0);
+
+                dockerfile = DockerfileParser.parse(`#escape=\`\n${keyword} \`\n\``);
+                instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+                assert.equal(instruction.getArguments().length, 0);
+                assert.equal(instruction.getProperties().length, 0);
+
+                dockerfile = DockerfileParser.parse(`#escape=\`\n${keyword} \`\n# comment`);
+                instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
+                assert.equal(instruction.getArguments().length, 0);
+                assert.equal(instruction.getProperties().length, 0);
+
+                dockerfile = DockerfileParser.parse(`#escape=\`\n${keyword} \`\n# comment\n\``);
+                instruction = dockerfile.getInstructions()[0] as PropertyInstruction;
                 assert.equal(instruction.getArguments().length, 0);
                 assert.equal(instruction.getProperties().length, 0);
             });
