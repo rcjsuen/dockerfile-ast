@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.0.30] - 2020-07-14
 ### Fixed
 - do not consider a single escape character as being an argument for the instruction ([#83](https://github.com/rcjsuen/dockerfile-ast/issues/83))
 - do not consider a single escape character as being a property for an instruction ([#84](https://github.com/rcjsuen/dockerfile-ast/issues/84))
@@ -276,7 +276,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.29...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.30...HEAD
+[0.0.30]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.29...v0.0.30
 [0.0.29]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.28...v0.0.29
 [0.0.28]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.27...v0.0.28
 [0.0.27]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.26...v0.0.27
