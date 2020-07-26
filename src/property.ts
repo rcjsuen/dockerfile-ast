@@ -14,6 +14,8 @@ export class Property {
     private readonly range: Range;
     private readonly nameRange: Range;
     private readonly name: string;
+    private readonly assignmentOperatorRange: Range | null = null;
+    private readonly assignmentOperator: string | null = null;
     private readonly valueRange: Range | null = null;
     private readonly value: string | null = null;
 
@@ -38,6 +40,9 @@ export class Property {
                 this.valueRange = Property.getValueRange(document, arg);
                 value = document.getText().substring(document.offsetAt(this.valueRange.start), document.offsetAt(this.valueRange.end));
                 this.value = Property.getValue(value, escapeChar);
+
+                this.assignmentOperatorRange = Range.create(this.nameRange.end, this.valueRange.start);
+                this.assignmentOperator = "=";
             }
             this.range = argRange;
         }
@@ -61,6 +66,20 @@ export class Property {
 
     public getValueRange(): Range | null {
         return this.valueRange;
+    }
+
+    /**
+     * Retrieves the operator used for delimiting between the name and
+     * value of this property. This will either be the "=" character
+     * or null if a character was not used or if this property has no
+     * value defined.
+     */
+    public getAssignmentOperator(): string | null {
+        return this.assignmentOperator;
+    }
+
+    public getAssignmentOperatorRange(): Range | null {
+        return this.assignmentOperatorRange;
     }
 
     /**

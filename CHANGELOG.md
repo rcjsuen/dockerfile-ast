@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Added
+- `Property`
+  - `getAssignmentOperator()` ([#86](https://github.com/rcjsuen/dockerfile-ast/issues/86))
+  - `getAssignmentOperatorRange()` ([#86](https://github.com/rcjsuen/dockerfile-ast/issues/86))
+
 ## [0.0.30] - 2020-07-14
 ### Fixed
 - do not consider a single escape character as being an argument for the instruction ([#83](https://github.com/rcjsuen/dockerfile-ast/issues/83))
