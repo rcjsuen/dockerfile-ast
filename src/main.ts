@@ -50,6 +50,8 @@ export interface ImageTemplate {
 
 export interface Dockerfile extends ImageTemplate {
 
+    getAvailableWorkingDirectories(line: number): string[];
+
     getEscapeCharacter(): string;
 
     getInitialARGs(): Arg[];

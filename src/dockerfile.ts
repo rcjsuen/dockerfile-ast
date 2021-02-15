@@ -170,6 +170,24 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
         return stages;
     }
 
+    public getAvailableWorkingDirectories(line: number): string[] {
+        const availableDirectories = new Set<string>();
+        for (const image of this.getStageHierarchy(line)) {
+            for (const workdir of image.getWORKDIRs()) {
+                if (workdir.getRange().end.line < line) {
+                    let directory = workdir.getAbsolutePath();
+                    if (directory !== undefined && directory !== null) {
+                        if (!directory.endsWith("/")) {
+                            directory += "/"
+                        }
+                        availableDirectories.add(directory);
+                    }
+                }
+            }
+        }
+        return Array.from(availableDirectories);
+    }
+
     /**
      * Internally reorganize the comments in the Dockerfile and allocate
      * them to the relevant build stages that they belong to.

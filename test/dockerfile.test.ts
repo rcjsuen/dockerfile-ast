@@ -295,4 +295,222 @@ describe("Dockerfile", () => {
         );
         assert.strictEqual(undefined, dockerfile.resolveVariable("image", 1));
     });
+
+    describe("getAvailableWorkingDirectories", () => {
+        it("valid directory", () => {
+            const dockerfile = DockerfileParser.parse(
+                "FROM alpine\n" +
+                "WORKDIR /\n" +
+                "CMD ls"
+            );
+            let directories = dockerfile.getAvailableWorkingDirectories(0);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(1);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(2);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/");
+        });
+
+        it("null directory", () => {
+            const dockerfile = DockerfileParser.parse(
+                "FROM alpine\n" +
+                "WORKDIR\n" +
+                "CMD ls"
+            );
+            let directories = dockerfile.getAvailableWorkingDirectories(0);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(1);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(2);
+            assert.strictEqual(directories.length, 0);
+        });
+
+        it("duplicated directory", () => {
+            const dockerfile = DockerfileParser.parse(
+                "FROM alpine\n" +
+                "WORKDIR /\n" +
+                "WORKDIR /\n" +
+                "CMD ls"
+            );
+            let directories = dockerfile.getAvailableWorkingDirectories(0);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(1);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(2);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/");
+
+            directories = dockerfile.getAvailableWorkingDirectories(3);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/");
+        });
+
+        it("path separator suffix appended", () => {
+            const dockerfile = DockerfileParser.parse(
+                "FROM alpine\n" +
+                "WORKDIR /a\n" +
+                "CMD ls"
+            );
+            let directories = dockerfile.getAvailableWorkingDirectories(0);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(1);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(2);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/a/");
+        });
+
+        it("duplicated directory with differing suffix", () => {
+            const dockerfile = DockerfileParser.parse(
+                "FROM alpine\n" +
+                "WORKDIR /a\n" +
+                "WORKDIR /a/\n" +
+                "CMD ls"
+            );
+            let directories = dockerfile.getAvailableWorkingDirectories(0);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(1);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(2);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/a/");
+
+            directories = dockerfile.getAvailableWorkingDirectories(3);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/a/");
+        });
+
+        it("scoped to build stages", () => {
+            const dockerfile = DockerfileParser.parse(
+                "FROM alpine\n" +
+                "WORKDIR /a\n" +
+                "CMD ls\n" +
+                "FROM node\n" +
+                "WORKDIR /b\n" +
+                "CMD ls"
+            );
+            let directories = dockerfile.getAvailableWorkingDirectories(0);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(1);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(2);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/a/");
+
+            directories = dockerfile.getAvailableWorkingDirectories(3);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(4);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(5);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/b/");
+        });
+
+        it("inherting parent directories", () => {
+            const dockerfile = DockerfileParser.parse(
+                "FROM alpine AS build\n" +
+                "WORKDIR /a\n" +
+                "CMD ls\n" +
+                "FROM build\n" +
+                "WORKDIR /b\n" +
+                "CMD ls"
+            );
+            let directories = dockerfile.getAvailableWorkingDirectories(0);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(1);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(2);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/a/");
+
+            directories = dockerfile.getAvailableWorkingDirectories(3);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/a/");
+
+            directories = dockerfile.getAvailableWorkingDirectories(4);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/a/");
+
+            directories = dockerfile.getAvailableWorkingDirectories(5);
+            assert.strictEqual(directories.length, 2);
+            assert.strictEqual(directories[0], "/a/");
+            assert.strictEqual(directories[1], "/b/");
+        });
+
+        it("inherting parent directories with relative path", () => {
+            const dockerfile = DockerfileParser.parse(
+                "FROM alpine AS build\n" +
+                "WORKDIR /a\n" +
+                "CMD ls\n" +
+                "FROM build\n" +
+                "WORKDIR b\n" +
+                "CMD ls"
+            );
+            let directories = dockerfile.getAvailableWorkingDirectories(0);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(1);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(2);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/a/");
+
+            directories = dockerfile.getAvailableWorkingDirectories(3);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/a/");
+
+            directories = dockerfile.getAvailableWorkingDirectories(4);
+            assert.strictEqual(directories.length, 1);
+            assert.strictEqual(directories[0], "/a/");
+
+            directories = dockerfile.getAvailableWorkingDirectories(5);
+            assert.strictEqual(directories.length, 2);
+            assert.strictEqual(directories[0], "/a/");
+            assert.strictEqual(directories[1], "/a/b/");
+        });
+
+        it("ignores undefined values", () => {
+            const dockerfile = DockerfileParser.parse(
+                "FROM alpine AS build\n" +
+                "WORKDIR\n" +
+                "WORKDIR a\n" +
+                "CMD ls"
+            );
+            let directories = dockerfile.getAvailableWorkingDirectories(0);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(1);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(2);
+            assert.strictEqual(directories.length, 0);
+
+            directories = dockerfile.getAvailableWorkingDirectories(3);
+            assert.strictEqual(directories.length, 0);
+        });
+
+        it("invalid line", () => {
+            const dockerfile = DockerfileParser.parse("FROM alpine\n");
+            const directories = dockerfile.getAvailableWorkingDirectories(-1);
+            assert.strictEqual(directories.length, 0);
+        });
+    });
 });
