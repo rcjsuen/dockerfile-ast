@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Added
+- `Workdir`
+  - `getPath()` ([#88](https://github.com/rcjsuen/dockerfile-ast/issues/88))
+  - `getAbsolutePath()` ([#88](https://github.com/rcjsuen/dockerfile-ast/issues/88))
+
 ## [0.1.0] - 2020-12-24
 ### Added
 - `Property`

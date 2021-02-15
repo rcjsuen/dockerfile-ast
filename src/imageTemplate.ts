@@ -17,6 +17,7 @@ import { From } from './instructions/from';
 import { Healthcheck } from './instructions/healthcheck';
 import { Onbuild } from './instructions/onbuild';
 import { Util } from './util';
+import { Workdir } from './instructions/workdir';
 
 export class ImageTemplate implements ast.ImageTemplate {
 
@@ -113,6 +114,15 @@ export class ImageTemplate implements ast.ImageTemplate {
         return args;
     }
 
+    public getFROM(): From {
+        for (const instruction of this.instructions) {
+            if (instruction instanceof From) {
+                return instruction;
+            }
+        }
+        return null;
+    }
+
     /**
      * Gets all the FROM instructions that are defined in this image.
      */
@@ -137,6 +147,16 @@ export class ImageTemplate implements ast.ImageTemplate {
             }
         }
         return froms;
+    }
+
+    public getWORKDIRs(): Workdir[] {
+        const workdirs = [];
+        for (const instruction of this.instructions) {
+            if (instruction instanceof Workdir) {
+                workdirs.push(instruction);
+            }
+        }
+        return workdirs;
     }
 
     public getOnbuildTriggers(): Instruction[] {

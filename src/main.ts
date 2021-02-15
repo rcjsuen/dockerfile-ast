@@ -138,7 +138,8 @@ export { Shell } from './instructions/shell';
 export { Stopsignal } from './instructions/stopsignal';
 export { User } from './instructions/user';
 export { Volume } from './instructions/volume';
-export { Workdir } from './instructions/workdir';
+import { Workdir } from './instructions/workdir';
+export { Workdir };
 
 export enum Keyword {
     ADD = "ADD",
