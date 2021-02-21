@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.2.0] - 2021-02-21
 ### Added
 - `Dockerfile`
   - `getAvailableWorkingDirectories()` ([#87](https://github.com/rcjsuen/dockerfile-ast/issues/87))
@@ -290,7 +290,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.30...v0.1.0
 [0.0.30]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.29...v0.0.30
 [0.0.29]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.28...v0.0.29
