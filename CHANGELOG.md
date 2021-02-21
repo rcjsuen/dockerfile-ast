@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 ### Added
+- `Dockerfile`
+  - `getAvailableWorkingDirectories()` ([#87](https://github.com/rcjsuen/dockerfile-ast/issues/87))
 - `Workdir`
   - `getPath()` ([#88](https://github.com/rcjsuen/dockerfile-ast/issues/88))
   - `getAbsolutePath()` ([#88](https://github.com/rcjsuen/dockerfile-ast/issues/88))
