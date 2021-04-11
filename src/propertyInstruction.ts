@@ -195,6 +195,12 @@ export abstract class PropertyInstruction extends Instruction {
                     }
                 case '\'':
                 case '"':
+                    if (spaced) {
+                        this.createSpacedArgument(argStart, args, content, mark, instructionNameEndOffset, start);
+                        // reset to start a new argument
+                        argStart = i;
+                        spaced = false;
+                    }
                     if (argStart === -1) {
                         argStart = i;
                     }
@@ -275,14 +281,9 @@ export abstract class PropertyInstruction extends Instruction {
                     break;
                 default:
                     if (spaced) {
-                        if (argStart !== -1) {
-                            args.push(new Argument(
-                                content.substring(argStart, mark),
-                                Range.create(this.document.positionAt(instructionNameEndOffset + start + argStart),
-                                    this.document.positionAt(instructionNameEndOffset + start + mark))
-                            ));
-                            argStart = -1;
-                        }
+                        this.createSpacedArgument(argStart, args, content, mark, instructionNameEndOffset, start);
+                        // reset to start a new argument
+                        argStart = i;
                         spaced = false;
                     }
                     escaped = false;
@@ -341,5 +342,17 @@ export abstract class PropertyInstruction extends Instruction {
             ));
         }
         return args;
+    }
+
+    private createSpacedArgument(argStart: number, args: Argument[], content: string, mark: number, instructionNameEndOffset: number, start: number): void {
+        if (argStart !== -1) {
+            args.push(new Argument(
+                content.substring(argStart, mark),
+                Range.create(
+                    this.document.positionAt(instructionNameEndOffset + start + argStart),
+                    this.document.positionAt(instructionNameEndOffset + start + mark)
+                )
+            ));
+        }
     }
 }

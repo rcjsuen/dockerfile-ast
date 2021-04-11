@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- fix parsing of an escape character immediately following a label which caused the next label to be parsed incorrectly ([#90](https://github.com/rcjsuen/dockerfile-ast/issues/90))
+
 ## [0.2.0] - 2021-02-21
 ### Added
 - `Dockerfile`
