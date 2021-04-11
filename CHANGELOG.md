@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.2.1] - 2021-04-11
 ### Fixed
 - fix parsing of an escape character immediately following a label which caused the next label to be parsed incorrectly ([#90](https://github.com/rcjsuen/dockerfile-ast/issues/90))
 
@@ -294,7 +294,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.30...v0.1.0
 [0.0.30]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.0.29...v0.0.30
