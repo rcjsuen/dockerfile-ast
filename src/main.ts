@@ -82,7 +82,7 @@ export interface Dockerfile extends ImageTemplate {
      * directive in the returned array.
      * 
      * @return the list of parser directives defined in this
-     *         Dockerfile in the order they are defind
+     *         Dockerfile in the order they are defined
      * @since 0.0.18
      */
     getDirectives(): ParserDirective[];
