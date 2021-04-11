@@ -421,7 +421,7 @@ describe("Dockerfile", () => {
             assert.strictEqual(directories[0], "/b/");
         });
 
-        it("inherting parent directories", () => {
+        it("inheriting parent directories", () => {
             const dockerfile = DockerfileParser.parse(
                 "FROM alpine AS build\n" +
                 "WORKDIR /a\n" +
@@ -454,7 +454,7 @@ describe("Dockerfile", () => {
             assert.strictEqual(directories[1], "/b/");
         });
 
-        it("inherting parent directories with relative path", () => {
+        it("inheriting parent directories with relative path", () => {
             const dockerfile = DockerfileParser.parse(
                 "FROM alpine AS build\n" +
                 "WORKDIR /a\n" +
