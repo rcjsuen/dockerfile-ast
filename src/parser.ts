@@ -391,8 +391,9 @@ export class Parser {
                     if (instructionEnd === -1) {
                         instructionEnd = buffer.length;
                     }
-                    lineRange = Range.create(document.positionAt(instructionStart), document.positionAt(instructionEnd));
-                    dockerfile.addInstruction(Parser.createInstruction(document, dockerfile, this.escapeChar, lineRange, instruction, lineRange));
+                    instructionRange = Range.create(document.positionAt(instructionStart), document.positionAt(instructionEnd));
+                    lineRange = Range.create(document.positionAt(instructionStart), document.positionAt(buffer.length));
+                    dockerfile.addInstruction(Parser.createInstruction(document, dockerfile, this.escapeChar, lineRange, instruction, instructionRange));
                     break lineCheck;
             }
         }

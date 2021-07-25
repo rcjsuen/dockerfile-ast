@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- fix line range calculation when the last non-whitespace character is an escape character ([#92](https://github.com/rcjsuen/dockerfile-ast/issues/92))
+
 ## [0.2.1] - 2021-04-11
 ### Fixed
 - fix parsing of an escape character immediately following a label which caused the next label to be parsed incorrectly ([#90](https://github.com/rcjsuen/dockerfile-ast/issues/90))

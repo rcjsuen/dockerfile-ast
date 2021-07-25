@@ -13,6 +13,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "froM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 4);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assert.equal(instruction.getArgumentsRange(), null);
         assert.equal(instruction.getArgumentsContent(), null);
@@ -26,6 +27,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 4);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assert.equal(instruction.getArgumentsRange(), null);
         assert.equal(instruction.getArgumentsContent(), null);
@@ -39,6 +41,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 4);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assert.equal(instruction.getArgumentsRange(), null);
         assert.equal(instruction.getArgumentsContent(), null);
@@ -52,6 +55,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 11);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 11);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -67,6 +71,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 1, 0, 12);
         assertRange(instruction.getInstructionRange(), 0, 1, 0, 5);
         assertRange(instruction.getArgumentsRange(), 0, 6, 0, 12);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -82,6 +87,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "F\\");
         assert.equal(instruction.getKeyword(), "F\\");
+        assertRange(instruction.getRange(), 0, 0, 0, 2);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 2);
         assert.equal(instruction.getArgumentsRange(), null);
         assert.equal(instruction.getArgumentsContent(), null);
@@ -95,6 +101,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FR\\");
         assert.equal(instruction.getKeyword(), "FR\\");
+        assertRange(instruction.getRange(), 0, 0, 0, 3);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assert.equal(instruction.getArgumentsRange(), null);
         assert.equal(instruction.getArgumentsContent(), null);
@@ -108,6 +115,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "F\\");
         assert.equal(instruction.getKeyword(), "F\\");
+        assertRange(instruction.getRange(), 0, 0, 0, 3);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 2);
         assert.equal(instruction.getArgumentsRange(), null);
         assert.equal(instruction.getArgumentsContent(), null);
@@ -116,11 +124,26 @@ describe("Instruction", () => {
         assert.equal(instruction.toString(), "F\\");
     });
 
+    it("#escape=`\\nF` ", () => {
+        let dockerfile = DockerfileParser.parse("#escape=`\nF` ");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "F`");
+        assert.equal(instruction.getKeyword(), "F`");
+        assertRange(instruction.getRange(), 1, 0, 1, 3);
+        assertRange(instruction.getInstructionRange(), 1, 0, 1, 2);
+        assert.equal(instruction.getArgumentsRange(), null);
+        assert.equal(instruction.getArgumentsContent(), null);
+        assert.equal(instruction.getArgumentsRanges().length, 0);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "F`");
+    });
+
     it("FR\\ ", () => {
         let dockerfile = DockerfileParser.parse("FR\\ ");
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FR\\");
         assert.equal(instruction.getKeyword(), "FR\\");
+        assertRange(instruction.getRange(), 0, 0, 0, 4);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assert.equal(instruction.getArgumentsRange(), null);
         assert.equal(instruction.getArgumentsContent(), null);
@@ -129,11 +152,26 @@ describe("Instruction", () => {
         assert.equal(instruction.toString(), "FR\\");
     });
 
+    it("#escape=`\\nFR` ", () => {
+        let dockerfile = DockerfileParser.parse("#escape=`\nFR` ");
+        let instruction = dockerfile.getInstructions()[0];
+        assert.equal(instruction.getInstruction(), "FR`");
+        assert.equal(instruction.getKeyword(), "FR`");
+        assertRange(instruction.getRange(), 1, 0, 1, 4);
+        assertRange(instruction.getInstructionRange(), 1, 0, 1, 3);
+        assert.equal(instruction.getArgumentsRange(), null);
+        assert.equal(instruction.getArgumentsContent(), null);
+        assert.equal(instruction.getArgumentsRanges().length, 0);
+        assert.equal(instruction.getVariables().length, 0);
+        assert.equal(instruction.toString(), "FR`");
+    });
+
     it("FROM\\ alpine", () => {
         let dockerfile = DockerfileParser.parse("FROM\\ alpine");
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM\\");
         assert.equal(instruction.getKeyword(), "FROM\\");
+        assertRange(instruction.getRange(), 0, 0, 0, 12);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 5);
         assertRange(instruction.getArgumentsRange(), 0, 6, 0, 12);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -149,6 +187,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal("FR\\om", instruction.getInstruction());
         assert.equal("FR\\OM", instruction.getKeyword());
+        assertRange(instruction.getRange(), 0, 0, 0, 12);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 5);
         assertRange(instruction.getArgumentsRange(), 0, 6, 0, 12);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -164,6 +203,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "F");
         assert.equal(instruction.getKeyword(), "F");
+        assertRange(instruction.getRange(), 0, 0, 0, 1);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
         assert.equal(instruction.getArgumentsRange(), null);
         assert.equal(instruction.getArgumentsContent(), null);
@@ -177,6 +217,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "F");
         assert.equal(instruction.getKeyword(), "F");
+        assertRange(instruction.getRange(), 0, 0, 0, 2);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
         assert.equal(instruction.getArgumentsRange(), null);
         assert.equal(instruction.getArgumentsContent(), null);
@@ -190,6 +231,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "F");
         assert.equal(instruction.getKeyword(), "F");
+        assertRange(instruction.getRange(), 0, 0, 0, 1);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
         assert.equal(instruction.getArgumentsRange(), null);
         assert.equal(instruction.getArgumentsContent(), null);
@@ -216,6 +258,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "F");
         assert.equal(instruction.getKeyword(), "F");
+        assertRange(instruction.getRange(), 0, 0, 0, 8);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
         assertRange(instruction.getArgumentsRange(), 0, 2, 0, 8);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -231,6 +274,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 1, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 1, 2);
         assertRange(instruction.getArgumentsRange(), 1, 3, 1, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -246,6 +290,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 2, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
         assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -261,6 +306,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 2, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
         assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -276,6 +322,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 2, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
         assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -291,6 +338,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 2, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
         assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -306,6 +354,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 2, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
         assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -321,6 +370,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 2, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 2, 2);
         assertRange(instruction.getArgumentsRange(), 2, 3, 2, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -336,6 +386,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 1, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 1, 2);
         assertRange(instruction.getArgumentsRange(), 1, 3, 1, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -351,6 +402,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 1, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 1, 2);
         assertRange(instruction.getArgumentsRange(), 1, 3, 1, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -366,6 +418,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 1, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 1, 2);
         assertRange(instruction.getArgumentsRange(), 1, 3, 1, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -381,6 +434,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 1, 10);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 11);
         assert.equal(instruction.getArgumentsContent(), "alpine");
@@ -396,6 +450,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 20);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 20);
         assert.equal(instruction.getArgumentsContent(), "alpine AS stage");
@@ -411,6 +466,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 1, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 1, 9);
         assert.equal(instruction.getArgumentsContent(), "npm install &&  npm test");
@@ -427,6 +483,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 1, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 1, 9);
         assert.equal(instruction.getArgumentsContent(), "npm install &&  npm test");
@@ -443,6 +500,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 1, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 1, 9);
         assert.equal(instruction.getArgumentsContent(), "npm install &&  npm test");
@@ -459,6 +517,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 1, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 1, 9);
         assert.equal(instruction.getArgumentsContent(), "npm install &&  npm test");
@@ -475,6 +534,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "EXPOSE");
         assert.equal(instruction.getKeyword(), "EXPOSE");
+        assertRange(instruction.getRange(), 0, 0, 0, 13);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 6);
         assertRange(instruction.getArgumentsRange(), 0, 7, 0, 13);
         assert.equal(instruction.getArgumentsContent(), "80\\ 81");
@@ -490,6 +550,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "EXPOSE");
         assert.equal(instruction.getKeyword(), "EXPOSE");
+        assertRange(instruction.getRange(), 0, 0, 1, 6);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 6);
         assertRange(instruction.getArgumentsRange(), 0, 7, 1, 6);
         assert.equal(instruction.getArgumentsContent(), "80  81\\82");
@@ -506,6 +567,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "EXPOSE");
         assert.equal(instruction.getKeyword(), "EXPOSE");
+        assertRange(instruction.getRange(), 0, 0, 1, 8);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 6);
         assertRange(instruction.getArgumentsRange(), 0, 7, 1, 8);
         assert.equal(instruction.getArgumentsContent(), "80  81 \\ 82");
@@ -522,6 +584,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "EXPOSE");
         assert.equal(instruction.getKeyword(), "EXPOSE");
+        assertRange(instruction.getRange(), 0, 0, 2, 5);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 6);
         assertRange(instruction.getArgumentsRange(), 2, 1, 2, 5);
         assert.equal(instruction.getArgumentsContent(), "8081");
@@ -537,6 +600,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 2, 10);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 1, 5);
         assert.equal(instruction.getArgumentsContent(), "alpine AS  base");
@@ -553,6 +617,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 2, 10);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 1, 5);
         assert.equal(instruction.getArgumentsContent(), "alpine AS  base");
@@ -569,6 +634,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[1];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 1, 0, 3, 10);
         assertRange(instruction.getInstructionRange(), 1, 0, 1, 4);
         assertRange(instruction.getArgumentsRange(), 1, 5, 2, 5);
         assert.equal(instruction.getArgumentsContent(), "alpine AS  base");
@@ -585,6 +651,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[1];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 1, 0, 3, 10);
         assertRange(instruction.getInstructionRange(), 1, 0, 1, 4);
         assertRange(instruction.getArgumentsRange(), 1, 5, 2, 5);
         assert.equal(instruction.getArgumentsContent(), "alpine AS  base");
@@ -601,6 +668,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 2, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 2, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine  AS stage");
@@ -617,6 +685,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 2, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 2, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine  AS stage");
@@ -633,6 +702,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 2, 9);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 2, 9);
         assert.equal(instruction.getArgumentsContent(), "alpine  AS stage");
@@ -649,6 +719,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 0, 18);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 0, 18);
         assert.equal(instruction.getArgumentsContent(), "echo 'abc#def'");
@@ -664,6 +735,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 10);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 10);
         assert.equal(instruction.getArgumentsContent(), "\\$var");
@@ -679,6 +751,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 6);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 6);
         assert.equal(instruction.getArgumentsContent(), "$");
@@ -694,6 +767,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 11);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 11);
         assert.equal(instruction.getArgumentsContent(), "$image");
@@ -709,6 +783,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 18);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 18);
         assert.equal(instruction.getArgumentsContent(), "$image$image2");
@@ -724,6 +799,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "EXPOSE");
         assert.equal(instruction.getKeyword(), "EXPOSE");
+        assertRange(instruction.getRange(), 0, 0, 0, 13);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 6);
         assertRange(instruction.getArgumentsRange(), 0, 7, 0, 13);
         assert.equal(instruction.getArgumentsContent(), "$po\\rt");
@@ -739,6 +815,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "EXPOSE");
         assert.equal(instruction.getKeyword(), "EXPOSE");
+        assertRange(instruction.getRange(), 0, 0, 0, 18);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 6);
         assertRange(instruction.getArgumentsRange(), 0, 7, 0, 18);
         assert.equal(instruction.getArgumentsContent(), "$port\\$port");
@@ -754,6 +831,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 1, 2);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 1, 2);
         assert.equal(instruction.getArgumentsContent(), "$image");
@@ -770,6 +848,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 1, 2);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 1, 2);
         assert.equal(instruction.getArgumentsContent(), "$image");
@@ -786,6 +865,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 1, 2);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 1, 2);
         assert.equal(instruction.getArgumentsContent(), "$image");
@@ -802,6 +882,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 1, 2);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 1, 2);
         assert.equal(instruction.getArgumentsContent(), "$image");
@@ -818,6 +899,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 12);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 12);
         assert.equal(instruction.getArgumentsContent(), "\\$image");
@@ -833,6 +915,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 0, 19);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 0, 19);
         assert.equal(instruction.getArgumentsContent(), "echo $var $var2");
@@ -848,6 +931,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 0, 23);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 0, 23);
         assert.equal(instruction.getArgumentsContent(), "echo ${var} ${var2}");
@@ -863,6 +947,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 0, 12);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 0, 12);
         assert.equal(instruction.getArgumentsContent(), "echo ${}");
@@ -878,6 +963,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 0, 13);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 0, 13);
         assert.equal(instruction.getArgumentsContent(), "echo ${:}");
@@ -893,6 +979,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 0, 14);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 0, 14);
         assert.equal(instruction.getArgumentsContent(), "echo ${::}");
@@ -908,6 +995,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 0, 18);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 0, 18);
         assert.equal(instruction.getArgumentsContent(), "echo ${invalid");
@@ -923,6 +1011,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 0, 19);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 0, 19);
         assert.equal(instruction.getArgumentsContent(), "echo ${invalid\\");
@@ -938,6 +1027,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 7);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 6);
         assert.equal(instruction.getArgumentsContent(), "$");
@@ -953,6 +1043,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 7);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 6);
         assert.equal(instruction.getArgumentsContent(), "$");
@@ -968,6 +1059,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 6);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 6);
         assert.equal(instruction.getArgumentsContent(), "$");
@@ -983,6 +1075,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "FROM");
         assert.equal(instruction.getKeyword(), "FROM");
+        assertRange(instruction.getRange(), 0, 0, 0, 6);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 0, 6);
         assert.equal(instruction.getArgumentsContent(), "$");
@@ -998,6 +1091,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 1, 1);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 1, 1);
         assert.equal(instruction.getArgumentsContent(), "\\\" x");
@@ -1014,6 +1108,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 1, 1);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 1, 1);
         assert.equal(instruction.getArgumentsContent(), "\\\" x");
@@ -1030,6 +1125,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 1, 1);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 1, 1);
         assert.equal(instruction.getArgumentsContent(), "xy");
@@ -1046,6 +1142,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 1, 1);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 0, 4, 1, 1);
         assert.equal(instruction.getArgumentsContent(), "xy");
@@ -1062,6 +1159,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 2, 1);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 1, 0, 2, 1);
         assert.equal(instruction.getArgumentsContent(), "aa");
@@ -1078,6 +1176,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 2, 1);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 1, 0, 2, 1);
         assert.equal(instruction.getArgumentsContent(), "aa");
@@ -1094,6 +1193,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 3, 1);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 1, 0, 3, 1);
         assert.equal(instruction.getArgumentsContent(), "aa");
@@ -1110,6 +1210,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 3, 1);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 1, 0, 3, 1);
         assert.equal(instruction.getArgumentsContent(), "aa");
@@ -1126,6 +1227,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 3, 2);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 1, 1, 3, 2);
         assert.equal(instruction.getArgumentsContent(), "a a");
@@ -1142,6 +1244,7 @@ describe("Instruction", () => {
         let instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "RUN");
         assert.equal(instruction.getKeyword(), "RUN");
+        assertRange(instruction.getRange(), 0, 0, 3, 2);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 3);
         assertRange(instruction.getArgumentsRange(), 1, 1, 3, 2);
         assert.equal(instruction.getArgumentsContent(), "a a");
@@ -1158,6 +1261,7 @@ describe("Instruction", () => {
         const instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "COPY");
         assert.equal(instruction.getKeyword(), "COPY");
+        assertRange(instruction.getRange(), 0, 0, 2, 1);
         assertRange(instruction.getInstructionRange(), 0, 0, 0, 4);
         assertRange(instruction.getArgumentsRange(), 0, 5, 2, 1);
         assert.equal(instruction.getArgumentsContent(), "a b c");
@@ -1174,6 +1278,7 @@ describe("Instruction", () => {
         const instruction = dockerfile.getInstructions()[0];
         assert.equal(instruction.getInstruction(), "COPY");
         assert.equal(instruction.getKeyword(), "COPY");
+        assertRange(instruction.getRange(), 1, 0, 3, 1);
         assertRange(instruction.getInstructionRange(), 1, 0, 1, 4);
         assertRange(instruction.getArgumentsRange(), 1, 5, 3, 1);
         assert.equal(instruction.getArgumentsContent(), "a b c");
