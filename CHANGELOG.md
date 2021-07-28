@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- enabled support for parsing heredocs in Dockerfiles ([#92](https://github.com/rcjsuen/dockerfile-ast/issues/92))
+
 ### Fixed
 - fix line range calculation when the last non-whitespace character is an escape character ([#92](https://github.com/rcjsuen/dockerfile-ast/issues/92))
 

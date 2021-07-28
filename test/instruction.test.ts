@@ -1296,4 +1296,46 @@ describe("Instruction", () => {
         assert.equal(instructions[0].isAfter(instructions[1]), false);
         assert.equal(instructions[1].isAfter(instructions[0]), true);
     });
+
+    function createGetInstructionsTest(name: string, onbuildPrefix: string) {
+        it(name, () => {
+            const instructionLength = onbuildPrefix.length === 0 ? 3 : 7;
+            const expectedInstruction = onbuildPrefix.length === 0 ? "RUN" : "ONBUILD";
+            let dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<eot\neot");
+            assert.strictEqual(dockerfile.getInstructions().length, 1);
+            let instruction = dockerfile.getInstructions()[0];
+            assert.strictEqual(instruction.getInstruction(), expectedInstruction);
+            assert.strictEqual(instruction.getKeyword(), expectedInstruction);
+            assertRange(instruction.getRange(), 0, 0, 1, 3);
+            assertRange(instruction.getInstructionRange(), 0, 0, 0, instructionLength);
+
+            dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<eot\neot\n");
+            assert.strictEqual(dockerfile.getInstructions().length, 1);
+            instruction = dockerfile.getInstructions()[0];
+            assert.strictEqual(instruction.getInstruction(), expectedInstruction);
+            assert.strictEqual(instruction.getKeyword(), expectedInstruction);
+            assertRange(instruction.getRange(), 0, 0, 1, 3);
+            assertRange(instruction.getInstructionRange(), 0, 0, 0, instructionLength);
+
+            dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<eot\necho\n\neot\r\n");
+            assert.strictEqual(dockerfile.getInstructions().length, 1);
+            instruction = dockerfile.getInstructions()[0];
+            assert.strictEqual(instruction.getInstruction(), expectedInstruction);
+            assert.strictEqual(instruction.getKeyword(), expectedInstruction);
+            assertRange(instruction.getRange(), 0, 0, 3, 3);
+            assertRange(instruction.getInstructionRange(), 0, 0, 0, instructionLength);
+
+            dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<eot\n\necho\r\n");
+            assert.strictEqual(dockerfile.getInstructions().length, 1);
+            instruction = dockerfile.getInstructions()[0];
+            assert.strictEqual(instruction.getInstruction(), expectedInstruction);
+            assert.strictEqual(instruction.getKeyword(), expectedInstruction);
+            assertRange(instruction.getInstructionRange(), 0, 0, 0, instructionLength);
+        });
+    }
+
+    describe("getInstructions", () => {
+        createGetInstructionsTest("standard", "");
+        createGetInstructionsTest("onbuild", "ONBUILD ");
+    });
 });
