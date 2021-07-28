@@ -173,21 +173,25 @@ export class Parser {
         return directives;
     }
 
+    private document: TextDocument;
+    private buffer: string;
+
     public parse(buffer: string): Dockerfile {
-        let document = TextDocument.create("", "", 0, buffer);
-        let dockerfile = new Dockerfile(document);
-        let directives = this.getParserDirectives(document, buffer);
+        this.document = TextDocument.create("", "", 0, buffer);
+        this.buffer = buffer;
+        let dockerfile = new Dockerfile(this.document);
+        let directives = this.getParserDirectives(this.document, this.buffer);
         let offset = 0;
         this.escapeChar = '\\';
         if (directives.length > 0) {
             dockerfile.setDirectives(directives);
             this.escapeChar = dockerfile.getEscapeCharacter();
             // start parsing after the directives
-            offset = document.offsetAt(Position.create(directives.length, 0));
+            offset = this.document.offsetAt(Position.create(directives.length, 0));
         }
 
-        lineCheck: for (let i = offset; i < buffer.length; i++) {
-            let char = buffer.charAt(i);
+        lineCheck: for (let i = offset; i < this.buffer.length; i++) {
+            let char = this.buffer.charAt(i);
             switch (char) {
                 case ' ':
                 case '\t':
@@ -195,23 +199,23 @@ export class Parser {
                 case '\n':
                     break;
                 case '#':
-                    for (let j = i + 1; j < buffer.length; j++) {
-                        char = buffer.charAt(j);
+                    for (let j = i + 1; j < this.buffer.length; j++) {
+                        char = this.buffer.charAt(j);
                         switch (char) {
                             case '\r':
-                                dockerfile.addComment(new Comment(document, Range.create(document.positionAt(i), document.positionAt(j))));
+                                dockerfile.addComment(new Comment(this.document, Range.create(this.document.positionAt(i), this.document.positionAt(j))));
                                 // offset one more for \r\n
                                 i = j + 1;
                                 continue lineCheck;
                             case '\n':
-                                dockerfile.addComment(new Comment(document, Range.create(document.positionAt(i), document.positionAt(j))));
+                                dockerfile.addComment(new Comment(this.document, Range.create(this.document.positionAt(i), this.document.positionAt(j))));
                                 i = j;
                                 continue lineCheck;
                         }
                     }
                     // reached EOF
-                    let range = Range.create(document.positionAt(i), document.positionAt(buffer.length));
-                    dockerfile.addComment(new Comment(document, range));
+                    let range = Range.create(this.document.positionAt(i), this.document.positionAt(this.buffer.length));
+                    dockerfile.addComment(new Comment(this.document, range));
                     break lineCheck;
                 default:
                     let instruction = char;
@@ -220,20 +224,20 @@ export class Parser {
                     let lineRange: Range | null = null;
                     let instructionRange: Range | null = null;
                     let escapedInstruction = false;
-                    instructionCheck: for (let j = i + 1; j < buffer.length; j++) {
-                        char = buffer.charAt(j);
+                    instructionCheck: for (let j = i + 1; j < this.buffer.length; j++) {
+                        char = this.buffer.charAt(j);
                         switch (char) {
                             case this.escapeChar:
                                 escapedInstruction = true;
-                                char = buffer.charAt(j + 1);
+                                char = this.buffer.charAt(j + 1);
                                 if (char === '\r') {
                                     // skip two for \r\n
                                     j += 2;
                                 } else if (char === '\n') {
                                     j++;
                                 } else if (char === ' ' || char === '\t') {
-                                    for (let k = j + 2; k < buffer.length; k++) {
-                                        switch (buffer.charAt(k)) {
+                                    for (let k = j + 2; k < this.buffer.length; k++) {
+                                        switch (this.buffer.charAt(k)) {
                                             case ' ':
                                             case '\t':
                                                 break;
@@ -263,8 +267,8 @@ export class Parser {
                             case '\t':
                                 if (escapedInstruction) {
                                     // on an escaped newline, need to search for non-whitespace
-                                    escapeCheck: for (let k = j + 1; k < buffer.length; k++) {
-                                        switch (buffer.charAt(k)) {
+                                    escapeCheck: for (let k = j + 1; k < this.buffer.length; k++) {
+                                        switch (this.buffer.charAt(k)) {
                                             case ' ':
                                             case '\t':
                                                 break;
@@ -289,20 +293,20 @@ export class Parser {
                                 let checkHeredoc = true;
                                 let heredoc = false;
                                 let isOnbuild = instruction.toUpperCase() === Keyword.ONBUILD;
-                                argumentsCheck: for (let k = j + 1; k < buffer.length; k++) {
-                                    switch (buffer.charAt(k)) {
+                                argumentsCheck: for (let k = j + 1; k < this.buffer.length; k++) {
+                                    switch (this.buffer.charAt(k)) {
                                         case '\r':
                                         case '\n':
                                             if (escaped) {
                                                 continue;
                                             }
                                             i = k;
-                                            lineRange = Range.create(document.positionAt(instructionStart), document.positionAt(k));
-                                            instructionRange = Range.create(document.positionAt(instructionStart), document.positionAt(instructionEnd));
-                                            dockerfile.addInstruction(Parser.createInstruction(document, dockerfile, this.escapeChar, lineRange, instruction, instructionRange));
+                                            lineRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(k));
+                                            instructionRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(instructionEnd));
+                                            dockerfile.addInstruction(Parser.createInstruction(this.document, dockerfile, this.escapeChar, lineRange, instruction, instructionRange));
                                             continue lineCheck;
                                         case this.escapeChar:
-                                            let next = buffer.charAt(k + 1);
+                                            let next = this.buffer.charAt(k + 1);
                                             if (next === '\n') {
                                                 escaped = true;
                                                 k++;
@@ -311,8 +315,8 @@ export class Parser {
                                                 // skip two chars for \r\n
                                                 k = k + 2;
                                             } else if (next === ' ' || next === '\t') {
-                                                escapeCheck: for (let l = k + 2; l < buffer.length; l++) {
-                                                    switch (buffer.charAt(l)) {
+                                                escapeCheck: for (let l = k + 2; l < this.buffer.length; l++) {
+                                                    switch (this.buffer.charAt(l)) {
                                                         case ' ':
                                                         case '\t':
                                                             break;
@@ -334,23 +338,23 @@ export class Parser {
                                             continue;
                                         case '#':
                                             if (escaped) {
-                                                for (let l = k + 1; l < buffer.length; l++) {
-                                                    switch (buffer.charAt(l)) {
+                                                for (let l = k + 1; l < this.buffer.length; l++) {
+                                                    switch (this.buffer.charAt(l)) {
                                                         case '\r':
-                                                            dockerfile.addComment(new Comment(document, Range.create(document.positionAt(k), document.positionAt(l))));
+                                                            dockerfile.addComment(new Comment(this.document, Range.create(this.document.positionAt(k), this.document.positionAt(l))));
                                                             // offset one more for \r\n
                                                             k = l + 1;
                                                             continue argumentsCheck;
                                                         case '\n':
-                                                            let range = Range.create(document.positionAt(k), document.positionAt(l));
-                                                            dockerfile.addComment(new Comment(document, range));
+                                                            let range = Range.create(this.document.positionAt(k), this.document.positionAt(l));
+                                                            dockerfile.addComment(new Comment(this.document, range));
                                                             k = l;
                                                             continue argumentsCheck;
                                                     }
                                                 }
 
-                                                let range = Range.create(document.positionAt(k), document.positionAt(buffer.length));
-                                                dockerfile.addComment(new Comment(document, range));
+                                                let range = Range.create(this.document.positionAt(k), this.document.positionAt(this.buffer.length));
+                                                dockerfile.addComment(new Comment(this.document, range));
                                                 break argumentsCheck;
                                             }
                                             break;
@@ -368,7 +372,7 @@ export class Parser {
                                                 break;
                                             } else if (heredoc) {
                                                 let heredocNameStart = k + 1;
-                                                switch (buffer.charAt(k + 1)) {
+                                                switch (this.buffer.charAt(k + 1)) {
                                                     case '-':
                                                         heredocNameStart++;
                                                         break
@@ -378,12 +382,12 @@ export class Parser {
                                                     case '\n':
                                                         continue argumentsCheck;
                                                 }
-                                                const heredocEnd = this.getHeredocEnd(buffer, heredocNameStart);
+                                                const heredocEnd = this.getHeredocEnd(heredocNameStart);
                                                 if (heredocEnd === -1) {
                                                     // reached EOF, stop now and consider everything one instruction
                                                     break instructionCheck;
                                                 }
-                                                const position = this.parseHeredoc(document, buffer, dockerfile, heredocNameStart, heredocEnd, instruction, instructionStart, instructionEnd);
+                                                const position = this.parseHeredoc(dockerfile, heredocNameStart, heredocEnd, instruction, instructionStart, instructionEnd);
                                                 if (position !== -1) {
                                                     i = position;
                                                     continue lineCheck;
@@ -404,8 +408,8 @@ export class Parser {
                                     }
                                 }
                                 // reached EOF
-                                lineRange = Range.create(document.positionAt(instructionStart), document.positionAt(buffer.length));
-                                dockerfile.addInstruction(this.createInstruction(document, dockerfile, instruction, instructionStart, instructionEnd, lineRange));
+                                lineRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(this.buffer.length));
+                                dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, lineRange));
                                 break lineCheck;
                             case '\r':
                                 if (instructionEnd === -1) {
@@ -420,8 +424,8 @@ export class Parser {
                                 if (instructionEnd === -1) {
                                     instructionEnd = j;
                                 }
-                                lineRange = Range.create(document.positionAt(instructionStart), document.positionAt(instructionEnd));
-                                dockerfile.addInstruction(this.createInstruction(document, dockerfile, instruction, instructionStart, instructionEnd, lineRange));
+                                lineRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(instructionEnd));
+                                dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, lineRange));
                                 i = j;
                                 continue lineCheck;
                             default:
@@ -432,10 +436,10 @@ export class Parser {
                     }
                     // reached EOF
                     if (instructionEnd === -1) {
-                        instructionEnd = buffer.length;
+                        instructionEnd = this.buffer.length;
                     }
-                    lineRange = Range.create(document.positionAt(instructionStart), document.positionAt(buffer.length));
-                    dockerfile.addInstruction(this.createInstruction(document, dockerfile, instruction, instructionStart, instructionEnd, lineRange));
+                    lineRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(this.buffer.length));
+                    dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, lineRange));
                     break lineCheck;
             }
         }
@@ -445,22 +449,22 @@ export class Parser {
         return dockerfile;
     }
 
-    private parseHeredoc(document: TextDocument, buffer: string, dockerfile: Dockerfile, heredocNameStart: number, heredocEnd: number, instruction: string, instructionStart: number, instructionEnd: number): number {
-        const heredocName = document.getText({
-            start: document.positionAt(heredocNameStart),
-            end: document.positionAt(heredocEnd)
+    private parseHeredoc(dockerfile: Dockerfile, heredocNameStart: number, heredocEnd: number, instruction: string, instructionStart: number, instructionEnd: number): number {
+        const heredocName = this.document.getText({
+            start: this.document.positionAt(heredocNameStart),
+            end: this.document.positionAt(heredocEnd)
         });
         let startWord = -1;
         let lineStart = false;
-        for (let i = heredocEnd; i < buffer.length; i++) {
-            switch (buffer.charAt(i)) {
+        for (let i = heredocEnd; i < this.buffer.length; i++) {
+            switch (this.buffer.charAt(i)) {
                 case ' ':
                 case '\t':
                     lineStart = false;
                     break;
                 case '\r':
                     if (startWord !== -1) {
-                        if (this.matchesHeredoc(document, dockerfile, heredocName, instruction, instructionStart, instructionEnd, startWord, i)) {
+                        if (this.matchesHeredoc(dockerfile, heredocName, instruction, instructionStart, instructionEnd, startWord, i)) {
                             return i + 1;
                         }
                     }
@@ -469,7 +473,7 @@ export class Parser {
                     break;
                 case '\n':
                     if (startWord !== -1) {
-                        if (this.matchesHeredoc(document, dockerfile, heredocName, instruction, instructionStart, instructionEnd, startWord, i)) {
+                        if (this.matchesHeredoc(dockerfile, heredocName, instruction, instructionStart, instructionEnd, startWord, i)) {
                             return i;
                         }
                     }
@@ -487,25 +491,25 @@ export class Parser {
         return -1;
     }
 
-    private matchesHeredoc(document: TextDocument, dockerfile: Dockerfile, heredocName: string, instruction: string, instructionStart: number, instructionEnd: number, startWord: number, end: number): boolean {
-        const endPosition = document.positionAt(end);
-        const word = document.getText({
-            start: document.positionAt(startWord),
+    private matchesHeredoc(dockerfile: Dockerfile, heredocName: string, instruction: string, instructionStart: number, instructionEnd: number, startWord: number, end: number): boolean {
+        const endPosition = this.document.positionAt(end);
+        const word = this.document.getText({
+            start: this.document.positionAt(startWord),
             end: endPosition
         });
         if (word === heredocName) {
-            const lineRange = Range.create(document.positionAt(instructionStart), endPosition);
+            const lineRange = Range.create(this.document.positionAt(instructionStart), endPosition);
             dockerfile.addInstruction(
-                this.createInstruction(document, dockerfile, instruction, instructionStart, instructionEnd, lineRange)
+                this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, lineRange)
             );
             return true;
         }
         return false;
     }
 
-    private getHeredocEnd(buffer: string, heredocNameStart: number): number {
-        for (let i = heredocNameStart; i < buffer.length; i++) {
-            switch (buffer.charAt(i)) {
+    private getHeredocEnd(heredocNameStart: number): number {
+        for (let i = heredocNameStart; i < this.buffer.length; i++) {
+            switch (this.buffer.charAt(i)) {
                 case ' ':
                 case '\t':
                 case '\r':
@@ -516,9 +520,9 @@ export class Parser {
         return -1;
     }
 
-    private createInstruction(document: TextDocument, dockerfile: Dockerfile, instruction: string, instructionStart: number, instructionEnd: number, lineRange: Range): Instruction {
-        const instructionRange = Range.create(document.positionAt(instructionStart), document.positionAt(instructionEnd));
-        return Parser.createInstruction(document, dockerfile, this.escapeChar, lineRange, instruction, instructionRange);
+    private createInstruction(dockerfile: Dockerfile, instruction: string, instructionStart: number, instructionEnd: number, lineRange: Range): Instruction {
+        const instructionRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(instructionEnd));
+        return Parser.createInstruction(this.document, dockerfile, this.escapeChar, lineRange, instruction, instructionRange);
     }
 
 }
