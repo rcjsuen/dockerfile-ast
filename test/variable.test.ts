@@ -296,7 +296,7 @@ describe("Variable", () => {
         assert.equal(variable.toString(), "${image:node}");
     });
 
-    it("FROM ${image:\\\\\n-node}", () => {
+    it("FROM ${image:\\\\\\n-node}", () => {
         let dockerfile = DockerfileParser.parse("FROM ${image:\\\n-node}");
         let variable = dockerfile.getInstructions()[0].getVariables()[0];
         assert.equal(variable.getName(), "image");
