@@ -132,7 +132,6 @@ export class Parser {
                                     }
                                 }
 
-                                let lineRange = Range.create(document.positionAt(commentStart), document.positionAt(lineEnd));
                                 if (directiveStart === -1) {
                                     // no directive, it's a regular comment
                                     break directiveCheck;
@@ -147,8 +146,9 @@ export class Parser {
                                     valueEnd = buffer.length;
                                 }
 
-                                let nameRange = Range.create(document.positionAt(directiveStart), document.positionAt(directiveEnd));
-                                let valueRange = Range.create(document.positionAt(valueStart), document.positionAt(valueEnd));
+                                const lineRange = Range.create(document.positionAt(commentStart), document.positionAt(lineEnd));
+                                const nameRange = Range.create(document.positionAt(directiveStart), document.positionAt(directiveEnd));
+                                const valueRange = Range.create(document.positionAt(valueStart), document.positionAt(valueEnd));
                                 directives.push(new ParserDirective(document, lineRange, nameRange, valueRange));
                                 directiveStart = -1;
                                 if (buffer.charAt(valueEnd) === '\r') {
@@ -221,8 +221,6 @@ export class Parser {
                     let instruction = char;
                     let instructionStart = i;
                     let instructionEnd = -1;
-                    let lineRange: Range | null = null;
-                    let instructionRange: Range | null = null;
                     let escapedInstruction = false;
                     instructionCheck: for (let j = i + 1; j < this.buffer.length; j++) {
                         char = this.buffer.charAt(j);
@@ -301,9 +299,7 @@ export class Parser {
                                                 continue;
                                             }
                                             i = k;
-                                            lineRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(k));
-                                            instructionRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(instructionEnd));
-                                            dockerfile.addInstruction(Parser.createInstruction(this.document, dockerfile, this.escapeChar, lineRange, instruction, instructionRange));
+                                            dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, k));
                                             continue lineCheck;
                                         case this.escapeChar:
                                             let next = this.buffer.charAt(k + 1);
@@ -408,9 +404,7 @@ export class Parser {
                                     }
                                 }
                                 // reached EOF
-                                lineRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(this.buffer.length));
-                                dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, lineRange));
-                                break lineCheck;
+                                break instructionCheck;
                             case '\r':
                                 if (instructionEnd === -1) {
                                     instructionEnd = j;
@@ -424,8 +418,7 @@ export class Parser {
                                 if (instructionEnd === -1) {
                                     instructionEnd = j;
                                 }
-                                lineRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(instructionEnd));
-                                dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, lineRange));
+                                dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, instructionEnd));
                                 i = j;
                                 continue lineCheck;
                             default:
@@ -438,8 +431,7 @@ export class Parser {
                     if (instructionEnd === -1) {
                         instructionEnd = this.buffer.length;
                     }
-                    lineRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(this.buffer.length));
-                    dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, lineRange));
+                    dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, buffer.length));
                     break lineCheck;
             }
         }
@@ -492,15 +484,13 @@ export class Parser {
     }
 
     private matchesHeredoc(dockerfile: Dockerfile, heredocName: string, instruction: string, instructionStart: number, instructionEnd: number, startWord: number, end: number): boolean {
-        const endPosition = this.document.positionAt(end);
         const word = this.document.getText({
             start: this.document.positionAt(startWord),
-            end: endPosition
+            end: this.document.positionAt(end)
         });
         if (word === heredocName) {
-            const lineRange = Range.create(this.document.positionAt(instructionStart), endPosition);
             dockerfile.addInstruction(
-                this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, lineRange)
+                this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, end)
             );
             return true;
         }
@@ -520,8 +510,10 @@ export class Parser {
         return -1;
     }
 
-    private createInstruction(dockerfile: Dockerfile, instruction: string, instructionStart: number, instructionEnd: number, lineRange: Range): Instruction {
-        const instructionRange = Range.create(this.document.positionAt(instructionStart), this.document.positionAt(instructionEnd));
+    private createInstruction(dockerfile: Dockerfile, instruction: string, start: number, instructionEnd: number, end: number): Instruction {
+        const startPosition = this.document.positionAt(start);
+        const instructionRange = Range.create(startPosition, this.document.positionAt(instructionEnd));
+        const lineRange = Range.create(startPosition, this.document.positionAt(end));
         return Parser.createInstruction(this.document, dockerfile, this.escapeChar, lineRange, instruction, instructionRange);
     }
 
