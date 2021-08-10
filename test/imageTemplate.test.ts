@@ -232,6 +232,18 @@ describe("ImageTemplate", () => {
                 dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN\t<<eot\necho\r\neot");
                 assert.strictEqual(dockerfile.getInstructions().length, 1);
 
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN\t<<'eot'\necho\r\neot");
+                assert.strictEqual(dockerfile.getInstructions().length, 1);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN\t<<\"eot\"\necho\r\neot");
+                assert.strictEqual(dockerfile.getInstructions().length, 1);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN\t<<-'eot'\necho\r\neot");
+                assert.strictEqual(dockerfile.getInstructions().length, 1);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN\t<<-\"eot\"\necho\r\neot");
+                assert.strictEqual(dockerfile.getInstructions().length, 1);
+
                 dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN\t<<eot\necho a b c\necho d e f\neot");
                 assert.strictEqual(dockerfile.getInstructions().length, 1);
 
@@ -264,6 +276,18 @@ describe("ImageTemplate", () => {
 
                 dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<eot\necho a b c\necho d e f\n eot\nRUN echo");
                 assert.strictEqual(dockerfile.getInstructions().length, 1);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN\t<<'eot'\necho\r\neot\nRUN echo");
+                assert.strictEqual(dockerfile.getInstructions().length, 2);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN\t<<\"eot\"\necho\r\neot\nRUN echo");
+                assert.strictEqual(dockerfile.getInstructions().length, 2);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN\t<<-'eot'\necho\r\neot\nRUN echo");
+                assert.strictEqual(dockerfile.getInstructions().length, 2);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN\t<<-\"eot\"\necho\r\neot\nRUN echo");
+                assert.strictEqual(dockerfile.getInstructions().length, 2);
 
                 dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<");
                 assert.strictEqual(dockerfile.getInstructions().length, 1);

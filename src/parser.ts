@@ -367,23 +367,11 @@ export class Parser {
                                             if (!checkHeredoc) {
                                                 break;
                                             } else if (heredoc) {
-                                                let heredocNameStart = k + 1;
-                                                switch (this.buffer.charAt(k + 1)) {
-                                                    case '-':
-                                                        heredocNameStart++;
-                                                        break
-                                                    case ' ':
-                                                    case '\t':
-                                                    case '\r':
-                                                    case '\n':
-                                                        continue argumentsCheck;
+                                                const heredocNameStart = this.findHeredocStart(k + 1);
+                                                if (heredocNameStart === -1) {
+                                                    continue argumentsCheck;
                                                 }
-                                                const heredocEnd = this.getHeredocEnd(heredocNameStart);
-                                                if (heredocEnd === -1) {
-                                                    // reached EOF, stop now and consider everything one instruction
-                                                    break instructionCheck;
-                                                }
-                                                const position = this.parseHeredoc(dockerfile, heredocNameStart, heredocEnd, instruction, instructionStart, instructionEnd);
+                                                const position = this.parseHeredoc(dockerfile, heredocNameStart, instruction, instructionStart, instructionEnd);
                                                 if (position !== -1) {
                                                     i = position;
                                                     continue lineCheck;
@@ -441,11 +429,58 @@ export class Parser {
         return dockerfile;
     }
 
-    private parseHeredoc(dockerfile: Dockerfile, heredocNameStart: number, heredocEnd: number, instruction: string, instructionStart: number, instructionEnd: number): number {
-        const heredocName = this.document.getText({
-            start: this.document.positionAt(heredocNameStart),
-            end: this.document.positionAt(heredocEnd)
-        });
+    /**
+     * Find the starting position of the heredoc's name.
+     * 
+     * @param offset where to start in the buffer when searching for the
+     *               heredoc's name
+     * @returns the starting position of the heredoc's name, or -1 if no
+     *          valid name could be found
+     */
+    private findHeredocStart(offset: number): number {
+        switch (this.buffer.charAt(offset)) {
+            case ' ':
+            case '\t':
+            case '\r':
+            case '\n':
+                return -1;
+            case '-':
+                // skip the minus sign if found
+                const quote = this.buffer.charAt(offset + 1);
+                if (quote === '\'' || quote === '"') {
+                    // skip ahead if in quotes
+                    return offset + 2;
+                }
+                return offset + 1;
+            case '\'':
+            case '"':
+                // skip ahead if in quotes
+                return offset + 1;
+        }
+        return offset;
+    }
+
+    private findHeredocEnd(offset: number): number {
+        for (let i = offset; i < this.buffer.length; i++) {
+            switch (this.buffer.charAt(i)) {
+                case ' ':
+                case '\t':
+                case '\r':
+                case '\n':
+                case '\'':
+                case '"':
+                    return i;
+                }
+        }
+        return -1;
+    }
+
+    private parseHeredoc(dockerfile: Dockerfile, heredocNameStart: number, instruction: string, instructionStart: number, instructionEnd: number): number {
+        const heredocEnd = this.findHeredocEnd(heredocNameStart);
+        if (heredocEnd === -1) {
+            return -1;
+        }
+        const heredocName = this.buffer.substring(heredocNameStart, heredocEnd);
         let startWord = -1;
         let lineStart = false;
         for (let i = heredocEnd; i < this.buffer.length; i++) {
@@ -455,19 +490,12 @@ export class Parser {
                     lineStart = false;
                     break;
                 case '\r':
-                    if (startWord !== -1) {
-                        if (this.matchesHeredoc(dockerfile, heredocName, instruction, instructionStart, instructionEnd, startWord, i)) {
-                            return i + 1;
-                        }
-                    }
-                    startWord = -1;
-                    lineStart = true;
-                    break;
                 case '\n':
-                    if (startWord !== -1) {
-                        if (this.matchesHeredoc(dockerfile, heredocName, instruction, instructionStart, instructionEnd, startWord, i)) {
-                            return i;
-                        }
+                    if (startWord !== -1 && this.matchesHeredoc(heredocName, startWord, i)) {
+                        dockerfile.addInstruction(
+                            this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, i)
+                        );
+                        return i;
                     }
                     startWord = -1;
                     lineStart = true;
@@ -475,39 +503,16 @@ export class Parser {
                 default:
                     if (lineStart) {
                         startWord = i;
+                        lineStart = false;
                     }
-                    lineStart = false;
                     break;
             }
         }
         return -1;
     }
 
-    private matchesHeredoc(dockerfile: Dockerfile, heredocName: string, instruction: string, instructionStart: number, instructionEnd: number, startWord: number, end: number): boolean {
-        const word = this.document.getText({
-            start: this.document.positionAt(startWord),
-            end: this.document.positionAt(end)
-        });
-        if (word === heredocName) {
-            dockerfile.addInstruction(
-                this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, end)
-            );
-            return true;
-        }
-        return false;
-    }
-
-    private getHeredocEnd(heredocNameStart: number): number {
-        for (let i = heredocNameStart; i < this.buffer.length; i++) {
-            switch (this.buffer.charAt(i)) {
-                case ' ':
-                case '\t':
-                case '\r':
-                case '\n':
-                    return i;
-            }
-        }
-        return -1;
+    private matchesHeredoc(heredocName: string, startWord: number, end: number): boolean {
+        return heredocName === this.buffer.substring(startWord, end);
     }
 
     private createInstruction(dockerfile: Dockerfile, instruction: string, start: number, instructionEnd: number, end: number): Instruction {

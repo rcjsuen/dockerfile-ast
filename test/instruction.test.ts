@@ -1331,6 +1331,41 @@ describe("Instruction", () => {
             assert.strictEqual(instruction.getInstruction(), expectedInstruction);
             assert.strictEqual(instruction.getKeyword(), expectedInstruction);
             assertRange(instruction.getInstructionRange(), 0, 0, 0, instructionLength);
+
+            dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<-eot\n\necho\r\n");
+            assert.strictEqual(dockerfile.getInstructions().length, 1);
+            instruction = dockerfile.getInstructions()[0];
+            assert.strictEqual(instruction.getInstruction(), expectedInstruction);
+            assert.strictEqual(instruction.getKeyword(), expectedInstruction);
+            assertRange(instruction.getInstructionRange(), 0, 0, 0, instructionLength);
+
+            dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<'eot'\n\necho\r\n");
+            assert.strictEqual(dockerfile.getInstructions().length, 1);
+            instruction = dockerfile.getInstructions()[0];
+            assert.strictEqual(instruction.getInstruction(), expectedInstruction);
+            assert.strictEqual(instruction.getKeyword(), expectedInstruction);
+            assertRange(instruction.getInstructionRange(), 0, 0, 0, instructionLength);
+
+            dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<-'eot'\n\necho\r\n");
+            assert.strictEqual(dockerfile.getInstructions().length, 1);
+            instruction = dockerfile.getInstructions()[0];
+            assert.strictEqual(instruction.getInstruction(), expectedInstruction);
+            assert.strictEqual(instruction.getKeyword(), expectedInstruction);
+            assertRange(instruction.getInstructionRange(), 0, 0, 0, instructionLength);
+
+            dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<\"eot\"\n\necho\r\n");
+            assert.strictEqual(dockerfile.getInstructions().length, 1);
+            instruction = dockerfile.getInstructions()[0];
+            assert.strictEqual(instruction.getInstruction(), expectedInstruction);
+            assert.strictEqual(instruction.getKeyword(), expectedInstruction);
+            assertRange(instruction.getInstructionRange(), 0, 0, 0, instructionLength);
+
+            dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<-\"eot\"\n\necho\r\n");
+            assert.strictEqual(dockerfile.getInstructions().length, 1);
+            instruction = dockerfile.getInstructions()[0];
+            assert.strictEqual(instruction.getInstruction(), expectedInstruction);
+            assert.strictEqual(instruction.getKeyword(), expectedInstruction);
+            assertRange(instruction.getInstructionRange(), 0, 0, 0, instructionLength);
         });
     }
 

@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Added
+- support quoted delimiter names for heredocs ([#94](https://github.com/rcjsuen/dockerfile-ast/issues/94))
+
 ## [0.3.0] - 2021-07-28
 ### Added
 - enabled support for parsing heredocs in Dockerfiles ([#92](https://github.com/rcjsuen/dockerfile-ast/issues/92))
