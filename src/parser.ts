@@ -203,10 +203,6 @@ export class Parser {
                         char = this.buffer.charAt(j);
                         switch (char) {
                             case '\r':
-                                dockerfile.addComment(new Comment(this.document, Range.create(this.document.positionAt(i), this.document.positionAt(j))));
-                                // offset one more for \r\n
-                                i = j + 1;
-                                continue lineCheck;
                             case '\n':
                                 dockerfile.addComment(new Comment(this.document, Range.create(this.document.positionAt(i), this.document.positionAt(j))));
                                 i = j;
@@ -228,10 +224,7 @@ export class Parser {
                             case this.escapeChar:
                                 escapedInstruction = true;
                                 char = this.buffer.charAt(j + 1);
-                                if (char === '\r') {
-                                    // skip two for \r\n
-                                    j += 2;
-                                } else if (char === '\n') {
+                                if (char === '\r' || char === '\n') {
                                     j++;
                                 } else if (char === ' ' || char === '\t') {
                                     for (let k = j + 2; k < this.buffer.length; k++) {
@@ -240,9 +233,6 @@ export class Parser {
                                             case '\t':
                                                 break;
                                             case '\r':
-                                                // skip another for \r\n
-                                                j = k + 1;
-                                                continue instructionCheck;
                                             case '\n':
                                                 j = k;
                                                 continue instructionCheck;
@@ -271,9 +261,6 @@ export class Parser {
                                             case '\t':
                                                 break;
                                             case '\r':
-                                                // skip another for \r\n
-                                                j = k + 1;
-                                                continue instructionCheck;
                                             case '\n':
                                                 j = k;
                                                 continue instructionCheck;
@@ -303,13 +290,9 @@ export class Parser {
                                             continue lineCheck;
                                         case this.escapeChar:
                                             let next = this.buffer.charAt(k + 1);
-                                            if (next === '\n') {
+                                            if (next === '\n' || '\r') {
                                                 escaped = true;
                                                 k++;
-                                            } else if (next === '\r') {
-                                                escaped = true;
-                                                // skip two chars for \r\n
-                                                k = k + 2;
                                             } else if (next === ' ' || next === '\t') {
                                                 escapeCheck: for (let l = k + 2; l < this.buffer.length; l++) {
                                                     switch (this.buffer.charAt(l)) {
@@ -317,10 +300,6 @@ export class Parser {
                                                         case '\t':
                                                             break;
                                                         case '\r':
-                                                            // skip another char for \r\n
-                                                            escaped = true;
-                                                            k = l + 1;
-                                                            break escapeCheck;
                                                         case '\n':
                                                             escaped = true;
                                                             k = l;
@@ -337,10 +316,6 @@ export class Parser {
                                                 for (let l = k + 1; l < this.buffer.length; l++) {
                                                     switch (this.buffer.charAt(l)) {
                                                         case '\r':
-                                                            dockerfile.addComment(new Comment(this.document, Range.create(this.document.positionAt(k), this.document.positionAt(l))));
-                                                            // offset one more for \r\n
-                                                            k = l + 1;
-                                                            continue argumentsCheck;
                                                         case '\n':
                                                             let range = Range.create(this.document.positionAt(k), this.document.positionAt(l));
                                                             dockerfile.addComment(new Comment(this.document, range));
@@ -394,11 +369,6 @@ export class Parser {
                                 // reached EOF
                                 break instructionCheck;
                             case '\r':
-                                if (instructionEnd === -1) {
-                                    instructionEnd = j;
-                                }
-                                // skip for \r\n
-                                j++;
                             case '\n':
                                 if (escapedInstruction) {
                                     continue;
