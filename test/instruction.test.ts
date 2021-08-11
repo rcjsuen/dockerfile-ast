@@ -124,6 +124,92 @@ describe("Instruction", () => {
         assert.equal(instruction.toString(), "F\\");
     });
 
+    it("F\\\\n", () => {
+        const dockerfile = DockerfileParser.parse("F\\\n");
+        const instruction = dockerfile.getInstructions()[0];
+        assert.strictEqual(instruction.getInstruction(), "F");
+        assert.strictEqual(instruction.getKeyword(), "F");
+        assertRange(instruction.getRange(), 0, 0, 1, 0);
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
+        assert.strictEqual(instruction.getArgumentsRange(), null);
+        assert.strictEqual(instruction.getArgumentsContent(), null);
+        assert.strictEqual(instruction.getArgumentsRanges().length, 0);
+        assert.strictEqual(instruction.getVariables().length, 0);
+        assert.strictEqual(instruction.toString(), "F");
+    });
+
+    it("F\\\\n\\\\n", () => {
+        const dockerfile = DockerfileParser.parse("F\\\nR\\\n");
+        const instruction = dockerfile.getInstructions()[0];
+        assert.strictEqual(instruction.getInstruction(), "FR");
+        assert.strictEqual(instruction.getKeyword(), "FR");
+        assertRange(instruction.getRange(), 0, 0, 2, 0);
+        assertRange(instruction.getInstructionRange(), 0, 0, 1, 1);
+        assert.strictEqual(instruction.getArgumentsRange(), null);
+        assert.strictEqual(instruction.getArgumentsContent(), null);
+        assert.strictEqual(instruction.getArgumentsRanges().length, 0);
+        assert.strictEqual(instruction.getVariables().length, 0);
+        assert.strictEqual(instruction.toString(), "FR");
+    });
+
+    it("F\\\\n\\\\n", () => {
+        const dockerfile = DockerfileParser.parse("F\\\n\\\n");
+        const instruction = dockerfile.getInstructions()[0];
+        assert.strictEqual(instruction.getInstruction(), "F");
+        assert.strictEqual(instruction.getKeyword(), "F");
+        assertRange(instruction.getRange(), 0, 0, 2, 0);
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
+        assert.strictEqual(instruction.getArgumentsRange(), null);
+        assert.strictEqual(instruction.getArgumentsContent(), null);
+        assert.strictEqual(instruction.getArgumentsRanges().length, 0);
+        assert.strictEqual(instruction.getVariables().length, 0);
+        assert.strictEqual(instruction.toString(), "F");
+    });
+
+    it("F\\\\r", () => {
+        const dockerfile = DockerfileParser.parse("F\\\r");
+        const instruction = dockerfile.getInstructions()[0];
+        assert.strictEqual(instruction.getInstruction(), "F");
+        assert.strictEqual(instruction.getKeyword(), "F");
+        assertRange(instruction.getRange(), 0, 0, 1, 0);
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
+        assert.strictEqual(instruction.getArgumentsRange(), null);
+        assert.strictEqual(instruction.getArgumentsContent(), null);
+        assert.strictEqual(instruction.getArgumentsRanges().length, 0);
+        assert.strictEqual(instruction.getVariables().length, 0);
+        assert.strictEqual(instruction.toString(), "F");
+    });
+
+    it("F\\\\r\\n", () => {
+        const dockerfile = DockerfileParser.parse("F\\\r\n");
+        const instruction = dockerfile.getInstructions()[0];
+        assert.strictEqual(instruction.getInstruction(), "F");
+        assert.strictEqual(instruction.getKeyword(), "F");
+        assertRange(instruction.getRange(), 0, 0, 1, 0);
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 1);
+        assert.strictEqual(instruction.getArgumentsRange(), null);
+        assert.strictEqual(instruction.getArgumentsContent(), null);
+        assert.strictEqual(instruction.getArgumentsRanges().length, 0);
+        assert.strictEqual(instruction.getVariables().length, 0);
+        assert.strictEqual(instruction.toString(), "F");
+    });
+
+    it("F\\  alpine", () => {
+        const dockerfile = DockerfileParser.parse("F\\  alpine");
+        const instruction = dockerfile.getInstructions()[0];
+        assert.strictEqual(instruction.getInstruction(), "F\\");
+        assert.strictEqual(instruction.getKeyword(), "F\\");
+        assertRange(instruction.getRange(), 0, 0, 0, 10);
+        assertRange(instruction.getInstructionRange(), 0, 0, 0, 2);
+        assertRange(instruction.getArgumentsRange(), 0, 4, 0, 10);
+        assert.strictEqual(instruction.getArgumentsContent(), "alpine");
+        const ranges = instruction.getArgumentsRanges();
+        assert.strictEqual(ranges.length, 1);
+        assertRange(ranges[0], 0, 4, 0, 10);
+        assert.strictEqual(instruction.getVariables().length, 0);
+        assert.strictEqual(instruction.toString(), "F\\ alpine");
+    });
+
     it("#escape=`\\nF` ", () => {
         let dockerfile = DockerfileParser.parse("#escape=`\nF` ");
         let instruction = dockerfile.getInstructions()[0];

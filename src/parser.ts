@@ -84,7 +84,6 @@ export class Parser {
                     // blank lines stop the parsing of directives immediately
                     break directiveCheck;
                 case '#':
-                    let commentStart = i;
                     let directiveStart = -1;
                     let directiveEnd = -1;
                     for (let j = i + 1; j < buffer.length; j++) {
@@ -146,7 +145,7 @@ export class Parser {
                                     valueEnd = buffer.length;
                                 }
 
-                                const lineRange = Range.create(document.positionAt(commentStart), document.positionAt(lineEnd));
+                                const lineRange = Range.create(document.positionAt(i), document.positionAt(lineEnd));
                                 const nameRange = Range.create(document.positionAt(directiveStart), document.positionAt(directiveEnd));
                                 const valueRange = Range.create(document.positionAt(valueStart), document.positionAt(valueEnd));
                                 directives.push(new ParserDirective(document, lineRange, nameRange, valueRange));
@@ -190,8 +189,8 @@ export class Parser {
             offset = this.document.offsetAt(Position.create(directives.length, 0));
         }
 
-        lineCheck: for (let i = offset; i < this.buffer.length; i++) {
-            let char = this.buffer.charAt(i);
+        for (let i = offset; i < this.buffer.length; i++) {
+            const char = this.buffer.charAt(i);
             switch (char) {
                 case ' ':
                 case '\t':
@@ -199,204 +198,203 @@ export class Parser {
                 case '\n':
                     break;
                 case '#':
-                    for (let j = i + 1; j < this.buffer.length; j++) {
-                        char = this.buffer.charAt(j);
-                        switch (char) {
-                            case '\r':
-                            case '\n':
-                                dockerfile.addComment(new Comment(this.document, Range.create(this.document.positionAt(i), this.document.positionAt(j))));
-                                i = j;
-                                continue lineCheck;
-                        }
-                    }
-                    // reached EOF
-                    let range = Range.create(this.document.positionAt(i), this.document.positionAt(this.buffer.length));
-                    dockerfile.addComment(new Comment(this.document, range));
-                    break lineCheck;
+                    i = this.processComment(dockerfile, i);
+                    break;
                 default:
-                    let instruction = char;
-                    let instructionStart = i;
-                    let instructionEnd = -1;
-                    let escapedInstruction = false;
-                    instructionCheck: for (let j = i + 1; j < this.buffer.length; j++) {
-                        char = this.buffer.charAt(j);
-                        switch (char) {
-                            case this.escapeChar:
-                                escapedInstruction = true;
-                                char = this.buffer.charAt(j + 1);
-                                if (char === '\r' || char === '\n') {
-                                    j++;
-                                } else if (char === ' ' || char === '\t') {
-                                    for (let k = j + 2; k < this.buffer.length; k++) {
-                                        switch (this.buffer.charAt(k)) {
-                                            case ' ':
-                                            case '\t':
-                                                break;
-                                            case '\r':
-                                            case '\n':
-                                                j = k;
-                                                continue instructionCheck;
-                                            default:
-                                                instructionEnd = j + 1;
-                                                instruction = instruction + this.escapeChar;
-                                                j = k - 2;
-                                                continue instructionCheck;
-                                        }
-                                    }
-                                    instructionEnd = j + 1;
-                                    instruction = instruction + this.escapeChar;
-                                    break instructionCheck;
-                                } else {
-                                    instructionEnd = j + 1;
-                                    instruction = instruction + this.escapeChar;
-                                }
-                                break;
-                            case ' ':
-                            case '\t':
-                                if (escapedInstruction) {
-                                    // on an escaped newline, need to search for non-whitespace
-                                    escapeCheck: for (let k = j + 1; k < this.buffer.length; k++) {
-                                        switch (this.buffer.charAt(k)) {
-                                            case ' ':
-                                            case '\t':
-                                                break;
-                                            case '\r':
-                                            case '\n':
-                                                j = k;
-                                                continue instructionCheck;
-                                            default:
-                                                break escapeCheck;
-                                        }
-                                    }
-                                    escapedInstruction = false;
-                                }
-                                if (instructionEnd === -1) {
-                                    instructionEnd = j;
-                                }
-
-                                let escaped = false;
-                                let checkHeredoc = true;
-                                let heredoc = false;
-                                let isOnbuild = instruction.toUpperCase() === Keyword.ONBUILD;
-                                argumentsCheck: for (let k = j + 1; k < this.buffer.length; k++) {
-                                    switch (this.buffer.charAt(k)) {
-                                        case '\r':
-                                        case '\n':
-                                            if (escaped) {
-                                                continue;
-                                            }
-                                            i = k;
-                                            dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, k));
-                                            continue lineCheck;
-                                        case this.escapeChar:
-                                            let next = this.buffer.charAt(k + 1);
-                                            if (next === '\n' || next === '\r') {
-                                                escaped = true;
-                                                k++;
-                                            } else if (next === ' ' || next === '\t') {
-                                                escapeCheck: for (let l = k + 2; l < this.buffer.length; l++) {
-                                                    switch (this.buffer.charAt(l)) {
-                                                        case ' ':
-                                                        case '\t':
-                                                            break;
-                                                        case '\r':
-                                                        case '\n':
-                                                            escaped = true;
-                                                            k = l;
-                                                            break escapeCheck;
-                                                        default:
-                                                            k = l;
-                                                            break escapeCheck;
-                                                    }
-                                                }
-                                            }
-                                            continue;
-                                        case '#':
-                                            if (escaped) {
-                                                for (let l = k + 1; l < this.buffer.length; l++) {
-                                                    switch (this.buffer.charAt(l)) {
-                                                        case '\r':
-                                                        case '\n':
-                                                            let range = Range.create(this.document.positionAt(k), this.document.positionAt(l));
-                                                            dockerfile.addComment(new Comment(this.document, range));
-                                                            k = l;
-                                                            continue argumentsCheck;
-                                                    }
-                                                }
-
-                                                let range = Range.create(this.document.positionAt(k), this.document.positionAt(this.buffer.length));
-                                                dockerfile.addComment(new Comment(this.document, range));
-                                                break argumentsCheck;
-                                            }
-                                            break;
-                                        case ' ':
-                                        case '\t':
-                                            if (!checkHeredoc && isOnbuild) {
-                                                // do one more check if an ONBUILD instruction
-                                                isOnbuild = false;
-                                                checkHeredoc = true;
-                                            }
-                                            heredoc = false;
-                                            break;
-                                        case '<':
-                                            if (!checkHeredoc) {
-                                                break;
-                                            } else if (heredoc) {
-                                                const heredocNameStart = this.findHeredocStart(k + 1);
-                                                if (heredocNameStart === -1) {
-                                                    continue argumentsCheck;
-                                                }
-                                                const position = this.parseHeredoc(dockerfile, heredocNameStart, instruction, instructionStart, instructionEnd);
-                                                if (position !== -1) {
-                                                    i = position;
-                                                    continue lineCheck;
-                                                }
-                                                // reached EOF, just consider everything one instruction
-                                                break instructionCheck;
-                                            } else {
-                                                heredoc = true;
-                                            }
-                                            break;
-                                        default:
-                                            if (escaped) {
-                                                escaped = false;
-                                            }
-                                            checkHeredoc = false;
-                                            heredoc = false;
-                                            break;
-                                    }
-                                }
-                                // reached EOF
-                                break instructionCheck;
-                            case '\r':
-                            case '\n':
-                                if (escapedInstruction) {
-                                    continue;
-                                }
-                                if (instructionEnd === -1) {
-                                    instructionEnd = j;
-                                }
-                                dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, instructionEnd));
-                                i = j;
-                                continue lineCheck;
-                            default:
-                                instructionEnd = j + 1;
-                                instruction = instruction + char;
-                                break;
-                        }
-                    }
-                    // reached EOF
-                    if (instructionEnd === -1) {
-                        instructionEnd = this.buffer.length;
-                    }
-                    dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, buffer.length));
-                    break lineCheck;
+                    i = this.processInstruction(dockerfile, char, i);
+                    break;
             }
         }
 
         dockerfile.organizeComments();
 
         return dockerfile;
+    }
+
+    private processInstruction(dockerfile: Dockerfile, char: string, start: number): number {
+        let instruction = char;
+        let instructionEnd = -1;
+        let escapedInstruction = false;
+        instructionCheck: for (let i = start + 1; i < this.buffer.length; i++) {
+            char = this.buffer.charAt(i);
+            switch (char) {
+                case this.escapeChar:
+                    escapedInstruction = true;
+                    char = this.buffer.charAt(i + 1);
+                    if (char === '\r' || char === '\n') {
+                        if (instructionEnd === -1) {
+                            instructionEnd = i;
+                        }
+                        i++;
+                    } else if (char === ' ' || char === '\t') {
+                        for (let j = i + 2; j < this.buffer.length; j++) {
+                            switch (this.buffer.charAt(j)) {
+                                case ' ':
+                                case '\t':
+                                    break;
+                                case '\r':
+                                case '\n':
+                                    i = j;
+                                    continue instructionCheck;
+                                default:
+                                    // found an argument, mark end of instruction
+                                    instructionEnd = i + 1;
+                                    instruction = instruction + this.escapeChar;
+                                    i = j - 2;
+                                    continue instructionCheck;
+                            }
+                        }
+                        // reached EOF
+                        instructionEnd = i + 1;
+                        instruction = instruction + this.escapeChar;
+                        break instructionCheck;
+                    } else {
+                        instructionEnd = i + 1;
+                        instruction = instruction + this.escapeChar;
+                    }
+                    break;
+                case ' ':
+                case '\t':
+                    if (escapedInstruction) {
+                        // on an escaped newline, need to search for non-whitespace
+                        escapeCheck: for (let j = i + 1; j < this.buffer.length; j++) {
+                            switch (this.buffer.charAt(j)) {
+                                case ' ':
+                                case '\t':
+                                    break;
+                                case '\r':
+                                case '\n':
+                                    i = j;
+                                    continue instructionCheck;
+                                default:
+                                    break escapeCheck;
+                            }
+                        }
+                        escapedInstruction = false;
+                    }
+                    if (instructionEnd === -1) {
+                        instructionEnd = i;
+                    }
+                    i = this.processArguments(dockerfile, instruction, i);
+                    dockerfile.addInstruction(
+                        this.createInstruction(dockerfile, instruction, start, instructionEnd, i)
+                    );
+                    return i;
+                case '\r':
+                case '\n':
+                    if (escapedInstruction) {
+                        continue;
+                    }
+                    if (instructionEnd === -1) {
+                        instructionEnd = i;
+                    }
+                    dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, start, i, i));
+                    return i;
+                default:
+                    instructionEnd = i + 1;
+                    instruction = instruction + char;
+                    break;
+            }
+        }
+        // reached EOF
+        if (instructionEnd === -1) {
+            instructionEnd = this.buffer.length;
+        }
+        dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, start, instructionEnd, this.buffer.length));
+        return this.buffer.length;
+    }
+
+    private processArguments(dockerfile: Dockerfile, instruction: string, offset: number): number {
+        let escaped = false;
+        let checkHeredoc = true;
+        let heredoc = false;
+        let isOnbuild = instruction.toUpperCase() === Keyword.ONBUILD;
+        argumentsCheck: for (let i = offset + 1; i < this.buffer.length; i++) {
+            switch (this.buffer.charAt(i)) {
+                case '\r':
+                case '\n':
+                    if (escaped) {
+                        continue;
+                    }
+                    return i;
+                case this.escapeChar:
+                    const next = this.buffer.charAt(i + 1);
+                    if (next === '\n' || next === '\r') {
+                        escaped = true;
+                        i++;
+                    } else if (next === ' ' || next === '\t') {
+                        escapeCheck: for (let j = i + 2; j < this.buffer.length; j++) {
+                            switch (this.buffer.charAt(j)) {
+                                case ' ':
+                                case '\t':
+                                    break;
+                                case '\r':
+                                case '\n':
+                                    escaped = true;
+                                    i = j;
+                                    break escapeCheck;
+                                default:
+                                    i = j;
+                                    break escapeCheck;
+                            }
+                        }
+                        // reached EOF
+                        return this.buffer.length;
+                    }
+                    continue;
+                case '#':
+                    if (escaped) {
+                        i = this.processComment(dockerfile, i);
+                        continue argumentsCheck;
+                    }
+                    break;
+                case ' ':
+                case '\t':
+                    if (!checkHeredoc && isOnbuild) {
+                        // do one more check if an ONBUILD instruction
+                        isOnbuild = false;
+                        checkHeredoc = true;
+                    }
+                    heredoc = false;
+                    break;
+                case '<':
+                    if (!checkHeredoc) {
+                        break;
+                    } else if (heredoc) {
+                        const heredocNameStart = this.findHeredocStart(i + 1);
+                        if (heredocNameStart === -1) {
+                            continue argumentsCheck;
+                        }
+                        return this.parseHeredoc(heredocNameStart);
+                    } else {
+                        heredoc = true;
+                    }
+                    break;
+                default:
+                    if (escaped) {
+                        escaped = false;
+                    }
+                    checkHeredoc = false;
+                    heredoc = false;
+                    break;
+            }
+        }
+        return this.buffer.length;
+    }
+
+    private processComment(dockerfile: Dockerfile, start: number): number {
+        let end = this.buffer.length;
+        commentLoop: for (let i = start + 1; i < this.buffer.length; i++) {
+            switch (this.buffer.charAt(i)) {
+                case '\r':
+                case '\n':
+                    end = i;
+                    break commentLoop;
+            }
+        }
+        const range = Range.create(this.document.positionAt(start), this.document.positionAt(end));
+        dockerfile.addComment(new Comment(this.document, range));
+        return end;
     }
 
     /**
@@ -445,10 +443,10 @@ export class Parser {
         return -1;
     }
 
-    private parseHeredoc(dockerfile: Dockerfile, heredocNameStart: number, instruction: string, instructionStart: number, instructionEnd: number): number {
+    private parseHeredoc(heredocNameStart: number): number {
         const heredocEnd = this.findHeredocEnd(heredocNameStart);
         if (heredocEnd === -1) {
-            return -1;
+            return this.buffer.length;
         }
         const heredocName = this.buffer.substring(heredocNameStart, heredocEnd);
         let startWord = -1;
@@ -461,10 +459,7 @@ export class Parser {
                     break;
                 case '\r':
                 case '\n':
-                    if (startWord !== -1 && this.matchesHeredoc(heredocName, startWord, i)) {
-                        dockerfile.addInstruction(
-                            this.createInstruction(dockerfile, instruction, instructionStart, instructionEnd, i)
-                        );
+                    if (startWord !== -1 && heredocName === this.buffer.substring(startWord, i)) {
                         return i;
                     }
                     startWord = -1;
@@ -478,11 +473,7 @@ export class Parser {
                     break;
             }
         }
-        return -1;
-    }
-
-    private matchesHeredoc(heredocName: string, startWord: number, end: number): boolean {
-        return heredocName === this.buffer.substring(startWord, end);
+        return this.buffer.length;
     }
 
     private createInstruction(dockerfile: Dockerfile, instruction: string, start: number, instructionEnd: number, end: number): Instruction {
