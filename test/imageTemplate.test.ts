@@ -174,6 +174,10 @@ describe("ImageTemplate", () => {
             image = dockerfile.getContainingImage({ line: 1, character: 1 });
             assert.equal(image.getComments().length, 0);
 
+            dockerfile = DockerfileParser.parse("FROM scratch\nEXPOSE 80\\ #81");
+            image = dockerfile.getContainingImage({ line: 0, character: 1 });
+            assert.equal(image.getComments().length, 0);
+
             dockerfile = DockerfileParser.parse("# comment\nARG image=test\nFROM scratch");
             image = dockerfile.getContainingImage({ line: 0, character: 1 });
             assert.equal(image.getComments().length, 1);

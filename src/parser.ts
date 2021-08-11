@@ -290,7 +290,7 @@ export class Parser {
                                             continue lineCheck;
                                         case this.escapeChar:
                                             let next = this.buffer.charAt(k + 1);
-                                            if (next === '\n' || '\r') {
+                                            if (next === '\n' || next === '\r') {
                                                 escaped = true;
                                                 k++;
                                             } else if (next === ' ' || next === '\t') {
