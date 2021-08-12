@@ -268,7 +268,7 @@ describe("Instruction", () => {
         assert.equal(instruction.toString(), "FROM\\ alpine");
     });
 
-    it("FR\\OM alpine", () => {
+    it("FR\\om alpine", () => {
         let dockerfile = DockerfileParser.parse("FR\\om alpine");
         let instruction = dockerfile.getInstructions()[0];
         assert.equal("FR\\om", instruction.getInstruction());
