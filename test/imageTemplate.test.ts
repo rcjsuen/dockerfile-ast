@@ -315,7 +315,19 @@ describe("ImageTemplate", () => {
                 assert.strictEqual(dockerfile.getInstructions().length, 2);
 
                 dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN echo <<abc\nabc");
-                assert.strictEqual(dockerfile.getInstructions().length, 2);
+                assert.strictEqual(dockerfile.getInstructions().length, 1);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<eot <<eot2\nabc\neot\ndef\neot2");
+                assert.strictEqual(dockerfile.getInstructions().length, 1);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "ADD a.txt <<eot b.txt <<eot2 /destination\nabc\neot\ndef\neot2");
+                assert.strictEqual(dockerfile.getInstructions().length, 1);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "COPY a.txt <<eot b.txt <<eot2 /destination\nabc\neot\ndef\neot2");
+                assert.strictEqual(dockerfile.getInstructions().length, 1);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "EXPOSE <<eot\n8080\neot");
+                assert.strictEqual(dockerfile.getInstructions().length, 3);
             });
         }
 

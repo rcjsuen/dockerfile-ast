@@ -14,6 +14,30 @@ describe("ONBUILD", () => {
         let onbuild = instructions[0] as Onbuild;
         assert.equal(onbuild.getTrigger(), null);
 
+        dockerfile = DockerfileParser.parse("ONBUILD ");
+        instructions = dockerfile.getInstructions();
+        assert.equal(1, instructions.length);
+        onbuild = instructions[0] as Onbuild;
+        assert.equal(onbuild.getTrigger(), null);
+
+        dockerfile = DockerfileParser.parse("ONBUILD \t");
+        instructions = dockerfile.getInstructions();
+        assert.equal(1, instructions.length);
+        onbuild = instructions[0] as Onbuild;
+        assert.equal(onbuild.getTrigger(), null);
+
+        dockerfile = DockerfileParser.parse("ONBUILD \n");
+        instructions = dockerfile.getInstructions();
+        assert.equal(1, instructions.length);
+        onbuild = instructions[0] as Onbuild;
+        assert.equal(onbuild.getTrigger(), null);
+
+        dockerfile = DockerfileParser.parse("ONBUILD \r\n");
+        instructions = dockerfile.getInstructions();
+        assert.equal(1, instructions.length);
+        onbuild = instructions[0] as Onbuild;
+        assert.equal(onbuild.getTrigger(), null);
+
         dockerfile = DockerfileParser.parse("ONBUILD COPY . .");
         instructions = dockerfile.getInstructions();
         assert.equal(1, instructions.length);

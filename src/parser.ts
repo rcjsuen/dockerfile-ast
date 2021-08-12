@@ -275,7 +275,7 @@ export class Parser {
                     if (instructionEnd === -1) {
                         instructionEnd = i;
                     }
-                    i = this.processArguments(dockerfile, instruction, i);
+                    i = this.processArguments(dockerfile, instruction, instructionEnd, start, i);
                     dockerfile.addInstruction(
                         this.createInstruction(dockerfile, instruction, start, instructionEnd, i)
                     );
@@ -304,11 +304,47 @@ export class Parser {
         return this.buffer.length;
     }
 
-    private processArguments(dockerfile: Dockerfile, instruction: string, offset: number): number {
+    private parseHeredocName(value: string): string {
+        value = value.substring(2);
+        if (value.charAt(0) === '-') {
+            value = value.substring(1);
+        }
+        if (value.charAt(0) === '"' || value.charAt(0) === '\'') {
+            return value.substring(1, value.length - 1);
+        }
+        return value;
+    }
+
+    private processHeredocs(instruction: Instruction, offset: number): number {
+        let keyword = instruction.getKeyword();
+        if (keyword === Keyword.ONBUILD) {
+            instruction = (instruction as Onbuild).getTriggerInstruction();
+            if (instruction === null) {
+                return offset;
+            }
+            keyword = instruction.getKeyword();
+        }
+        if (keyword !== Keyword.ADD && keyword !== Keyword.COPY && keyword !== Keyword.RUN) {
+            return offset;
+        }
+        const heredocs = [];
+        for (const arg of instruction.getArguments()) {
+            const value = arg.getValue();
+            if (value.startsWith("<<") && value.length > 2) {
+                heredocs.push(this.parseHeredocName(value));
+            }
+        }
+
+        if (heredocs.length > 0) {
+            for (const heredoc of heredocs) {
+                offset = this.parseHeredoc(heredoc, offset);
+            }
+        }
+        return offset;
+    }
+
+    private processArguments(dockerfile: Dockerfile, instruction: string, instructionEnd: number, start: number, offset: number): number {
         let escaped = false;
-        let checkHeredoc = true;
-        let heredoc = false;
-        let isOnbuild = instruction.toUpperCase() === Keyword.ONBUILD;
         argumentsCheck: for (let i = offset + 1; i < this.buffer.length; i++) {
             switch (this.buffer.charAt(i)) {
                 case '\r':
@@ -316,7 +352,7 @@ export class Parser {
                     if (escaped) {
                         continue;
                     }
-                    return i;
+                    return this.processHeredocs(this.createInstruction(dockerfile, instruction, start, instructionEnd, i), i);
                 case this.escapeChar:
                     const next = this.buffer.charAt(i + 1);
                     if (next === '\n' || next === '\r') {
@@ -348,32 +384,11 @@ export class Parser {
                     break;
                 case ' ':
                 case '\t':
-                    if (!checkHeredoc && isOnbuild) {
-                        // do one more check if an ONBUILD instruction
-                        isOnbuild = false;
-                        checkHeredoc = true;
-                    }
-                    heredoc = false;
-                    break;
-                case '<':
-                    if (!checkHeredoc) {
-                        break;
-                    } else if (heredoc) {
-                        const heredocNameStart = this.findHeredocStart(i + 1);
-                        if (heredocNameStart === -1) {
-                            continue argumentsCheck;
-                        }
-                        return this.parseHeredoc(heredocNameStart);
-                    } else {
-                        heredoc = true;
-                    }
                     break;
                 default:
                     if (escaped) {
                         escaped = false;
                     }
-                    checkHeredoc = false;
-                    heredoc = false;
                     break;
             }
         }
@@ -395,61 +410,10 @@ export class Parser {
         return end;
     }
 
-    /**
-     * Find the starting position of the heredoc's name.
-     * 
-     * @param offset where to start in the buffer when searching for the
-     *               heredoc's name
-     * @returns the starting position of the heredoc's name, or -1 if no
-     *          valid name could be found
-     */
-    private findHeredocStart(offset: number): number {
-        switch (this.buffer.charAt(offset)) {
-            case ' ':
-            case '\t':
-            case '\r':
-            case '\n':
-                return -1;
-            case '-':
-                // skip the minus sign if found
-                const quote = this.buffer.charAt(offset + 1);
-                if (quote === '\'' || quote === '"') {
-                    // skip ahead if in quotes
-                    return offset + 2;
-                }
-                return offset + 1;
-            case '\'':
-            case '"':
-                // skip ahead if in quotes
-                return offset + 1;
-        }
-        return offset;
-    }
-
-    private findHeredocEnd(offset: number): number {
-        for (let i = offset; i < this.buffer.length; i++) {
-            switch (this.buffer.charAt(i)) {
-                case ' ':
-                case '\t':
-                case '\r':
-                case '\n':
-                case '\'':
-                case '"':
-                    return i;
-                }
-        }
-        return -1;
-    }
-
-    private parseHeredoc(heredocNameStart: number): number {
-        const heredocEnd = this.findHeredocEnd(heredocNameStart);
-        if (heredocEnd === -1) {
-            return this.buffer.length;
-        }
-        const heredocName = this.buffer.substring(heredocNameStart, heredocEnd);
+    private parseHeredoc(heredocName: string, offset: number): number {
         let startWord = -1;
-        let lineStart = false;
-        for (let i = heredocEnd; i < this.buffer.length; i++) {
+        let lineStart = true;
+        for (let i = offset; i < this.buffer.length; i++) {
             switch (this.buffer.charAt(i)) {
                 case ' ':
                 case '\t':
