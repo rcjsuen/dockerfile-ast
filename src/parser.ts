@@ -323,7 +323,7 @@ export class Parser {
                         escaped = true;
                         i++;
                     } else if (next === ' ' || next === '\t') {
-                        escapeCheck: for (let j = i + 2; j < this.buffer.length; j++) {
+                        for (let j = i + 2; j < this.buffer.length; j++) {
                             switch (this.buffer.charAt(j)) {
                                 case ' ':
                                 case '\t':
@@ -331,11 +331,9 @@ export class Parser {
                                 case '\r':
                                 case '\n':
                                     escaped = true;
-                                    i = j;
-                                    break escapeCheck;
                                 default:
                                     i = j;
-                                    break escapeCheck;
+                                    continue argumentsCheck;
                             }
                         }
                         // reached EOF

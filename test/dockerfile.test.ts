@@ -139,6 +139,11 @@ describe("Dockerfile", () => {
         image = dockerfile.getContainingImage(Position.create(0, 1));
         image2 = dockerfile.getContainingImage(Position.create(1, 1));
         assert.notEqual(image2, image);
+
+        dockerfile = DockerfileParser.parse("FROM alpi\\ \n\nne\nFROM alpine");
+        image = dockerfile.getContainingImage(Position.create(0, 1));
+        image2 = dockerfile.getContainingImage(Position.create(3, 1));
+        assert.notStrictEqual(image2, image);
     });
 
     it("getComments", () => {
