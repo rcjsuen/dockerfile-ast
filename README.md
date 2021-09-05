@@ -1,6 +1,6 @@
 # Dockerfile AST
 
-[![Build Status](https://travis-ci.org/rcjsuen/dockerfile-ast.svg?branch=master)](https://travis-ci.org/rcjsuen/dockerfile-ast) [![Coverage Status](https://coveralls.io/repos/github/rcjsuen/dockerfile-ast/badge.svg?branch=master)](https://coveralls.io/github/rcjsuen/dockerfile-ast?branch=master) [![Build Dependencies](https://david-dm.org/rcjsuen/dockerfile-ast.svg)](https://david-dm.org/rcjsuen/dockerfile-ast) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![npm downloads per week](https://img.shields.io/npm/dw/dockerfile-ast.svg)](https://www.npmjs.com/package/dockerfile-ast)
+![Node.js Builds](https://github.com/rcjsuen/dockerfile-ast/workflows/Node.js%20Builds/badge.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/rcjsuen/dockerfile-ast/badge.svg?branch=master)](https://coveralls.io/github/rcjsuen/dockerfile-ast?branch=master) [![Build Dependencies](https://david-dm.org/rcjsuen/dockerfile-ast.svg)](https://david-dm.org/rcjsuen/dockerfile-ast) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![npm downloads per week](https://img.shields.io/npm/dw/dockerfile-ast.svg)](https://www.npmjs.com/package/dockerfile-ast)
 
 The `dockerfile-ast` NPM module is a Dockerfile parser written in TypeScript.
 The module provides full programmatic access to a parsed Dockerfile.
