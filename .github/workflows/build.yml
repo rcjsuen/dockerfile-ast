@@ -17,6 +17,8 @@ jobs:
       run: |
         npm install
         npm run build
+    - name: Package
+      run: npm pack
     - name: Test
       run: |
         npm install coveralls --save-dev
