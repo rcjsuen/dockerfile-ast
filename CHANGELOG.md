@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- prevent merging of instructions if the keyword has an escape character in it ([#97](https://github.com/rcjsuen/dockerfile-ast/issues/97))
+
 ## [0.3.1] - 2021-08-28
 ### Added
 - support quoted delimiter names for heredocs ([#94](https://github.com/rcjsuen/dockerfile-ast/issues/94))

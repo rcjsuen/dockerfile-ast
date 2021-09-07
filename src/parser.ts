@@ -251,6 +251,8 @@ export class Parser {
                     } else {
                         instructionEnd = i + 1;
                         instruction = instruction + this.escapeChar;
+                        // reset and consider it as one contiguous word
+                        escapedInstruction = false;
                     }
                     break;
                 case ' ':

@@ -328,6 +328,12 @@ describe("ImageTemplate", () => {
 
                 dockerfile = DockerfileParser.parse(onbuildPrefix + "EXPOSE <<eot\n8080\neot");
                 assert.strictEqual(dockerfile.getInstructions().length, 3);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "ab\\c\na");
+                assert.strictEqual(dockerfile.getInstructions().length, 2);
+
+                dockerfile = DockerfileParser.parse("#escape=`\n" + onbuildPrefix + "ab\\c\na");
+                assert.strictEqual(dockerfile.getInstructions().length, 2);
             });
         }
 
