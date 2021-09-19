@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- prevent merging of instructions if the keyword has an escape character in it and spans multiple lines ([#98](https://github.com/rcjsuen/dockerfile-ast/issues/98))
+
 ## [0.3.2] - 2021-09-07
 ### Fixed
 - prevent merging of instructions if the keyword has an escape character in it ([#97](https://github.com/rcjsuen/dockerfile-ast/issues/97))

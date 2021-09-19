@@ -295,6 +295,7 @@ export class Parser {
                 default:
                     instructionEnd = i + 1;
                     instruction = instruction + char;
+                    escapedInstruction = false;
                     break;
             }
         }

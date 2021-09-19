@@ -334,6 +334,12 @@ describe("ImageTemplate", () => {
 
                 dockerfile = DockerfileParser.parse("#escape=`\n" + onbuildPrefix + "ab\\c\na");
                 assert.strictEqual(dockerfile.getInstructions().length, 2);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RU\\\nN\nRUN");
+                assert.strictEqual(dockerfile.getInstructions().length, 2);
+
+                dockerfile = DockerfileParser.parse("#escape=`\n" + onbuildPrefix + "RU`\nN\nRUN");
+                assert.strictEqual(dockerfile.getInstructions().length, 2);
             });
         }
 
