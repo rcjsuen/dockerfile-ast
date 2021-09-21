@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- prevent comments from marking the end of an instruction if it is embedded within a keyword ([#99](https://github.com/rcjsuen/dockerfile-ast/issues/99))
+
 ## [0.3.3] - 2021-09-19
 ### Fixed
 - prevent merging of instructions if the keyword has an escape character in it and spans multiple lines ([#98](https://github.com/rcjsuen/dockerfile-ast/issues/98))

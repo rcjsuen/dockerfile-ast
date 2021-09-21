@@ -292,6 +292,10 @@ export class Parser {
                     }
                     dockerfile.addInstruction(this.createInstruction(dockerfile, instruction, start, i, i));
                     return i;
+                case '#':
+                    if (escapedInstruction) {
+                        continue;
+                    }
                 default:
                     instructionEnd = i + 1;
                     instruction = instruction + char;
