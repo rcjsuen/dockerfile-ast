@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.3.4] - 2021-09-21
 ### Fixed
 - prevent comments from marking the end of an instruction if it is embedded within a keyword ([#99](https://github.com/rcjsuen/dockerfile-ast/issues/99))
 
@@ -318,7 +318,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.3...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.4...HEAD
+[0.3.4]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.0...v0.3.1
