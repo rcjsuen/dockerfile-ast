@@ -2,7 +2,8 @@
  * Copyright (c) Remy Suen. All rights reserved.
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
-import { TextDocument, Range } from 'vscode-languageserver-types';
+import { TextDocument } from 'vscode-languageserver-textdocument';
+import { Range } from 'vscode-languageserver-types';
 import { Directive } from './main';
 import { Line } from './line';
 

@@ -4,7 +4,8 @@
  * ------------------------------------------------------------------------------------------ */
 'use strict';
 
-import { TextDocument, Range, Position } from 'vscode-languageserver-types';
+import { TextDocument } from 'vscode-languageserver-textdocument';
+import { Range, Position } from 'vscode-languageserver-types';
 import * as ast from './main';
 import { ParserDirective } from './parserDirective';
 import { ImageTemplate } from './imageTemplate';
