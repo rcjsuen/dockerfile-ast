@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- prevent infinite loop in `getContainingImage()` when an image shares the same name as the build stage ([#100](https://github.com/rcjsuen/dockerfile-ast/issues/100))
+
 ## [0.3.4] - 2021-09-21
 ### Fixed
 - prevent comments from marking the end of an instruction if it is embedded within a keyword ([#99](https://github.com/rcjsuen/dockerfile-ast/issues/99))

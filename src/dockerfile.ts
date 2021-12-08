@@ -142,15 +142,20 @@ export class Dockerfile extends ImageTemplate implements ast.Dockerfile {
     }
  
     private getParentStage(image: ImageTemplate): ImageTemplate | null {
-        let from = image.getFROM();
-        let imageName = from === null ? null : from.getImageName();
+        const templateFrom = image.getFROM();
+        const imageName = templateFrom === null ? null : templateFrom.getImageName();
         if (imageName === null) {
             return null;
         }
 
         for (const from of this.getFROMs()) {
             if (from.getBuildStage() === imageName) {
-                return this.getContainingImage(from.getRange().start);
+                const range = from.getRange();
+                // on the same line then it's an image that shares the name as the build stage
+                if (range.start.line === templateFrom.getRange().start.line) {
+                    return null;
+                }
+                return this.getContainingImage(range.start);
             }
         }
         return null;

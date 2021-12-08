@@ -517,5 +517,11 @@ describe("Dockerfile", () => {
             const directories = dockerfile.getAvailableWorkingDirectories(-1);
             assert.strictEqual(directories.length, 0);
         });
+
+        it("no WORKDIR instructions", () => {
+            const dockerfile = DockerfileParser.parse("FROM a AS a");
+            const directories = dockerfile.getAvailableWorkingDirectories(0);
+            assert.strictEqual(directories.length, 0);
+        });
     });
 });
