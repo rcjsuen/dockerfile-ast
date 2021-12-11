@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- export `Run` so it can be used by clients ([#102](https://github.com/rcjsuen/dockerfile-ast/issues/102))
+
 ## [0.4.0] - 2021-12-11
 ### Added
 - new API for handling here-documents, note that this API is considered experimental and may be subject to change in the future ([#101](https://github.com/rcjsuen/dockerfile-ast/issues/101))

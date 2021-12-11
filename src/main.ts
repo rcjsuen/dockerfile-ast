@@ -136,6 +136,7 @@ export { Label } from './instructions/label';
 export { ModifiableInstruction } from './modifiableInstruction';
 export { Onbuild } from './instructions/onbuild';
 export { PropertyInstruction } from './propertyInstruction';
+export { Run } from './instructions/run';
 export { Shell } from './instructions/shell';
 export { Stopsignal } from './instructions/stopsignal';
 export { User } from './instructions/user';
