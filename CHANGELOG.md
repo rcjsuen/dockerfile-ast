@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- new API for handling here-documents, note that this API is considered experimental and may be subject to change in the future ([#101](https://github.com/rcjsuen/dockerfile-ast/issues/101))
+  - `Heredoc`
+    - `getName()`
+    - `getStartRange()`
+    - `getContentRange()`
+    - `getNameRange()`
+    - `getDelimiterRange()`
+  - `Run`
+    - `getHeredocs()`
+
 ### Fixed
 - prevent infinite loop in `getAvailableWorkingDirectories()` when an image shares the same name as the build stage ([#100](https://github.com/rcjsuen/dockerfile-ast/issues/100))
 
