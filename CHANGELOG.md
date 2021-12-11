@@ -20,7 +20,7 @@ All notable changes to this project will be documented in this file.
 ## [0.3.1] - 2021-08-28
 ### Added
 - support quoted delimiter names for heredocs ([#94](https://github.com/rcjsuen/dockerfile-ast/issues/94))
-- support multiple heredocs in an instruction ([#94](https://github.com/rcjsuen/dockerfile-ast/issues/96))
+- support multiple heredocs in an instruction ([#96](https://github.com/rcjsuen/dockerfile-ast/issues/96))
 
 ## [0.3.0] - 2021-07-28
 ### Added
