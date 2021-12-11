@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.4.1] - 2021-12-11
 ### Fixed
 - export `Run` so it can be used by clients ([#102](https://github.com/rcjsuen/dockerfile-ast/issues/102))
 
@@ -337,7 +337,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.4...v0.4.0
 [0.3.4]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.2...v0.3.3
