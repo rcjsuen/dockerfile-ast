@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.4.2] - 2022-01-22
 ### Fixed
 - `getContentRange()` from `Heredoc` will now return correct ranges if there are empty lines in the heredoc ([#103](https://github.com/rcjsuen/dockerfile-ast/issues/103))
 - export `Heredoc` from `main.ts` ([#104](https://github.com/rcjsuen/dockerfile-ast/issues/104))
@@ -342,7 +342,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.4...v0.4.0
 [0.3.4]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.3...v0.3.4
