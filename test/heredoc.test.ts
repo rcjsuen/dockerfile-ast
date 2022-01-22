@@ -223,6 +223,98 @@ describe("Heredoc", () => {
                     assertRange(heredocs[0].getDelimiterRange(), 2, 0, 2, 3);
                 });
             });
+
+            describe("complete heredoc with empty lines as content", () => {
+                it(`RUN ${heredoc}EOT\\n\\nEOT`, () => {
+                    const instruction = DockerfileParser.parse(`RUN ${heredoc}EOT\n\nEOT`).getInstructions()[0] as Run;
+                    const heredocs = instruction.getHeredocs();
+                    assert.strictEqual(heredocs.length, 1);
+                    assert.strictEqual(heredocs[0].getName(), "EOT");
+                    assertRange(heredocs[0].getStartRange(), 0, 4, 0, 9 + offset);
+                    assertRange(heredocs[0].getNameRange(), 0, 6 + offset, 0, 9 + offset);
+                    assertRange(heredocs[0].getContentRange(), 1, 0, 1, 0);
+                    assertRange(heredocs[0].getDelimiterRange(), 2, 0, 2, 3);
+                });
+
+                it(`RUN ${heredoc}EOT\\n \\nEOT`, () => {
+                    const instruction = DockerfileParser.parse(`RUN ${heredoc}EOT\n \nEOT`).getInstructions()[0] as Run;
+                    const heredocs = instruction.getHeredocs();
+                    assert.strictEqual(heredocs.length, 1);
+                    assert.strictEqual(heredocs[0].getName(), "EOT");
+                    assertRange(heredocs[0].getStartRange(), 0, 4, 0, 9 + offset);
+                    assertRange(heredocs[0].getNameRange(), 0, 6 + offset, 0, 9 + offset);
+                    assertRange(heredocs[0].getContentRange(), 1, 0, 1, 1);
+                    assertRange(heredocs[0].getDelimiterRange(), 2, 0, 2, 3);
+                });
+
+                it(`RUN ${heredoc}EOT\\n\\ncontent\\n\\nEOT`, () => {
+                    const instruction = DockerfileParser.parse(`RUN ${heredoc}EOT\n\ncontent\n\nEOT`).getInstructions()[0] as Run;
+                    const heredocs = instruction.getHeredocs();
+                    assert.strictEqual(heredocs.length, 1);
+                    assert.strictEqual(heredocs[0].getName(), "EOT");
+                    assertRange(heredocs[0].getStartRange(), 0, 4, 0, 9 + offset);
+                    assertRange(heredocs[0].getNameRange(), 0, 6 + offset, 0, 9 + offset);
+                    assertRange(heredocs[0].getContentRange(), 1, 0, 3, 0);
+                    assertRange(heredocs[0].getDelimiterRange(), 4, 0, 4, 3);
+                });
+
+                it(`RUN ${heredoc}EOT\\n\\n\\nEOT`, () => {
+                    const instruction = DockerfileParser.parse(`RUN ${heredoc}EOT\n\n\nEOT`).getInstructions()[0] as Run;
+                    const heredocs = instruction.getHeredocs();
+                    assert.strictEqual(heredocs.length, 1);
+                    assert.strictEqual(heredocs[0].getName(), "EOT");
+                    assertRange(heredocs[0].getStartRange(), 0, 4, 0, 9 + offset);
+                    assertRange(heredocs[0].getNameRange(), 0, 6 + offset, 0, 9 + offset);
+                    assertRange(heredocs[0].getContentRange(), 1, 0, 2, 0);
+                    assertRange(heredocs[0].getDelimiterRange(), 3, 0, 3, 3);
+                });
+            });
+
+            describe("incomplete heredoc with empty lines as content", () => {
+                it(`RUN ${heredoc}EOT\\n\\n`, () => {
+                    const instruction = DockerfileParser.parse(`RUN ${heredoc}EOT\n\n`).getInstructions()[0] as Run;
+                    const heredocs = instruction.getHeredocs();
+                    assert.strictEqual(heredocs.length, 1);
+                    assert.strictEqual(heredocs[0].getName(), "EOT");
+                    assertRange(heredocs[0].getStartRange(), 0, 4, 0, 9 + offset);
+                    assertRange(heredocs[0].getNameRange(), 0, 6 + offset, 0, 9 + offset);
+                    assertRange(heredocs[0].getContentRange(), 1, 0, 2, 0);
+                    assert.strictEqual(heredocs[0].getDelimiterRange(), null);
+                });
+
+                it(`RUN ${heredoc}EOT\\n \\n`, () => {
+                    const instruction = DockerfileParser.parse(`RUN ${heredoc}EOT\n \n`).getInstructions()[0] as Run;
+                    const heredocs = instruction.getHeredocs();
+                    assert.strictEqual(heredocs.length, 1);
+                    assert.strictEqual(heredocs[0].getName(), "EOT");
+                    assertRange(heredocs[0].getStartRange(), 0, 4, 0, 9 + offset);
+                    assertRange(heredocs[0].getNameRange(), 0, 6 + offset, 0, 9 + offset);
+                    assertRange(heredocs[0].getContentRange(), 1, 0, 2, 0);
+                    assert.strictEqual(heredocs[0].getDelimiterRange(), null);
+                });
+
+                it(`RUN ${heredoc}EOT\\n\\ncontent\\n`, () => {
+                    const instruction = DockerfileParser.parse(`RUN ${heredoc}EOT\n\ncontent\n`).getInstructions()[0] as Run;
+                    const heredocs = instruction.getHeredocs();
+                    assert.strictEqual(heredocs.length, 1);
+                    assert.strictEqual(heredocs[0].getName(), "EOT");
+                    assertRange(heredocs[0].getStartRange(), 0, 4, 0, 9 + offset);
+                    assertRange(heredocs[0].getNameRange(), 0, 6 + offset, 0, 9 + offset);
+                    assertRange(heredocs[0].getContentRange(), 1, 0, 3, 0);
+                    assert.strictEqual(heredocs[0].getDelimiterRange(), null);
+                });
+
+                it(`RUN ${heredoc}EOT\\n\\n\\n`, () => {
+                    const instruction = DockerfileParser.parse(`RUN ${heredoc}EOT\n\n\n`).getInstructions()[0] as Run;
+                    const heredocs = instruction.getHeredocs();
+                    assert.strictEqual(heredocs.length, 1);
+                    assert.strictEqual(heredocs[0].getName(), "EOT");
+                    assertRange(heredocs[0].getStartRange(), 0, 4, 0, 9 + offset);
+                    assertRange(heredocs[0].getNameRange(), 0, 6 + offset, 0, 9 + offset);
+                    assertRange(heredocs[0].getContentRange(), 1, 0, 3, 0);
+                    assert.strictEqual(heredocs[0].getDelimiterRange(), null);
+                });
+            });
         }
 
         describe("single heredoc", () => {

@@ -213,6 +213,9 @@ export class Run extends JSONInstruction {
                         break;
                     }
                     if (heredocsProcessed) {
+                        if (contentStart === -1) {
+                            contentStart = i;
+                        }
                         contentEnd = i;
                         const arg = heredocDefinitions[currentHeredoc];
                         const startRange = arg.getRange();
@@ -241,11 +244,12 @@ export class Run extends JSONInstruction {
                                     heredocDefinitions.push(arg);
                                 }
                             } else {
-                                heredocsProcessed = true;
-                                lineStart = -1;
-                                continue contentLoop;
+                                break;
                             }
                         }
+                        heredocsProcessed = true;
+                        lineStart = -1;
+                        continue contentLoop;
                     }
                     break;
                 case ' ':
@@ -288,7 +292,7 @@ export class Run extends JSONInstruction {
             // check if the last line of this instruction matches the name of the last heredoc
             const delimiterRange = this.getDelimiterRange(arg, name, Range.create(this.document.positionAt(startOffset + lineStart), range.end));
             if (delimiterRange === null) {
-                contentRange = Range.create(this.document.positionAt(startOffset + lineStart), range.end);
+                contentRange = Range.create(this.document.positionAt(startOffset + contentStart), range.end);
             } else if (contentEnd !== -1) {
                 contentRange = Range.create(this.document.positionAt(startOffset + contentStart), this.document.positionAt(startOffset + contentEnd));
             }
