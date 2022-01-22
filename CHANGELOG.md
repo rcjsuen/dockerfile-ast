@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- `getContentRange()` from `Heredoc` will now return correct ranges if there are empty lines in the heredoc ([#103](https://github.com/rcjsuen/dockerfile-ast/issues/103))
+
 ## [0.4.1] - 2021-12-11
 ### Fixed
 - export `Run` so it can be used by clients ([#102](https://github.com/rcjsuen/dockerfile-ast/issues/102))
