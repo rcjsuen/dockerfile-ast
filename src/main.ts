@@ -131,6 +131,7 @@ import { From } from './instructions/from';
 export { From };
 import { Healthcheck } from './instructions/healthcheck';
 export { Healthcheck };
+export { Heredoc } from './heredoc';
 export { JSONInstruction } from './jsonInstruction';
 export { Label } from './instructions/label';
 export { ModifiableInstruction } from './modifiableInstruction';
