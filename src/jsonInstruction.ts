@@ -55,6 +55,7 @@ export class JSONInstruction extends ModifiableInstruction {
                         break argsCheck;
                     }
                     break;
+                case "'":
                 case '"':
                     if (last === '[' || last === ',') {
                         start = i;
