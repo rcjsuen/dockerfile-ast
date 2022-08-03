@@ -7,6 +7,11 @@
 import { Range, Position } from 'vscode-languageserver-types';
 
 export class Util {
+    public static isUTF8BOM(char: string): boolean {
+        const uintArray = Uint8Array.from(Buffer.from(char, "UTF-8"));
+        return uintArray[0] === 0xEF && uintArray[1] == 0xBB && uintArray[2] == 0xBF;
+    }
+
     public static isWhitespace(char: string): boolean {
         return char === ' ' || char === '\t' || Util.isNewline(char);
     }

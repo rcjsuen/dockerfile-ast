@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- correct the parser so that the UTF-8 BOM will be skipped over if it is found at the beginning of the file
+
 ## [0.4.2] - 2022-01-22
 ### Fixed
 - `getContentRange()` from `Heredoc` will now return correct ranges if there are empty lines in the heredoc ([#103](https://github.com/rcjsuen/dockerfile-ast/issues/103))

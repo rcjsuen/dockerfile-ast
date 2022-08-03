@@ -26,6 +26,7 @@ import { Workdir } from './instructions/workdir';
 import { User } from './instructions/user';
 import { Volume } from './instructions/volume';
 import { Dockerfile } from './dockerfile';
+import { Util } from './util';
 import { Keyword } from './main';
 
 export class Parser {
@@ -74,7 +75,8 @@ export class Parser {
         // reset the escape directive in between runs
         const directives = [];
         this.escapeChar = '';
-        directiveCheck: for (let i = 0; i < buffer.length; i++) {
+        const offset = Util.isUTF8BOM(buffer.substring(0, 1)) ? 1 : 0;
+        directiveCheck: for (let i = offset; i < buffer.length; i++) {
             switch (buffer.charAt(i)) {
                 case ' ':
                 case '\t':
@@ -187,6 +189,8 @@ export class Parser {
             this.escapeChar = dockerfile.getEscapeCharacter();
             // start parsing after the directives
             offset = this.document.offsetAt(Position.create(directives.length, 0));
+        } else if (Util.isUTF8BOM(buffer.substring(0, 1))) {
+            offset = 1;
         }
 
         for (let i = offset; i < this.buffer.length; i++) {
