@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
     - `getHeredocs()`
 
 ### Fixed
-- correct the parser so that the UTF-8 BOM will be skipped over if it is found at the beginning of the file
+- correct the parser so that the UTF-8 BOM will be skipped over if it is found at the beginning of the file ([#106](https://github.com/rcjsuen/dockerfile-ast/issues/106))
 
 ## [0.4.2] - 2022-01-22
 ### Fixed
