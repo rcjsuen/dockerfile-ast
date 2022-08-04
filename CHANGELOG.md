@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- new API to support processing heredocs of a `COPY` instruction ([#109](https://github.com/rcjsuen/dockerfile-ast/issues/109))
+  - `Copy`
+    - `getHeredocs()`
+
 ### Fixed
 - correct the parser so that the UTF-8 BOM will be skipped over if it is found at the beginning of the file
 
