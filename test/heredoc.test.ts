@@ -631,11 +631,11 @@ describe("Heredoc", () => {
             assertRange(heredocs[0].getNameRange(), 0, 7, 0, 10);
             assertRange(heredocs[0].getContentRange(), 1, 0, 1, 3);
             assertRange(heredocs[0].getDelimiterRange(), 2, 1, 2, 4);
-            assert.strictEqual(heredocs[0].getName(), "EOT");
-            assertRange(heredocs[0].getStartRange(), 0, 4, 0, 10);
-            assertRange(heredocs[0].getNameRange(), 0, 7, 0, 10);
-            assertRange(heredocs[0].getContentRange(), 1, 0, 1, 3);
-            assertRange(heredocs[0].getDelimiterRange(), 2, 1, 2, 4);
+            assert.strictEqual(heredocs[1].getName(), "EOT2");
+            assertRange(heredocs[1].getStartRange(), 0, 11, 0, 18);
+            assertRange(heredocs[1].getNameRange(), 0, 14, 0, 18);
+            assertRange(heredocs[1].getContentRange(), 3, 0, 3, 3);
+            assertRange(heredocs[1].getDelimiterRange(), 4, 2, 4, 6);
         });
     });
 });
