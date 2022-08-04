@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.5.0] - 2022-08-04
 ### Added
 - new API to support processing heredocs of a `COPY` instruction ([#109](https://github.com/rcjsuen/dockerfile-ast/issues/109))
   - `Copy`
@@ -351,7 +351,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.2...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.2...v0.5.0
 [0.4.2]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.3.4...v0.4.0
