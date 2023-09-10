@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- consider empty tags correctly when a `FROM` instruction also has a digest specified ([#113](https://github.com/rcjsuen/dockerfile-ast/issues/113))
+
 ## [0.6.0] - 2023-09-09
 ### Added
 - allow `getImageTagRange()` and `getImageTag()` in `From` to handle instructions where both a tag and a digest has been specified ([#112](https://github.com/rcjsuen/dockerfile-ast/issues/112))

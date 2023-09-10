@@ -86,11 +86,12 @@ export class From extends ModifiableInstruction {
     public getImageTagRange(): Range | null {
         const range = this.getImageRange();
         if (range) {
+            const rangeStartOffset = this.document.offsetAt(range.start);
             const content = this.getRangeContent(range);
-            const atIndex = this.indexOf(this.document.offsetAt(range.start), content, '@');
+            const atIndex = this.indexOf(rangeStartOffset, content, '@');
             const slashIndex = content.indexOf('/');
             if (atIndex === -1) {
-                const colonIndex = this.lastIndexOf(this.document.offsetAt(range.start), content, ':');
+                const colonIndex = this.lastIndexOf(rangeStartOffset, content, ':');
                 if (colonIndex > slashIndex) {
                     return Range.create(range.start.line, range.start.character + colonIndex + 1, range.end.line, range.end.character);
                 }
@@ -98,16 +99,18 @@ export class From extends ModifiableInstruction {
 
             const subcontent = content.substring(0, atIndex);
             const subcolonIndex = subcontent.indexOf(':');
-            if (subcolonIndex !== -1 && slashIndex !== -1) {
-                // both colon and slash found, check if it is a port
-                if (subcolonIndex < slashIndex) {
-                    if (subcontent.lastIndexOf(':') === subcolonIndex) {
-                        // same index, only colon is a port so return null
-                        return null;
-                    }
-                }
-                return Range.create(this.document.positionAt(this.document.offsetAt(range.start) + subcolonIndex + 1), this.document.positionAt(this.document.offsetAt(range.start) + subcontent.length));
+            if (subcolonIndex === -1) {
+                return null;
             }
+            if (slashIndex === -1) {
+                // slash not found suggests no registry and no namespace defined
+                return Range.create(this.document.positionAt(rangeStartOffset + subcolonIndex + 1), this.document.positionAt(rangeStartOffset + atIndex));
+            }
+            // both colon and slash found, check if it is a port
+            if (subcolonIndex < slashIndex) {
+                return null;
+            }
+            return Range.create(this.document.positionAt(rangeStartOffset + subcolonIndex + 1), this.document.positionAt(rangeStartOffset + subcontent.length));
         }
         return null;
     }
