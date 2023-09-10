@@ -195,9 +195,12 @@ export class From extends ModifiableInstruction {
             }
             const content = this.getRangeContent(range);
             const rangeStart = this.document.offsetAt(range.start);
+            const startingSlashIndex = this.indexOf(rangeStart, content, '/');
+            if (startingSlashIndex === -1) {
+                return null;
+            }
             const portIndex = this.indexOf(rangeStart, content, ':');
             const dotIndex = this.indexOf(rangeStart, content, '.');
-            const startingSlashIndex = this.indexOf(rangeStart, content, '/');
             // hostname detected
             if (portIndex !== -1 || dotIndex !== -1) {
                 return Range.create(
