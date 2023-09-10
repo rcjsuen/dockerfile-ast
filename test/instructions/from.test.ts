@@ -448,6 +448,26 @@ describe("FROM", () => {
         assert.equal(from.getPlatformFlag(), null);
     });
 
+    it("FROM custom/node:non-existent-tag@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
+        const dockerfile = DockerfileParser.parse("FROM custom/node:non-existent-tag@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        const from = dockerfile.getFROMs()[0];
+        assert.strictEqual(from.getImage(), "custom/node:non-existent-tag@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        assertRange(from.getImageRange(), 0, 5, 0, 105);
+        assert.strictEqual(from.getImageName(), "custom/node");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 16);
+        assert.strictEqual(from.getImageTag(), "non-existent-tag");
+        assertRange(from.getImageTagRange(), 0, 17, 0, 33);
+        assert.strictEqual(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        assertRange(from.getImageDigestRange(), 0, 34, 0, 105);
+        assert.strictEqual(from.getRegistry(), null);
+        assert.strictEqual(from.getRegistryRange(), null);
+        assert.strictEqual(from.getBuildStage(), null);
+        assert.strictEqual(from.getBuildStageRange(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.strictEqual(from.getFlags().length, 0);
+        assert.strictEqual(from.getPlatformFlag(), null);
+    });
+
     it("FROM privateregistry.com/base/image", () => {
         let dockerfile = DockerfileParser.parse("FROM privateregistry.com/base/image");
         let from = dockerfile.getFROMs()[0];
@@ -546,6 +566,26 @@ describe("FROM", () => {
         assert.notEqual(from.getFlags(), null);
         assert.equal(from.getFlags().length, 0);
         assert.equal(from.getPlatformFlag(), null);
+    });
+
+    it("FROM privateregistry.com/base/image:non-existent-tag@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700", () => {
+        const dockerfile = DockerfileParser.parse("FROM privateregistry.com/base/image:non-existent-tag@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        const from = dockerfile.getFROMs()[0];
+        assert.strictEqual(from.getImage(), "privateregistry.com/base/image:non-existent-tag@sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        assertRange(from.getImageRange(), 0, 5, 0, 124);
+        assert.strictEqual(from.getImageName(), "base/image");
+        assertRange(from.getImageNameRange(), 0, 25, 0, 35);
+        assert.strictEqual(from.getImageTag(), "non-existent-tag");
+        assertRange(from.getImageTagRange(), 0, 36, 0, 52);
+        assert.strictEqual(from.getImageDigest(), "sha256:613685c22f65d01f2264bdd49b8a336488e14faf29f3ff9b6bf76a4da23c4700");
+        assertRange(from.getImageDigestRange(), 0, 53, 0, 124);
+        assert.strictEqual(from.getRegistry(), "privateregistry.com");
+        assertRange(from.getRegistryRange(), 0, 5, 0, 24);
+        assert.strictEqual(from.getBuildStage(), null);
+        assert.strictEqual(from.getBuildStageRange(), null);
+        assert.notEqual(from.getFlags(), null);
+        assert.strictEqual(from.getFlags().length, 0);
+        assert.strictEqual(from.getPlatformFlag(), null);
     });
 
     it("FROM privateregistry.com:5000/image", () => {

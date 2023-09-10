@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Added
+- allow `getImageTagRange()` and `getImageTag()` in `From` to handle instructions where both a tag and a digest has been specified ([#112](https://github.com/rcjsuen/dockerfile-ast/issues/112))
+
 ## [0.5.0] - 2022-08-04
 ### Added
 - new API to support processing heredocs of a `COPY` instruction ([#109](https://github.com/rcjsuen/dockerfile-ast/issues/109))

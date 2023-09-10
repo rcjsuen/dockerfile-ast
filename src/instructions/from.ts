@@ -86,13 +86,27 @@ export class From extends ModifiableInstruction {
     public getImageTagRange(): Range | null {
         const range = this.getImageRange();
         if (range) {
-            if (this.getImageDigestRange() === null) {
-                let content = this.getRangeContent(range);
-                let index = this.lastIndexOf(this.document.offsetAt(range.start), content, ':');
-                // the colon might be for a private registry's port and not a tag
-                if (index > content.indexOf('/')) {
-                    return Range.create(range.start.line, range.start.character + index + 1, range.end.line, range.end.character);
+            const content = this.getRangeContent(range);
+            const atIndex = this.indexOf(this.document.offsetAt(range.start), content, '@');
+            const slashIndex = content.indexOf('/');
+            if (atIndex === -1) {
+                const colonIndex = this.lastIndexOf(this.document.offsetAt(range.start), content, ':');
+                if (colonIndex > slashIndex) {
+                    return Range.create(range.start.line, range.start.character + colonIndex + 1, range.end.line, range.end.character);
                 }
+            }
+
+            const subcontent = content.substring(0, atIndex);
+            const subcolonIndex = subcontent.indexOf(':');
+            if (subcolonIndex !== -1 && slashIndex !== -1) {
+                // both colon and slash found, check if it is a port
+                if (subcolonIndex < slashIndex) {
+                    if (subcontent.lastIndexOf(':') === subcolonIndex) {
+                        // same index, only colon is a port so return null
+                        return null;
+                    }
+                }
+                return Range.create(this.document.positionAt(this.document.offsetAt(range.start) + subcolonIndex + 1), this.document.positionAt(this.document.offsetAt(range.start) + subcontent.length));
             }
         }
         return null;
