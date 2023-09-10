@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.6.0] - 2023-09-09
 ### Added
 - allow `getImageTagRange()` and `getImageTag()` in `From` to handle instructions where both a tag and a digest has been specified ([#112](https://github.com/rcjsuen/dockerfile-ast/issues/112))
 
@@ -355,7 +355,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.2...v0.5.0
 [0.4.2]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.0...v0.4.1
