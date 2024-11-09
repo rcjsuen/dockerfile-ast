@@ -315,13 +315,16 @@ export class Parser {
         return this.buffer.length;
     }
 
-    private parseHeredocName(value: string): string {
+    private parseHeredocName(value: string): string | null {
         value = value.substring(2);
         if (value.charAt(0) === '-') {
             value = value.substring(1);
         }
         if (value.charAt(0) === '"' || value.charAt(0) === '\'') {
-            return value.substring(1, value.length - 1);
+            value = value.substring(1, value.length - 1);
+        }
+        if (value.charAt(0) === "<") {
+            return null;
         }
         return value;
     }
@@ -342,7 +345,10 @@ export class Parser {
         for (const arg of instruction.getArguments()) {
             const value = arg.getValue();
             if (value.startsWith("<<") && value.length > 2) {
-                heredocs.push(this.parseHeredocName(value));
+                const name = this.parseHeredocName(value);
+                if (name !== null) {
+                    heredocs.push(name);
+                }
             }
         }
 

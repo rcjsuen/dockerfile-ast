@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- improve heredoc parser so that invalid delimiters are now skipped over when parsing ([#117](https://github.com/rcjsuen/dockerfile-ast/issues/117))
+
 ## [0.6.1] - 2023-09-10
 ### Fixed
 - consider empty tags correctly when a `FROM` instruction also has a digest specified ([#113](https://github.com/rcjsuen/dockerfile-ast/issues/113))
