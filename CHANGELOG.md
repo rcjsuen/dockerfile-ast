@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- updated the list of predefined variables with `ALL_PROXY` and `all_proxy` ([#116](https://github.com/rcjsuen/dockerfile-ast/issues/116))
+
 ### Fixed
 - improve heredoc parser so that invalid delimiters are now skipped over when parsing ([#117](https://github.com/rcjsuen/dockerfile-ast/issues/117))
 

@@ -172,6 +172,7 @@ export enum Directive {
 }
 
 export const DefaultVariables = [
+    "ALL_PROXY", "all_proxy",
     "FTP_PROXY", "ftp_proxy",
     "HTTP_PROXY", "http_proxy",
     "HTTPS_PROXY", "https_proxy",
