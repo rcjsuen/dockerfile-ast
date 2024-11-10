@@ -418,6 +418,16 @@ describe("Heredoc", () => {
                 });
 
                 /**
+                 * RUN <<<EOT
+                 * <EOT
+                 */
+                it(`${keyword} <<<EOT\\n<EOT`, () => {
+                    const instruction = DockerfileParser.parse(`${keyword}  <<<EOT\n<EOT`).getInstructions()[0];
+                    const heredocs = heredocsExtractor(instruction);
+                    assert.strictEqual(heredocs.length, 0);
+                });
+
+                /**
                  * RUN <<\
                  * #EOT
                  * EOT

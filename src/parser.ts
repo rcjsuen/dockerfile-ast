@@ -315,20 +315,6 @@ export class Parser {
         return this.buffer.length;
     }
 
-    private parseHeredocName(value: string): string | null {
-        value = value.substring(2);
-        if (value.charAt(0) === '-') {
-            value = value.substring(1);
-        }
-        if (value.charAt(0) === '"' || value.charAt(0) === '\'') {
-            value = value.substring(1, value.length - 1);
-        }
-        if (value.charAt(0) === "<") {
-            return null;
-        }
-        return value;
-    }
-
     private processHeredocs(instruction: Instruction, offset: number): number {
         let keyword = instruction.getKeyword();
         if (keyword === Keyword.ONBUILD) {
@@ -345,7 +331,7 @@ export class Parser {
         for (const arg of instruction.getArguments()) {
             const value = arg.getValue();
             if (value.startsWith("<<") && value.length > 2) {
-                const name = this.parseHeredocName(value);
+                const name = Util.parseHeredocName(value);
                 if (name !== null) {
                     heredocs.push(name);
                 }

@@ -652,7 +652,7 @@ export class Instruction extends Line {
         // instruction only on one line, if heredocs exist they would be incomplete
         for (const arg of args) {
             const value = arg.getValue();
-            if (value.startsWith("<<")) {
+            if (value.startsWith("<<") && Util.parseHeredocName(value) !== null) {
                 const startRange = arg.getRange();
                 const nameRange = this.getNameRange(startRange);
                 const name = this.getName(nameRange);

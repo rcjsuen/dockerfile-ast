@@ -71,4 +71,18 @@ export class Util {
         }
         return range.start.line < position.line && position.line < range.end.line;
     }
+
+    public static parseHeredocName(value: string): string | null {
+        value = value.substring(2);
+        if (value.charAt(0) === '-') {
+            value = value.substring(1);
+        }
+        if (value.charAt(0) === '"' || value.charAt(0) === '\'') {
+            value = value.substring(1, value.length - 1);
+        }
+        if (value.charAt(0) === "<") {
+            return null;
+        }
+        return value;
+    }
 }
