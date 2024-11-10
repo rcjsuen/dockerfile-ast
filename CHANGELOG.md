@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.7.0] - 2024-11-10
 ### Added
 - updated the list of predefined variables with `ALL_PROXY` and `all_proxy` ([#116](https://github.com/rcjsuen/dockerfile-ast/issues/116))
 
@@ -367,7 +367,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.6.1...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.4.2...v0.5.0
