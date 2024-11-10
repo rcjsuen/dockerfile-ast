@@ -358,6 +358,12 @@ describe("ImageTemplate", () => {
 
                 dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<-\"<EOT\"\n<EOT");
                 assert.strictEqual(dockerfile.getInstructions().length, 2);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<'EOT\nEOT\n");
+                assert.strictEqual(dockerfile.getInstructions().length, 2);
+
+                dockerfile = DockerfileParser.parse(onbuildPrefix + "RUN <<\"EOT\nEOT\n");
+                assert.strictEqual(dockerfile.getInstructions().length, 2);
             });
         }
 

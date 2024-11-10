@@ -12,10 +12,44 @@ describe("Heredoc", () => {
     function testHeredoc(keyword: string, heredocsExtractor: (instruction: Instruction) => Heredoc[]): void {
         const keywordLength = keyword.length;
         describe(keyword, () => {
-            it("no heredocs", () => {
-                const instruction = DockerfileParser.parse(keyword).getInstructions()[0];
-                const heredocs = heredocsExtractor(instruction);
-                assert.strictEqual(heredocs.length, 0);
+            describe("no heredocs", () => {
+                it("instruction only", () => {
+                    const instruction = DockerfileParser.parse(keyword).getInstructions()[0];
+                    const heredocs = heredocsExtractor(instruction);
+                    assert.strictEqual(heredocs.length, 0);
+                });
+    
+                /**
+                 * INSTRUCTION <<<EOT
+                 * <EOT
+                 */
+                it(`${keyword} <<<EOT\\n<EOT`, () => {
+                    const instruction = DockerfileParser.parse(`${keyword}  <<<EOT\n<EOT`).getInstructions()[0];
+                    const heredocs = heredocsExtractor(instruction);
+                    assert.strictEqual(heredocs.length, 0);
+                });
+    
+                /**
+                 * INSTRUCTION <<'EOT
+                 * EOT
+                 * 
+                 */
+                it(`${keyword} <<'EOT\\nEOT\\n`, () => {
+                    const instruction = DockerfileParser.parse(`${keyword} <<'EOT\nEOT\n`).getInstructions()[0];
+                    const heredocs = heredocsExtractor(instruction);
+                    assert.strictEqual(heredocs.length, 0);
+                });
+    
+                /**
+                 * INSTRUCTION <<"EOT
+                 * EOT
+                 * 
+                 */
+                it(`${keyword} <<"EOT\\nEOT\\n`, () => {
+                    const instruction = DockerfileParser.parse(`${keyword} <<"EOT\nEOT\n`).getInstructions()[0];
+                    const heredocs = heredocsExtractor(instruction);
+                    assert.strictEqual(heredocs.length, 0);
+                });
             });
         
             it(`${keyword} <<--EOT\\n-EOT`, () => {
@@ -415,16 +449,6 @@ describe("Heredoc", () => {
                     assertRange(heredocs[0].getNameRange(), 1, 0, 1, 3);
                     assert.strictEqual(heredocs[0].getContentRange(), null);
                     assert.strictEqual(heredocs[0].getDelimiterRange(), null);
-                });
-
-                /**
-                 * RUN <<<EOT
-                 * <EOT
-                 */
-                it(`${keyword} <<<EOT\\n<EOT`, () => {
-                    const instruction = DockerfileParser.parse(`${keyword}  <<<EOT\n<EOT`).getInstructions()[0];
-                    const heredocs = heredocsExtractor(instruction);
-                    assert.strictEqual(heredocs.length, 0);
                 });
 
                 /**

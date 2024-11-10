@@ -77,7 +77,16 @@ export class Util {
         if (value.charAt(0) === '-') {
             value = value.substring(1);
         }
-        if (value.charAt(0) === '"' || value.charAt(0) === '\'') {
+        if (value.charAt(0) === '"') {
+            if (value.charAt(value.length - 1) !== '"') {
+                return null;
+            }
+            value = value.substring(1, value.length - 1);
+        }
+        if (value.charAt(0) === '\'') {
+            if (value.charAt(value.length - 1) !== '\'') {
+                return null;
+            }
             value = value.substring(1, value.length - 1);
         }
         if (value.charAt(0) === "<") {
