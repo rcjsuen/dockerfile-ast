@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Fixed
+- correct the range being returned by `getImageTagRange()` if the image name spans multiple lines ([#118](https://github.com/rcjsuen/dockerfile-ast/issues/118))
+
 ## [0.7.0] - 2024-11-10
 ### Added
 - updated the list of predefined variables with `ALL_PROXY` and `all_proxy` ([#116](https://github.com/rcjsuen/dockerfile-ast/issues/116))

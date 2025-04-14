@@ -19,7 +19,8 @@ export class From extends ModifiableInstruction {
     }
 
     public getImage(): string | null {
-        return this.getRangeContent(this.getImageRange());
+        const args = this.getArguments();
+        return args.length > 0 ? args[0].getValue() : null;
     }
 
     /**
@@ -28,7 +29,45 @@ export class From extends ModifiableInstruction {
      * @return the base image's name, or null if unspecified
      */
     public getImageName(): string | null {
-        return this.getRangeContent(this.getImageNameRange());
+        const imageName = this.getRangeContent(this.getImageNameRange());
+        if (imageName === null) {
+            return null;
+        }
+
+        let commented = false;
+        let escaped = false;
+        let name = "";
+        for (let i = 0; i < imageName.length; i++) {
+            const ch = imageName.charAt(i);
+            switch (ch) {
+                case this.escapeChar:
+                    escaped = true;
+                    break;
+                case '\r':
+                    continue;
+                case '\n':
+                    commented = false;
+                    break;
+                case ' ':
+                case '\t':
+                    break;
+                case '#':
+                    if (escaped) {
+                        commented = true;
+                    } else {
+                        name = name + ch;
+                        escaped = false;
+                    }
+                    break;
+                default:
+                    if (!commented) {
+                        name = name + ch;
+                        escaped = false;
+                    }
+                    break;
+            }
+        }
+        return name;
     }
 
     /**
@@ -93,7 +132,7 @@ export class From extends ModifiableInstruction {
             if (atIndex === -1) {
                 const colonIndex = this.lastIndexOf(rangeStartOffset, content, ':');
                 if (colonIndex > slashIndex) {
-                    return Range.create(range.start.line, range.start.character + colonIndex + 1, range.end.line, range.end.character);
+                    return Range.create(this.document.positionAt(rangeStartOffset + colonIndex + 1), range.end)
                 }
             }
 

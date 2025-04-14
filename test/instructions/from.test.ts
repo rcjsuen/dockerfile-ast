@@ -1921,4 +1921,148 @@ describe("FROM", () => {
         assertRange(flag.getValueRange(), 0, 16, 0, 27);
         assertRange(flag.getRange(), 0, 5, 0, 27);
     });
+
+    it("FROM alpi\\\\n\\nne:3", () => {
+        const dockerfile = DockerfileParser.parse("FROM alpi\\\n\nne:3");
+        const from = dockerfile.getFROMs()[0];
+        assert.strictEqual(from.getImage(), "alpine:3");
+        assertRange(from.getImageRange(), 0, 5, 2, 4);
+        assert.strictEqual(from.getImageName(), "alpine");
+        assertRange(from.getImageNameRange(), 0, 5, 2, 2);
+        assert.strictEqual(from.getImageTag(), "3");
+        assertRange(from.getImageTagRange(), 2, 3, 2, 4);
+        assert.strictEqual(from.getImageDigest(), null);
+        assert.strictEqual(from.getImageDigestRange(), null);
+        assert.strictEqual(from.getRegistry(), null);
+        assert.strictEqual(from.getRegistryRange(), null);
+        assert.strictEqual(from.getBuildStage(), null);
+        assert.strictEqual(from.getBuildStageRange(), null);
+        assert.strictEqual(from.getFlags().length, 0);
+    });
+
+    it("FROM alpi\\\r\\n\\nne:3", () => {
+        const dockerfile = DockerfileParser.parse("FROM alpi\\\r\n\nne:3");
+        const from = dockerfile.getFROMs()[0];
+        assert.strictEqual(from.getImage(), "alpine:3");
+        assertRange(from.getImageRange(), 0, 5, 2, 4);
+        assert.strictEqual(from.getImageName(), "alpine");
+        assertRange(from.getImageNameRange(), 0, 5, 2, 2);
+        assert.strictEqual(from.getImageTag(), "3");
+        assertRange(from.getImageTagRange(), 2, 3, 2, 4);
+        assert.strictEqual(from.getImageDigest(), null);
+        assert.strictEqual(from.getImageDigestRange(), null);
+        assert.strictEqual(from.getRegistry(), null);
+        assert.strictEqual(from.getRegistryRange(), null);
+        assert.strictEqual(from.getBuildStage(), null);
+        assert.strictEqual(from.getBuildStageRange(), null);
+        assert.strictEqual(from.getFlags().length, 0);
+    });
+
+    it("FROM alpi\\\\n# comment\\nne:3", () => {
+        const dockerfile = DockerfileParser.parse("FROM alpi\\\n# comment\nne:3");
+        const from = dockerfile.getFROMs()[0];
+        assert.strictEqual(from.getImage(), "alpine:3");
+        assertRange(from.getImageRange(), 0, 5, 2, 4);
+        assert.strictEqual(from.getImageName(), "alpine");
+        assertRange(from.getImageNameRange(), 0, 5, 2, 2);
+        assert.strictEqual(from.getImageTag(), "3");
+        assertRange(from.getImageTagRange(), 2, 3, 2, 4);
+        assert.strictEqual(from.getImageDigest(), null);
+        assert.strictEqual(from.getImageDigestRange(), null);
+        assert.strictEqual(from.getRegistry(), null);
+        assert.strictEqual(from.getRegistryRange(), null);
+        assert.strictEqual(from.getBuildStage(), null);
+        assert.strictEqual(from.getBuildStageRange(), null);
+        assert.strictEqual(from.getFlags().length, 0);
+    });
+
+    it("FROM alpi\\\\n\\\\nne:3", () => {
+        const dockerfile = DockerfileParser.parse("FROM alpi\\\n\\\nne:3");
+        const from = dockerfile.getFROMs()[0];
+        assert.strictEqual(from.getImage(), "alpine:3");
+        assertRange(from.getImageRange(), 0, 5, 2, 4);
+        assert.strictEqual(from.getImageName(), "alpine");
+        assertRange(from.getImageNameRange(), 0, 5, 2, 2);
+        assert.strictEqual(from.getImageTag(), "3");
+        assertRange(from.getImageTagRange(), 2, 3, 2, 4);
+        assert.strictEqual(from.getImageDigest(), null);
+        assert.strictEqual(from.getImageDigestRange(), null);
+        assert.strictEqual(from.getRegistry(), null);
+        assert.strictEqual(from.getRegistryRange(), null);
+        assert.strictEqual(from.getBuildStage(), null);
+        assert.strictEqual(from.getBuildStageRange(), null);
+        assert.strictEqual(from.getFlags().length, 0);
+    });
+
+    it("FROM alpi\\\\nn\\\\ne:3", () => {
+        const dockerfile = DockerfileParser.parse("FROM alpi\\\nn\\\ne:3");
+        const from = dockerfile.getFROMs()[0];
+        assert.strictEqual(from.getImage(), "alpine:3");
+        assertRange(from.getImageRange(), 0, 5, 2, 3);
+        assert.strictEqual(from.getImageName(), "alpine");
+        assertRange(from.getImageNameRange(), 0, 5, 2, 1);
+        assert.strictEqual(from.getImageTag(), "3");
+        assertRange(from.getImageTagRange(), 2, 2, 2, 3);
+        assert.strictEqual(from.getImageDigest(), null);
+        assert.strictEqual(from.getImageDigestRange(), null);
+        assert.strictEqual(from.getRegistry(), null);
+        assert.strictEqual(from.getRegistryRange(), null);
+        assert.strictEqual(from.getBuildStage(), null);
+        assert.strictEqual(from.getBuildStageRange(), null);
+        assert.strictEqual(from.getFlags().length, 0);
+    });
+
+    it("FROM alpi\\\\nn\\\\ne:3", () => {
+        const dockerfile = DockerfileParser.parse("FROM alpi\\\nn\\\ne:3");
+        const from = dockerfile.getFROMs()[0];
+        assert.strictEqual(from.getImage(), "alpine:3");
+        assertRange(from.getImageRange(), 0, 5, 2, 3);
+        assert.strictEqual(from.getImageName(), "alpine");
+        assertRange(from.getImageNameRange(), 0, 5, 2, 1);
+        assert.strictEqual(from.getImageTag(), "3");
+        assertRange(from.getImageTagRange(), 2, 2, 2, 3);
+        assert.strictEqual(from.getImageDigest(), null);
+        assert.strictEqual(from.getImageDigestRange(), null);
+        assert.strictEqual(from.getRegistry(), null);
+        assert.strictEqual(from.getRegistryRange(), null);
+        assert.strictEqual(from.getBuildStage(), null);
+        assert.strictEqual(from.getBuildStageRange(), null);
+        assert.strictEqual(from.getFlags().length, 0);
+    });
+
+    it("FROM alpi\\ \\nn\\\\ne:3", () => {
+        const dockerfile = DockerfileParser.parse("FROM alpi\\ \nn\\\ne:3");
+        const from = dockerfile.getFROMs()[0];
+        assert.strictEqual(from.getImage(), "alpine:3");
+        assertRange(from.getImageRange(), 0, 5, 2, 3);
+        assert.strictEqual(from.getImageName(), "alpine");
+        assertRange(from.getImageNameRange(), 0, 5, 2, 1);
+        assert.strictEqual(from.getImageTag(), "3");
+        assertRange(from.getImageTagRange(), 2, 2, 2, 3);
+        assert.strictEqual(from.getImageDigest(), null);
+        assert.strictEqual(from.getImageDigestRange(), null);
+        assert.strictEqual(from.getRegistry(), null);
+        assert.strictEqual(from.getRegistryRange(), null);
+        assert.strictEqual(from.getBuildStage(), null);
+        assert.strictEqual(from.getBuildStageRange(), null);
+        assert.strictEqual(from.getFlags().length, 0);
+    });
+
+    it("FROM ${var:-#alpine}:3.21", () => {
+        const dockerfile = DockerfileParser.parse("FROM ${var:-#alpine}:3.21");
+        const from = dockerfile.getFROMs()[0];
+        assert.strictEqual(from.getImage(), "${var:-#alpine}:3.21");
+        assertRange(from.getImageRange(), 0, 5, 0, 25);
+        assert.strictEqual(from.getImageName(), "${var:-#alpine}");
+        assertRange(from.getImageNameRange(), 0, 5, 0, 20);
+        assert.strictEqual(from.getImageTag(), "3.21");
+        assertRange(from.getImageTagRange(), 0, 21, 0, 25);
+        assert.strictEqual(from.getImageDigest(), null);
+        assert.strictEqual(from.getImageDigestRange(), null);
+        assert.strictEqual(from.getRegistry(), null);
+        assert.strictEqual(from.getRegistryRange(), null);
+        assert.strictEqual(from.getBuildStage(), null);
+        assert.strictEqual(from.getBuildStageRange(), null);
+        assert.strictEqual(from.getFlags().length, 0);
+    });
 });
