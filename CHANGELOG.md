@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Fixed
 - correct the range being returned by `getImageTagRange()` if the image name spans multiple lines ([#118](https://github.com/rcjsuen/dockerfile-ast/issues/118))
+- fix handling of indented heredocs so that indented delimiters are now parsed correctly ([#119](https://github.com/rcjsuen/dockerfile-ast/issues/119))
 
 ## [0.7.0] - 2024-11-10
 ### Added

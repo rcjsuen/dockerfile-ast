@@ -328,9 +328,13 @@ export class Parser {
             return offset;
         }
         const heredocs = [];
+        let tabbed = false;
         for (const arg of instruction.getArguments()) {
             const value = arg.getValue();
             if (value.startsWith("<<") && value.length > 2) {
+                if (value.startsWith("<<-")) {
+                    tabbed = true;
+                }
                 const name = Util.parseHeredocName(value);
                 if (name !== null) {
                     heredocs.push(name);
@@ -340,7 +344,7 @@ export class Parser {
 
         if (heredocs.length > 0) {
             for (const heredoc of heredocs) {
-                offset = this.parseHeredoc(heredoc, offset);
+                offset = this.parseHeredoc(heredoc, offset, tabbed);
             }
         }
         return offset;
@@ -413,14 +417,18 @@ export class Parser {
         return end;
     }
 
-    private parseHeredoc(heredocName: string, offset: number): number {
+    private parseHeredoc(heredocName: string, offset: number, tabbed: boolean): number {
         let startWord = -1;
         let lineStart = true;
         for (let i = offset; i < this.buffer.length; i++) {
             switch (this.buffer.charAt(i)) {
                 case ' ':
-                case '\t':
                     lineStart = false;
+                    break;
+                case '\t':
+                    if (!tabbed) {
+                        lineStart = false;
+                    }
                     break;
                 case '\r':
                 case '\n':

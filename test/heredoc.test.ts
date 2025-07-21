@@ -634,6 +634,17 @@ describe("Heredoc", () => {
                     assert.strictEqual(heredocs[0].getContentRange(), null);
                     assert.strictEqual(heredocs[0].getDelimiterRange(), null);
                 });
+
+                it(`tabbed content`, () => {
+                    const instruction = DockerfileParser.parse(`${keyword} <<EOT\n\thello\nEOT`).getInstructions()[0];
+                    const heredocs = heredocsExtractor(instruction);
+                    assert.strictEqual(heredocs.length, 1);
+                    assert.strictEqual(heredocs[0].getName(), "EOT");
+                    assertRange(heredocs[0].getStartRange(), 0, keywordLength + 1, 0, keywordLength + 6);
+                    assertRange(heredocs[0].getNameRange(), 0, keywordLength + 3, 0, keywordLength + 6);
+                    assertRange(heredocs[0].getContentRange(), 1, 0, 1, 6);
+                    assertRange(heredocs[0].getDelimiterRange(), 2, 0, 2, 3);
+                });
             });
         });
 
@@ -648,7 +659,7 @@ describe("Heredoc", () => {
                 assertRange(heredocs[0].getContentRange(), 1, 0, 1, 3);
                 assertRange(heredocs[0].getDelimiterRange(), 2, 1, 2, 4);
             });
-    
+
             it("two heredocs, two tabs", () => {
                 const instruction = DockerfileParser.parse(`${keyword} <<-EOT <<-EOT2\nABC\n\tEOT\nDEF\n\t\tEOT2`).getInstructions()[0];
                 const heredocs = heredocsExtractor(instruction);
@@ -663,6 +674,29 @@ describe("Heredoc", () => {
                 assertRange(heredocs[1].getNameRange(), 0, keywordLength + 11, 0, keywordLength + 15);
                 assertRange(heredocs[1].getContentRange(), 3, 0, 3, 3);
                 assertRange(heredocs[1].getDelimiterRange(), 4, 2, 4, 6);
+            });
+        });
+
+        describe("mixed delimiters", function() {
+            it("two heredocs, tabbed and untabbed", function() {
+                const instructions = DockerfileParser.parse(`${keyword} <<-EOT\nABC\n\tEOT\n${keyword} <<EOT\nDEF\nEOT`).getInstructions();
+                assert.strictEqual(instructions.length, 2);
+
+                let heredocs = heredocsExtractor(instructions[0]);
+                assert.strictEqual(heredocs.length, 1);
+                assert.strictEqual(heredocs[0].getName(), "EOT");
+                assertRange(heredocs[0].getStartRange(), 0, keywordLength + 1, 0, keywordLength + 7);
+                assertRange(heredocs[0].getNameRange(), 0, keywordLength + 4, 0, keywordLength + 7);
+                assertRange(heredocs[0].getContentRange(), 1, 0, 1, 3);
+                assertRange(heredocs[0].getDelimiterRange(), 2, 1, 2, 4);
+
+                heredocs = heredocsExtractor(instructions[1]);
+                assert.strictEqual(heredocs.length, 1);
+                assert.strictEqual(heredocs[0].getName(), "EOT");
+                assertRange(heredocs[0].getStartRange(), 3, keywordLength + 1, 3, keywordLength + 6);
+                assertRange(heredocs[0].getNameRange(), 3, keywordLength + 3, 3, keywordLength + 6);
+                assertRange(heredocs[0].getContentRange(), 4, 0, 4, 3);
+                assertRange(heredocs[0].getDelimiterRange(), 5, 0, 5, 3);
             });
         });
     }
