@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [0.7.1] - 2025-07-21
 ### Fixed
 - correct the range being returned by `getImageTagRange()` if the image name spans multiple lines ([#118](https://github.com/rcjsuen/dockerfile-ast/issues/118))
 - fix handling of indented heredocs so that indented delimiters are now parsed correctly ([#119](https://github.com/rcjsuen/dockerfile-ast/issues/119))
@@ -372,7 +372,8 @@ let rawValue = buffer.substring(document.offsetAt(range.start), document.offsetA
   - preserves comments
   - provides variable lookup and resolution
 
-[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.7.1...HEAD
+[0.7.1]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/rcjsuen/dockerfile-ast/compare/v0.5.0...v0.6.0
