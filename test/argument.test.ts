@@ -565,6 +565,12 @@ describe("Argument", () => {
             assertRange(args[1].getRange(), 2, 0, 2, 2);
         });
 
+        it("RUN \\\\n#\\co\\n", () => {
+            let dockerfile = DockerfileParser.parse("RUN \\\n#\\co\n");
+            let args = dockerfile.getInstructions()[0].getArguments();
+            assert.strictEqual(args.length, 0);
+        });
+
         describe("ends with escape character", () => {
             function createEscapeCharacterEndingTests(instruction: string) {
                 it("escape character \\", () => {

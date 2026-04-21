@@ -280,6 +280,9 @@ export class Instruction extends Line {
                     }
                     i++;
                 } else {
+                    if (comment) {
+                        continue
+                    }
                     if (escapedWhitespaceDetected && escapeMarker !== -1) {
                         args.push(new Argument(escapedArg, Range.create(this.document.positionAt(offset + found), this.document.positionAt(offset + escapeMarker))));
                         escapedArg = "";

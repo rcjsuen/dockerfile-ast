@@ -50,6 +50,17 @@ describe("Heredoc", () => {
                     const heredocs = heredocsExtractor(instruction);
                     assert.strictEqual(heredocs.length, 0);
                 });
+
+                /**
+                 * INSTRUCTION \
+                 * #\co
+                 *
+                 */
+                it(`${keyword} \\\\n#\\co\\n`, () => {
+                    const instruction = DockerfileParser.parse(`${keyword} \\\n#\\co\n`).getInstructions()[0];
+                    const heredocs = heredocsExtractor(instruction);
+                    assert.strictEqual(heredocs.length, 0);
+                });
             });
         
             it(`${keyword} <<--EOT\\n-EOT`, () => {
